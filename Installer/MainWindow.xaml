@@ -1,0 +1,673 @@
+﻿<Window x:Class="Installer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:Installer"
+        mc:Ignorable="d"
+        Title="Nebula Client Installer"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Loaded="Window_Loaded"
+        AllowsTransparency="True"
+        SnapsToDevicePixels="True"
+        Background="Transparent"
+        materialdesign:ButtonAssist.CornerRadius="6"
+        FontFamily="/Installer;component/Assets/Fonts/#Poppins"
+        Icon="Nebula Client Installer Icon.ico"
+        Height="490"
+        Width="850">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0"
+                      ResizeBorderThickness="2" />
+    </WindowChrome.WindowChrome>
+
+    <Border x:Name="MainBorder"
+            Margin="15"
+            BorderBrush="#307F7F7F"
+            BorderThickness="1.2"
+            Background="#0A0A0A"
+            CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15"
+                              ShadowDepth="3"
+                              RenderingBias="Quality"
+                              Opacity="0.8"
+                              Direction="270"
+                              Color="#1b1b1b" />
+        </Border.Effect>
+        <Grid>
+
+            <Grid x:Name="Wallpapers"
+                  ClipToBounds="True">
+                <Grid.Effect>
+                    <BlurEffect Radius="4"
+                                KernelType="Gaussian"
+                                RenderingBias="Quality" />
+                </Grid.Effect>
+                <Grid.Clip>
+                    <RectangleGeometry Rect="0,0,818,458"
+                                       RadiusX="10"
+                                       RadiusY="10" />
+                </Grid.Clip>
+                <Border x:Name="Wallpaper1"
+                        Opacity="0.501"
+                        Margin="-5"
+                        CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/1.png"
+                                    Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <Border x:Name="Wallpaper2"
+                        Opacity="0"
+                        Margin="-5"
+                        CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/2.png"
+                                    Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <Border x:Name="Wallpaper3"
+                        Opacity="0"
+                        CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/3.png"
+                                    Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <Border x:Name="Wallpaper4"
+                        Opacity="0"
+                        CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/4.jpg"
+                                    Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <Border x:Name="Wallpaper5"
+                        Opacity="0"
+                        Margin="-5"
+                        CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/5.png"
+                                    Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <Border x:Name="Wallpaper6"
+                        Opacity="0"
+                        Margin="-5"
+                        CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/6.png"
+                                    Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <Border x:Name="Wallpaper7"
+                        Opacity="0"
+                        Margin="-5"
+                        CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/7.png"
+                                    Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+            </Grid>
+
+            <Border x:Name="Topbar"
+                    Background="Transparent"
+                    Height="40"
+                    MouseLeftButtonDown="Topbar_MouseLeftButtonDown"
+                    VerticalAlignment="Top">
+                <Grid>
+                    <TextBlock Text="Nebula Client Installer"
+                               FontSize="13"
+                               FontFamily="Segoe UI"
+                               Foreground="#CEDFDFDF"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Margin="12 7 5 5"
+                               IsHitTestVisible="False" />
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Foreground="#AAAAAA"
+                            Width="30"
+                            Height="30"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Margin="0 0 5 0"
+                            FontFamily="Segoe MDL2 Assets"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Padding="0"
+                            FontSize="10"
+                            Content="&#xE8BB;"
+                            Click="Close" />
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Foreground="#AAAAAA"
+                            Width="30"
+                            Height="30"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Margin="0 0 40 0"
+                            FontFamily="/Installer;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Padding="0"
+                            FontSize="11"
+                            Content="trash"
+                            ToolTip="Uninstaller"
+                            Click="uninstallstart" />
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            BorderBrush="Transparent"
+                            Foreground="#AAAAAA"
+                            Width="30"
+                            Height="30"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Margin="0 0 75 0"
+                            FontFamily="/Installer;component/Assets/Fonts/Icon/#Font Awesome 6 Brands Regular"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Padding="0"
+                            FontSize="11"
+                            Content=""
+                            Click="discordjoin" />
+                </Grid>
+            </Border>
+
+            <Grid Visibility="Hidden"
+                  x:Name="Loader"
+                  IsHitTestVisible="True">
+                <StackPanel x:Name="loaderstack"
+                            VerticalAlignment="Center">
+                    <StackPanel.RenderTransform>
+                        <ScaleTransform CenterX="409"
+                                        CenterY="19.425"
+                                        ScaleX="1"
+                                        ScaleY="1" />
+                    </StackPanel.RenderTransform>
+                    <TextBlock Text="Loading Installer.."
+                               FontSize="15"
+                               FontFamily="/Installer;component/Assets/Fonts/#Poppins"
+                               Foreground="#CEDFDFDF"
+                               HorizontalAlignment="Center"
+                               Margin="0 0 0 12" />
+                    <Grid Width="300"
+                          ClipToBounds="False">
+                        <Border Background="#80AbAbAb"
+                                Height="3"
+                                CornerRadius="3">
+                        </Border>
+                        <Border x:Name="ProgressBarFill"
+                                Width="20"
+                                Height="3.5"
+                                Margin="0 0.85 0 0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Background="White"
+                                CornerRadius="3" />
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <Grid x:Name="Home"
+                  Visibility="Collapsed">
+                <StackPanel x:Name="homestack"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Width="400">
+                    <TextBlock Text="Welcome to Nebula Client"
+                               FontSize="16"
+                               Foreground="#DFDFDF"
+                               HorizontalAlignment="Center"
+                               FontWeight="Medium"
+                               Margin="0 0 0 6" />
+                    <TextBlock Text="Select what you would like to do with the Installer."
+                               FontSize="13.5"
+                               Foreground="#CEDFDFDF"
+                               HorizontalAlignment="Center"
+                               FontFamily="/Installer;component/Assets/Fonts/#Poppins Light"
+                               Margin="0 0 0 24" />
+
+                    <Button Background="#7F191919"
+                            BorderThickness="0"
+                            ToolTipService.InitialShowDelay="500"
+                            BorderBrush="Transparent"
+                            Foreground="#AAAAAA"
+                            Height="60"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            Margin="0 0 0 5"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Padding="10 10 10 10"
+                            FontSize="10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image Source="/Assets/Graphics/Celestia IDE No Background.png"
+                                   RenderOptions.BitmapScalingMode="Fant"
+                                   Height="34"
+                                   Grid.RowSpan="2"
+                                   Margin="0 0 6 0" />
+                            <TextBlock Text="Install Celestia IDE"
+                                       Margin="4 0 0 0"
+                                       FontSize="14"
+                                       Padding="0 0 0 3"
+                                       Grid.Column="1"
+                                       Foreground="#DFDFDF" />
+                            <TextBlock Margin="4 2 0 0"
+                                       FontSize="10"
+                                       FontFamily="/Installer;component/Assets/Fonts/#Poppins Light"
+                                       Grid.Column="1"
+                                       Padding="0 0 0 0"
+                                       Grid.Row="1"
+                                       Foreground="#CEDFDFDF">
+                                <Run Text="The" />
+                                <Run Foreground="White"
+                                     Text="Perfect" />
+                                <Run Text="Lua Scripting IDE. Modern, And Classics Reimagined." />
+                            </TextBlock>
+                            <Label Background="Transparent"
+                                   BorderThickness="0"
+                                   BorderBrush="Transparent"
+                                   Foreground="#DDDDDD"
+                                   Width="14"
+                                   Height="30"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Margin="0 0 0 0"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Center"
+                                   Padding="0"
+                                   FontSize="10"
+                                   Grid.RowSpan="2"
+                                   Grid.Column="1"
+                                   Content="&#xE76C;" />
+                        </Grid>
+                    </Button>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="186" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Background="#7F191919"
+                                BorderThickness="0"
+                                ToolTipService.InitialShowDelay="500"
+                                BorderBrush="Transparent"
+                                Foreground="#AAAAAA"
+                                Height="55"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                Margin="0 0 3 3"
+                                FontFamily="/Installer;component/Assets/Fonts/#Poppins"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center"
+                                Padding="10"
+                                FontSize="10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="29" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Image Source="/Assets/Graphics/Nebula Trinity Engine No Background.png"
+                                       RenderOptions.BitmapScalingMode="Fant"
+                                       Height="34"
+                                       Grid.RowSpan="2"
+                                       Margin="0 0 0 0" />
+                                <TextBlock Text="Nebula Trinity Engine"
+                                           Margin="4 -1 0 2"
+                                           FontSize="13"
+                                           Padding="0 0 0 3"
+                                           Grid.Column="1"
+                                           Foreground="#DFDFDF" />
+                                <TextBlock Margin="4 2 0 0"
+                                           FontSize="9"
+                                           FontFamily="/Installer;component/Assets/Fonts/#Poppins Light"
+                                           Grid.Column="1"
+                                           Padding="0 0 0 0"
+                                           Grid.Row="1"
+                                           Foreground="#CEDFDFDF">
+                                    <Run Text="Roblox Scripting Engine." />
+                                    <Run Foreground="White"
+                                         Text="Unbound." />
+                                </TextBlock>
+                            </Grid>
+                        </Button>
+                        <Button Background="#7F191919"
+                                BorderThickness="0"
+                                ToolTipService.InitialShowDelay="500"
+                                BorderBrush="Transparent"
+                                Foreground="#AAAAAA"
+                                Height="55"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch"
+                                Margin="3 0 0 3"
+                                FontFamily="/Installer;component/Assets/Fonts/#Poppins"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center"
+                                Padding="10"
+                                FontSize="10"
+                                Grid.Column="1"
+                                Click="nebulalibrarystart">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="29" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Image Source="/Assets/Graphics/Celestia IDE No Background.png"
+                                       RenderOptions.BitmapScalingMode="Fant"
+                                       Height="34"
+                                       Grid.RowSpan="2"
+                                       Margin="0 0 0 0" />
+                                <TextBlock Text="Nebula Library"
+                                           Margin="4 -1 0 2"
+                                           FontSize="13"
+                                           Padding="0 0 0 3"
+                                           Grid.Column="1"
+                                           Foreground="#DFDFDF" />
+                                <TextBlock Margin="4 2 0 0"
+                                           FontSize="9"
+                                           FontFamily="/Installer;component/Assets/Fonts/#Poppins Light"
+                                           Grid.Column="1"
+                                           Padding="0 0 0 0"
+                                           Grid.Row="1"
+                                           Foreground="#CEDFDFDF">
+                                    Your Utilities. All In One.
+                                </TextBlock>
+                            </Grid>
+                        </Button>
+                    </Grid>
+
+                </StackPanel>
+                <TextBlock FontSize="8.5"
+                           Foreground="#CEDFDFDF"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="0 230.5 0 0"
+                           Text="Wish To Uninstall? Find It In The Control Bar." />
+            </Grid>
+
+            <Grid x:Name="CelestiaInstaller">
+
+            </Grid>
+
+            <Grid x:Name="NBTInstaller">
+
+            </Grid>
+
+            <Grid x:Name="NebulaLibraryCopy">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            ClipToBounds="False">
+                    <TextBlock Text="Nebula Library"
+                               FontSize="16"
+                               Foreground="#DFDFDF"
+                               HorizontalAlignment="Center"
+                               FontWeight="Medium"
+                               Margin="0 0 0 6" />
+                    <TextBlock FontSize="11.5"
+                               Foreground="#CEDFDFDF"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               FontFamily="/Installer;component/Assets/Fonts/#Poppins Light"
+                               Margin="0 0 0 18">
+                        <Run Text="Your Utilities, All In One. The Ultimate Exploiting Experience." />
+                        <LineBreak />
+                        <Run Text="Copy the script into your executor engine and run it." />
+                    </TextBlock>
+
+                    <Border Background="#7f191919"
+                            CornerRadius="8"
+                            HorizontalAlignment="Center"
+                            Height="42"
+                            Width="500"
+                            ClipToBounds="False">
+                        <Grid ClipToBounds="False">
+                            <RichTextBox x:Name="nebulalibraryscript"
+                                         FontSize="11.5"
+                                         Background="Transparent"
+                                         BorderBrush="Transparent"
+                                         BorderThickness="0"
+                                         IsReadOnly="True"
+                                         Padding="-4 1 0 0"
+                                         Foreground="#CCCCCC"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         FontFamily="/Installer;component/Assets/Fonts/#JetBrains Mono Medium"
+                                         Margin="20 0 0 0">
+                                <RichTextBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="0.9"
+                                                    ScaleY="1" />
+                                </RichTextBox.LayoutTransform>
+                                <FlowDocument>
+                                    <Paragraph>
+                                        <Run Foreground="#FF957095" Text="loadstring" /><Run Foreground="#FF7D7D7D" Text="(" /><Run Text="game:" /><Run Foreground="#FF5882AD" Text="HttpGet" /><Run Foreground="#FF7D7D7D" Text="(" /><Run Foreground="#FF80AA80" Text="'https://raw.nebulasoftworks.xyz/ncscript'" /><Run Foreground="#FF7D7D7D" Text="))()" />
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                            <TextBlock x:Name="nebulalibrarynotif"
+                                       FontSize="11.5"
+                                       Foreground="#CCCCCC"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontFamily="/Installer;component/Assets/Fonts/#JetBrains Mono Medium"
+                                       Margin="20 0 0 0"
+                                       Opacity="0">    
+                                Copied Text To Clipboard!
+                            </TextBlock>
+                            <Button Background="Transparent"
+                                    BorderThickness="0"
+                                    BorderBrush="Transparent"
+                                    Foreground="#CFCFCF"
+                                    Width="30"
+                                    Height="30"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Margin="0 0 5 0"
+                                    FontFamily="/Installer;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Padding="0"
+                                    FontSize="12"
+                                    Content="copy"
+                                    Click="copynebulalibrary" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+                <Button Background="Transparent"
+                        BorderThickness="0"
+                        BorderBrush="Transparent"
+                        Foreground="#AAAAAA"
+                        Height="30"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Left"
+                        Margin="10 0 0 10"
+                        FontFamily="/Installer;component/Assets/Fonts/#Poppins Medium"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Padding="10 0"
+                        FontSize="11"
+                        Content="Back To Home"
+                        Click="backtohome" />
+            </Grid>
+
+            <Grid x:Name="Uninstaller"
+                  Visibility="Collapsed">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <TextBlock Text="Nebula Client Uninstaller"
+                               FontSize="16"
+                               Foreground="#DFDFDF"
+                               HorizontalAlignment="Center"
+                               FontWeight="Medium"
+                               Margin="0 0 0 6" />
+                    <TextBlock Text="Select what you would like to uninstall from your local machine."
+                               FontSize="13.5"
+                               Foreground="#CEDFDFDF"
+                               HorizontalAlignment="Center"
+                               FontFamily="/Installer;component/Assets/Fonts/#Poppins Light"
+                               Margin="0 0 0 24" />
+
+                    <Button Background="#7F191919"
+                            BorderThickness="0"
+                            Width="400"
+                            ToolTipService.InitialShowDelay="500"
+                            BorderBrush="Transparent"
+                            Foreground="#AAAAAA"
+                            Height="60"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            Margin="0 0 0 5"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Padding="10 10 10 10"
+                            FontSize="10"
+                            Click="Close">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image Source="/Assets/Graphics/Celestia IDE No Background.png"
+                                   RenderOptions.BitmapScalingMode="Fant"
+                                   Height="34"
+                                   Grid.RowSpan="2"
+                                   Margin="0 0 6 0" />
+                            <TextBlock Text="Uninstall Celestia IDE"
+                                       Margin="4 0 0 0"
+                                       FontSize="14"
+                                       Padding="0 0 0 3"
+                                       Grid.Column="1"
+                                       Foreground="#DFDFDF" />
+                            <TextBlock Margin="4 3 0 0"
+                                       FontSize="9"
+                                       FontFamily="/Installer;component/Assets/Fonts/#Poppins Light"
+                                       Grid.Column="1"
+                                       Padding="0 0 0 0"
+                                       Grid.Row="1"
+                                       Foreground="#CEDFDFDF">
+                                    Will Clear Your Local Cached Data, But Will Not Delete Clouded Settings.
+                            </TextBlock>
+                            <Label Background="Transparent"
+                                   BorderThickness="0"
+                                   BorderBrush="Transparent"
+                                   Foreground="#DDDDDD"
+                                   Width="14"
+                                   Height="30"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Margin="0 0 0 0"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Center"
+                                   Padding="0"
+                                   FontSize="10"
+                                   Grid.RowSpan="2"
+                                   Grid.Column="1"
+                                   Content="&#xE76C;" />
+                        </Grid>
+                    </Button>
+
+                    <Button Background="#7F191919"
+                            BorderThickness="0"
+                            Width="400"
+                            ToolTipService.InitialShowDelay="500"
+                            BorderBrush="Transparent"
+                            Foreground="#AAAAAA"
+                            Height="60"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Stretch"
+                            Margin="0 0 0 5"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Padding="10 10 10 10"
+                            FontSize="10"
+                            Click="Close">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image Source="/Assets/Graphics/Nebula Trinity Engine No Background.png"
+                                   RenderOptions.BitmapScalingMode="Fant"
+                                   Height="34"
+                                   Grid.RowSpan="2"
+                                   Margin="0 0 6 0" />
+                            <TextBlock Text="Uninstall Nebula Trinity Engine"
+                                       Margin="4 0 0 0"
+                                       FontSize="14"
+                                       Padding="0 0 0 3"
+                                       Grid.Column="1"
+                                       Foreground="#DFDFDF" />
+                            <TextBlock Margin="4 2 0 0"
+                                       FontSize="10"
+                                       FontFamily="/Installer;component/Assets/Fonts/#Poppins Light"
+                                       Grid.Column="1"
+                                       Padding="0 0 0 0"
+                                       Grid.Row="1"
+                                       Foreground="#CEDFDFDF">
+                                Will Delete And Clear All Related Data On Your Disk.
+                            </TextBlock>
+                            <Label Background="Transparent"
+                                   BorderThickness="0"
+                                   BorderBrush="Transparent"
+                                   Foreground="#DDDDDD"
+                                   Width="14"
+                                   Height="30"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Right"
+                                   Margin="0 0 0 0"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Center"
+                                   Padding="0"
+                                   FontSize="10"
+                                   Grid.RowSpan="2"
+                                   Grid.Column="1"
+                                   Content="&#xE76C;" />
+                        </Grid>
+                    </Button>
+                </StackPanel>
+                <TextBlock FontSize="8.5"
+                           Foreground="#CEDFDFDF"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="0 230.5 0 0"
+                           Text="Head back to the main menu by pressing the same icon again." />
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>
