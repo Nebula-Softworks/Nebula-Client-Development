@@ -8,12 +8,12 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Installer")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Nebula Client Installer")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Nebula Softworks")]
-[assembly: AssemblyProduct("Installer")]
+[assembly: AssemblyProduct("Nebula Client")]
 [assembly: AssemblyCopyright("Copyright © Nebula Softworks 2025")]
-[assembly: AssemblyTrademark("© Nebula Softworks LLC")]
+[assembly: AssemblyTrademark("Nebula Client ™")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

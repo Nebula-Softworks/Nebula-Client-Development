@@ -319,7 +319,8 @@
                                 HorizontalContentAlignment="Left"
                                 VerticalContentAlignment="Center"
                                 Padding="10"
-                                FontSize="10">
+                                FontSize="10"
+                                Click="nebulatrinityenginestart">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="29" />
@@ -415,11 +416,336 @@
 
             </Grid>
 
-            <Grid x:Name="NBTInstaller">
+            <StackPanel x:Name="NBTInstaller"
+                        Orientation="Horizontal">
+                <Grid Width="818"
+                      Name="NBT_Start"
+                      Visibility="Collapsed">
+                    <Grid x:Name="NBT_LogoGrid"
+                          HorizontalAlignment="Center"
+                          Height="100"
+                          Margin="0 0 0 70"
+                          VerticalAlignment="Center"
+                          Width="100">
+                        <Image x:Name="NBT_i1"
+                               Source="/Assets/Graphics/Nebula Trinity Engine No Background.png"
+                               Margin="0"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                    </Grid>
+                    <TextBlock Text="The Installer will begin installing the Nebula Trinity Engine, press &quot;Next&quot; to Continue."
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Margin="10,0,10,178"
+                               FontFamily="/Assets/Fonts/#Poppins"
+                               Foreground="#DDFFFFFF"
+                               FontSize="13.5"
+                               Padding="0" />
+                    <TextBlock Text="If you haven't, install the Celestia IDE too! It incorporates the nebula trinity engine into a easy to use IDE."
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Margin="10,0,10,157"
+                               FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                               Foreground="#CEDCDCDC"
+                               FontSize="14"
+                               Padding="0" />
+                    <Button x:Name="NBT_ViewOnGithubButton"
+                            Content="View on GitHub"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Center"
+                            Background="#9F171717"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                            FontSize="12"
+                            Height="35"
+                            Padding="20 10"
+                            BorderThickness="0,0,0,0"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,0,107" />
+                    <Button x:Name="NBT_StartProcess"
+                            Content="Next"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="103"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,10,10" />
 
-            </Grid>
+                </Grid>
+                <Grid Width="818"
+                      Name="NBT_Eula"
+                      Visibility="Collapsed">
+                    <TextBlock Text="Nebula Client EULA"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="40,60,0,0"
+                               FontFamily="/Assets/Fonts/#Poppins Medium"
+                               Foreground="#DDFFFFFF"
+                               FontSize="14"
+                               Padding="0" />
 
-            <Grid x:Name="NebulaLibraryCopy">
+                    <ScrollViewer HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  Margin="40,85,40,55"
+                                  materialdesign:ScrollBarAssist.ButtonsVisibility="Collapsed">
+                        <TextBlock x:Name="NBT_EulaText"
+                                   FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                                   Foreground="#CEDCDCDC"
+                                   FontSize="12"
+                                   Padding="0"><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /><LineBreak /><Run /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /></TextBlock>
+                    </ScrollViewer>
+
+                    <Button x:Name="NBT_AcceptEULA"
+                            Content="I Accept The EULA"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="143"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,10,10" />
+                    <Button x:Name="NBT_DeclineEULA"
+                            Content="I Do Not Accept The EULA"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Left"
+                            Width="183"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="10,0,0,10" />
+
+                </Grid>
+                <Grid Width="818"
+                      Name="NBT_Customise"
+                      Visibility="Collapsed">
+                    <TextBlock Text="Customisation"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="20,50,0,0"
+                               FontFamily="/Assets/Fonts/#Poppins Medium"
+                               Foreground="#DDFFFFFF"
+                               FontSize="13.5"
+                               Padding="0" />
+                    <TextBlock Text="Enable Or Disable Features During Installation"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="20,75,0,0"
+                               FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                               Foreground="#CEDCDCDC"
+                               FontSize="12"
+                               Padding="0" />
+
+                    <TextBlock Text="Installation Path"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="55,120,0,0"
+                               FontFamily="/Assets/Fonts/#Poppins"
+                               Foreground="#DEDFDFDF"
+                               FontSize="12"
+                               Padding="0" />
+
+                    <Border Height="40"
+                            Margin="55 145 55 0"
+                            VerticalAlignment="Top"
+                            BorderBrush="#3FC1C1C1"
+                            Background="#3f191919"
+                            BorderThickness="1.2"
+                            CornerRadius="6">
+                        <Grid>
+
+                            <TextBlock x:Name="NBT_InstallationPath"
+                                       Text="C:\Users\hunt3r\AppData\Local\Nebula Softworks\Nebula Client\Applications\Nebula Trinity Engine"
+                                       Foreground="White"
+                                       VerticalAlignment="Center"
+                                       Padding="10 0 10 0" />
+
+                            <Button Background="Transparent"
+                                    BorderThickness="0"
+                                    BorderBrush="Transparent"
+                                    Foreground="#AAAAAA"
+                                    Width="30"
+                                    Height="30"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Margin="0 0 6 0"
+                                    FontFamily="/Installer;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Padding="0"
+                                    FontSize="12"
+                                    Content="" />
+
+                        </Grid>
+                    </Border>
+
+                    <CheckBox x:Name="NBT_Customise_PATHSelector"
+                              Margin="55 210 55 0"
+                              VerticalAlignment="Top"
+                              Content="Add To PATH (Required For Celestia IDE)"
+                              Padding="10 0 0 0"
+                              IsChecked="True"
+                              Background="#CEDFDFDF" />
+
+                    <CheckBox Margin="55 235 55 0"
+                              VerticalAlignment="Top"
+                              Content="Create A Start Menu Shortcut"
+                              Padding="10 0 0 0"
+                              Background="#CEDFDFDF"
+                              Opacity=".5"
+                              IsHitTestVisible="False" />
+                    <CheckBox Margin="55 260 55 0"
+                              VerticalAlignment="Top"
+                              Content="Create A Desktop Shortcut"
+                              Padding="10 0 0 0"
+                              Background="#CEDFDFDF"
+                              Opacity=".5"
+                              IsHitTestVisible="False" />
+
+                    <Button x:Name="NBT_StartInstalling"
+                            Content="Being Installation"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="153"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,10,10" />
+
+                </Grid>
+                <Grid Width="818"
+                      Name="NBT_Progress"
+                      Visibility="Collapsed">
+
+                    <!--Starting Installation, Navigating Paths, Downloading Files, Extracting, Installing, (Add To PATH)Adding To Path, Done!-->
+
+                    <TextBlock Text="Starting Installation..."
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Margin="0,0,0,10"
+                               FontFamily="/Assets/Fonts/#Poppins"
+                               Foreground="#CEDEDEDE"
+                               FontSize="11.5"
+                               Padding="0" />
+
+                    <Image Height="220"
+                           Width="240"
+                           Source="/Assets/Graphics/Installer Loading Circle.png"
+                           Opacity=".52"
+                           RenderOptions.BitmapScalingMode="Fant" />
+                    <Image Source="/Assets/Graphics/Installer Loading Circle Progress.png"
+                           RenderOptions.BitmapScalingMode="Fant"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Width="230">
+                        <Image.RenderTransform>
+                            <RotateTransform x:Name="NBT_LoaderRotation"
+                                             CenterX="115"
+                                             CenterY="115"
+                                             Angle="0" />
+                        </Image.RenderTransform>
+                        <Image.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <DoubleAnimation Storyboard.TargetName="NBT_LoaderRotation"
+                                                         Storyboard.TargetProperty="Angle"
+                                                         From="0"
+                                                         To="360"
+                                                         Duration="0:0:4" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Image.Triggers>
+                    </Image>
+
+                </Grid>
+                <Grid Width="818"
+                      Name="NBT_Finish">
+                    <TextBlock Text="We're Done!"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="20,50,00,00"
+                               FontFamily="/Assets/Fonts/#Poppins Medium"
+                               Foreground="#DDFFFFFF"
+                               FontSize="14.5"
+                               Padding="0" />
+                    <TextBlock Text="The Installer has finished installing the Nebula Trinity Engine on your local machine! You may or may not need to restart your machine to refresh your PATH if you added the engine to it. You Should Join Our Discord Too! We provide support and a community to chat with."
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="20,75,20,00"
+                               FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                               Foreground="#CEDCDCDC"
+                               FontSize="14"
+                               Padding="0"
+                               TextWrapping="WrapWithOverflow"/>
+                    <Image Source="/Assets/Graphics/Person.png"
+                           Height="370"
+                           VerticalAlignment="Bottom"
+                           Margin="0,0,0,-60" /> 
+                    <Button x:Name="NBT_JoinDiscord"
+                            Content="Join Our Discord"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="123"
+                            Click="discordjoin"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,123,10" />
+                    <Button x:Name="NBT_FinishProcess"
+                            Content="Finish"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="103"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,10,10" />
+
+                </Grid>
+
+                <!--TODO : MUST RESTART AFTER INSTALL FOR PATH!!-->
+            </StackPanel>
+
+            <Grid x:Name="NebulaLibraryCopy"
+                  Visibility="Collapsed">
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             ClipToBounds="False">
@@ -465,7 +791,21 @@
                                 </RichTextBox.LayoutTransform>
                                 <FlowDocument>
                                     <Paragraph>
-                                        <Run Foreground="#FF957095" Text="loadstring" /><Run Foreground="#FF7D7D7D" Text="(" /><Run Text="game:" /><Run Foreground="#FF5882AD" Text="HttpGet" /><Run Foreground="#FF7D7D7D" Text="(" /><Run Foreground="#FF80AA80" Text="'https://raw.nebulasoftworks.xyz/ncscript'" /><Run Foreground="#FF7D7D7D" Text="))()" />
+                                        <!-- @formatter:off -->
+                                        <Run Foreground="#FF957095"
+                                             Text="loadstring" />
+                                        <Run Foreground="#FF7D7D7D"
+                                             Text="(" />
+                                        <Run Text="game:" />
+                                        <Run Foreground="#FF5882AD"
+                                             Text="HttpGet" />
+                                        <Run Foreground="#FF7D7D7D"
+                                             Text="(" />
+                                        <Run Foreground="#FF80AA80"
+                                             Text="'https://raw.nebulasoftworks.xyz/ncscript'" />
+                                        <Run Foreground="#FF7D7D7D"
+                                             Text="))()" />
+                                        <!-- @formatter:on -->
                                     </Paragraph>
                                 </FlowDocument>
                             </RichTextBox>

@@ -1,22 +1,35 @@
 using System;
-using System.Windows;
+using System.CodeDom.Compiler;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Web;
 using System.Windows.Interop;
 using Microsoft.Win32;
-using MaterialDesignThemes.Wpf;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Markup;
+using System.Xml;
+using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Installer
 {
@@ -270,6 +283,44 @@ namespace Installer
         {
             InitializeComponent();
             Loaded += blurdisable;
+
+            try
+            {
+                string shortcutPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs"), "Nebula Client Installer.lnk"); // common for all users for the installer. apps individually use the normal StartMenu
+                var shell = new IWshRuntimeLibrary.WshShell();
+                IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutPath);
+                shortcut.Description = "Nebula Client Installer";
+                shortcut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                shortcut.IconLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                shortcut.Save();
+            }
+            catch
+            {
+                string shortcutPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs"), "Nebula Client Installer.lnk"); // if it doesnt work
+                var shell = new IWshRuntimeLibrary.WshShell();
+                IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutPath);
+                shortcut.Description = "Nebula Client Installer";
+                shortcut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                shortcut.IconLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                shortcut.Save();
+            }
+
+            File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "nebulaclientinstallercheck.vbs"), @"
+Set shell = CreateObject(""WScript.Shell"")
+
+startMenuPath = shell.SpecialFolders(""StartMenu"") & ""\Programs\Nebula Client Installer.lnk""
+
+Set fso = CreateObject(""Scripting.FileSystemObject"")
+
+If fso.FileExists(startMenuPath) Then
+    Set shortcut = shell.CreateShortcut(startMenuPath)
+    targetPath = shortcut.TargetPath
+
+    If Not fso.FileExists(targetPath) Then
+        fso.DeleteFile startMenuPath
+    End If
+End If
+");
         }
 
         async void backtohome(object sender = null, RoutedEventArgs e = null)
@@ -376,6 +427,19 @@ namespace Installer
             Fade(Home, TimeSpan.FromMilliseconds(600)).Begin();
             await Task.Delay(200);
             var storyboard = Fade(NebulaLibraryCopy, second, 1);
+            storyboard.Completed += delegate
+            {
+                Home.Visibility = Visibility.Collapsed;
+            };
+            storyboard.Begin();
+        }
+
+        private async void nebulatrinityenginestart(object sender, RoutedEventArgs e)
+        {
+            NBTInstaller.Visibility = Visibility.Visible;
+            Fade(Home, TimeSpan.FromMilliseconds(600)).Begin();
+            await Task.Delay(200);
+            var storyboard = Fade(NBTInstaller, second, 1);
             storyboard.Completed += delegate
             {
                 Home.Visibility = Visibility.Collapsed;
