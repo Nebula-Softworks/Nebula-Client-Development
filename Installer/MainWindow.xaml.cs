@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,12 +9,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Management.Automation;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Web;
-using System.Windows.Interop;
 using Microsoft.Win32;
+using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Threading.Tasks;
@@ -23,13 +25,14 @@ using System.Windows.Media;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Xml;
 using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WK.Libraries.BetterFolderBrowserNS;
+using System.IO.Compression;
 
 namespace Installer
 {
@@ -44,11 +47,27 @@ namespace Installer
         private void blurdisable(object sender, RoutedEventArgs e)
         {  var hwnd = new WindowInteropHelper(this).Handle; int backdrop = (int)DWM_SYSTEMBACKDROP_TYPE.DWMSBT_NONE; DwmSetWindowAttribute(hwnd, DWMWA_SYSTEMBACKDROP_TYPE, ref backdrop, sizeof(int)); }
 
+        #region Functions And Prerequisites
+        WebClient downloadhandler = new WebClient();
 
         static string Website = "https://nebulasoftworks.xyz/nebulaclient";
-        static string Distrubutor = $"{Website}";
+        /// <summary>
+        /// Returns the link of the raw EULA of the provided product
+        /// </summary>
+        /// <param name="product">The Provided Product to get the EULA from</param>
+        /// <returns>String, The link of the EULA file</returns>
+        static string EULALink(string product)
+        {
+            return ($"https://raw.nebulasoftworks.xyz/EULAs/{product}.eula");
+        }
         static string GithubRepo = "https://github.com/Nebula-Softworks/Nebula-Client";
+        static string DataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data";
 
+        /// <summary>
+        /// Returns the content of a provided webpage
+        /// </summary>
+        /// <param name="weburl">The link of the webpage to fetch from</param>
+        /// <returns>String, The content of the page</returns>
         public string HttpGet(string weburl)
         {
             using (var webClient = new WebClient())
@@ -58,13 +77,18 @@ namespace Installer
             }
         }
 
+        /// <summary>
+        /// Redirects the user to a webpage via their default browser.
+        /// If an error occurs, it will copy the url to their clipboard instead
+        /// </summary>
+        /// <param name="url">The webpage to be redirected to</param>
         public void Redirect(string url)
         {
             try
             {
                 Process.Start(url);
             }
-            catch (Exception e)
+            catch
             {
                 if (!(MessageBox.Show($"We Couldn't Redirect You To The Page {url}.\nWould You Like Us To Copy The Link To Your Clipboard Instead?", "Failed to Open Link", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes))
                     return;
@@ -72,9 +96,59 @@ namespace Installer
             }
         }
 
+        bool ExtractFile(string file, string destination)
+        {
+            try
+            {
+                ZipFile.ExtractToDirectory(file, destination); 
+            }
+            catch (Exception e)
+            {
+                Clipboard.SetText(e.ToString());
+                MessageBox.Show("I'm sorry, we encountered an error, I'm sorry about this. \nIf you see this message box, please show this to Support, I haven't seen this actually happen yet. \n\n[Nebula Client Extract Process]\n " + e.ToString(), "Nebula Client Installer");
+                return false;            
+            }
+            return true;
+        }
+
+        async void DownloadFile(string file, string destination)
+        {
+            downloadhandler.DownloadFileAsync(new Uri(file), destination);
+            while (downloadhandler.IsBusy)
+                await Task.Delay(1000);
+        }
+
+        void ExcludeApp(string destination)
+        {
+            // Skidded from Comet
+
+            try
+            {
+                using (PowerShell powerShell = PowerShell.Create())
+                {
+                    powerShell.AddScript("Add-MpPreference -ExclusionPath '" + Directory.GetCurrentDirectory() + "'");
+                    powerShell.Invoke();
+                    powerShell.AddScript("Add-MpPreference -ExclusionPath '" + System.IO.Path.GetFullPath(destination) + "'");
+                    powerShell.Invoke();
+                    powerShell.Dispose();
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void discordjoin(object sender, RoutedEventArgs e)
+        {
+            Redirect("https://dsc.gg/nebulasoftworks");
+        }
+        #endregion
+
+        #region animation stuff
         /// <summary>
         /// time span variables
-        /// </summary>
+        /// </summary> 
+
         public TimeSpan second = TimeSpan.FromSeconds(1);
         public TimeSpan halfsecond = TimeSpan.FromMilliseconds(500);
         public TimeSpan tenthsecond = TimeSpan.FromMilliseconds(100);
@@ -278,12 +352,16 @@ namespace Installer
                 Selectedgrid.Visibility = Visibility.Collapsed;
             }
         }
+        #endregion
 
         public MainWindow()
         {
             InitializeComponent();
             Loaded += blurdisable;
 
+            Directory.CreateDirectory(DataFolder);
+
+            #region Weird Shell/Start Menu shit
             try
             {
                 string shortcutPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs"), "Nebula Client Installer.lnk"); // common for all users for the installer. apps individually use the normal StartMenu
@@ -304,8 +382,9 @@ namespace Installer
                 shortcut.IconLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 shortcut.Save();
             }
-
-            File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "nebulaclientinstallercheck.vbs"), @"
+            try
+            {
+                File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartup), "nebulaclientinstallercheck.vbs"), @"
 Set shell = CreateObject(""WScript.Shell"")
 
 startMenuPath = shell.SpecialFolders(""StartMenu"") & ""\Programs\Nebula Client Installer.lnk""
@@ -321,8 +400,31 @@ If fso.FileExists(startMenuPath) Then
     End If
 End If
 ");
+
+            }
+            catch
+            {
+                File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "nebulaclientinstallercheck.vbs"), @"
+Set shell = CreateObject(""WScript.Shell"")
+
+startMenuPath = shell.SpecialFolders(""StartMenu"") & ""\Programs\Nebula Client Installer.lnk""
+
+Set fso = CreateObject(""Scripting.FileSystemObject"")
+
+If fso.FileExists(startMenuPath) Then
+    Set shortcut = shell.CreateShortcut(startMenuPath)
+    targetPath = shortcut.TargetPath
+
+    If Not fso.FileExists(targetPath) Then
+        fso.DeleteFile startMenuPath
+    End If
+End If
+");
+            }
+            #endregion
         }
 
+        #region Window Core Functionality
         async void backtohome(object sender = null, RoutedEventArgs e = null)
         {
             Home.Visibility = Visibility.Visible;
@@ -343,7 +445,7 @@ End If
         {
             this.Opacity = 0;
             MainBorder.Margin = new Thickness(40);
-            await Task.Delay(500); 
+            await Task.Delay(500);
             ObjectShift(MainBorder, halfsecond, new Thickness(15)).Begin();
             Fade(this, halfsecond, 1).Begin();
 
@@ -391,7 +493,8 @@ End If
                 loaderstack.RenderTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation, HandoffBehavior.Compose);
                 loaderstack.RenderTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation, HandoffBehavior.Compose);
 
-            } catch { }
+            }
+            catch { }
             await Task.Delay(200);
             Storyboard anim = Fade(Home, halfsecond, 1);
             anim.Completed += delegate
@@ -406,6 +509,10 @@ End If
                 };
             };
             anim.Begin();
+
+            NBT_EulaText.Text = HttpGet(EULALink("Nebula Trinity Engine"));
+            // TODO
+            // add the other product ones
         }
 
         private async void Close(object sender, RoutedEventArgs e)
@@ -414,11 +521,6 @@ End If
             Fade(this, TimeSpan.FromMilliseconds(300), 0).Begin();
             await Task.Delay(1000);
             Application.Current.Shutdown();
-        }
-
-        private void discordjoin(object sender, RoutedEventArgs e)
-        {
-            Redirect("https://dsc.gg/nebulasoftworks");
         }
 
         private async void nebulalibrarystart(object sender, RoutedEventArgs e)
@@ -438,6 +540,11 @@ End If
         {
             NBTInstaller.Visibility = Visibility.Visible;
             Fade(Home, TimeSpan.FromMilliseconds(600)).Begin();
+            foreach (Grid grid in NBTInstaller.Children)
+            {
+                grid.Width = 818;
+            }
+            NBT_InstallationPath.Text = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Nebula Softworks\Nebula Client\Applications\Nebula Trinity Engine";
             await Task.Delay(200);
             var storyboard = Fade(NBTInstaller, second, 1);
             storyboard.Completed += delegate
@@ -463,16 +570,113 @@ End If
                 Home.Visibility = Visibility.Collapsed;
             };
             storyboard.Begin();
-        }
+        } 
+        #endregion
 
+        #region Nebula Library (Suite?)
         private async void copynebulalibrary(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText("loadstring(game:HttpGet('https://raw.nebulasoftworks.xyz/ncscript'))()");
             Fade(nebulalibraryscript, hunsecond).Begin();
             Fade(nebulalibrarynotif, hunsecond, 1).Begin();
             await Task.Delay(1000);
-            Fade(nebulalibraryscript, hunsecond,1).Begin();
+            Fade(nebulalibraryscript, hunsecond, 1).Begin();
             Fade(nebulalibrarynotif, hunsecond, 0).Begin();
+        } 
+        #endregion
+
+        #region Nebula Trinity Engine
+        private void NBT_ViewOnGithubButton_Click(object sender, RoutedEventArgs e) => Redirect(GithubRepo);
+
+        private void NBT_StartProcess_Click(object sender, RoutedEventArgs e) => Resize(NBT_Start, halfsecond, 0, 0, null, false);
+
+        private void NBT_DeclineEULA_Click(object sender, RoutedEventArgs e) => Resize(NBT_Start, halfsecond, 0, 818, null, false);
+
+        private void NBT_AcceptEULA_Click(object sender, RoutedEventArgs e) => Resize(NBT_Eula, halfsecond, 0, 0, null, false);
+
+        private void NBT_GoBackFromInstallation_Click(object sender, RoutedEventArgs e) => Resize(NBT_Eula, halfsecond, 0, 818, null, false);
+
+        private void NBT_InstallationPathSelectorButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (BetterFolderBrowser ofd = new BetterFolderBrowser())
+            {
+                ofd.Title = "Select Installation Directory";
+                ofd.RootFolder = System.Windows.Forms.Application.StartupPath;
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    NBT_InstallationPath.Text = ofd.SelectedFolder + "\\Nebula Trinity Engine";
+                }
+            }
+        }
+
+        private async void NBT_StartInstalling_Click(object sender, RoutedEventArgs e)
+        {
+            Resize(NBT_Customise, halfsecond, 0, 0, null, false);
+            NBT_Progress.Visibility = Visibility.Visible;
+            await Task.Delay(1200);
+            Directory.CreateDirectory(NBT_InstallationPath.Text);
+            Directory.CreateDirectory(DataFolder + @"\Nebula Trinity Engine");
+            File.WriteAllText(DataFolder + @"\Nebula Trinity Engine\InstallPath.data", NBT_InstallationPath.Text);
+            NBT_ProgressText.Text = "Downloading Files..."; 
+            DownloadFile("https://raw.githubusercontent.com/Nebula-Softworks/Nebula-Client/master/Redistrutables/Nebula%20Trinity%20Engine%20Files.zip", NBT_InstallationPath.Text + "\\NBT.zip");
+            while (downloadhandler.IsBusy)
+                await Task.Delay(1000);
+
+            await Task.Delay(600);
+            NBT_ProgressText.Text = "Extracting Files...";
+            await Task.Run(async () => await Application.Current.Dispatcher.InvokeAsync(async () => {
+
+                if (File.Exists(NBT_InstallationPath.Text + "\\NBT.zip"))
+                {
+                    var success = ExtractFile(NBT_InstallationPath.Text + "\\NBT.zip", NBT_InstallationPath.Text);
+                    if (success)
+                        try { File.Delete(NBT_InstallationPath.Text + "\\NBT.zip"); } catch { };
+                }
+
+                await Task.Delay(600);
+                NBT_ProgressText.Text = "Installing...";
+                try
+                {
+                    ExcludeApp(System.Reflection.Assembly.GetEntryAssembly().Location);
+                    ExcludeApp(NBT_InstallationPath.Text);
+                }
+                catch { }
+
+                string currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+                if (!currentPath.Contains(NBT_InstallationPath.Text) && NBT_Customise_PATHSelector.IsChecked == true)
+                {
+                    string newPath = currentPath + ";" + NBT_InstallationPath.Text;
+                    try { Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.Machine); } catch { }
+                    Console.WriteLine($"Successfully added '{NBT_InstallationPath.Text}' to the system PATH.");
+                }
+                else
+                {
+                    Console.WriteLine($"'{NBT_InstallationPath.Text}' is already in the system PATH.");
+                }
+            }));
+
+            NBT_ProgressText.Text = "Done! ✓";
+            await Task.Delay(600);
+            Resize(NBT_Progress, halfsecond, 0, 0, null, false);
+            NBT_Progress.Visibility = Visibility.Hidden;
+        }
+
+        private async void NBT_FinishProcess_Click(object sender, RoutedEventArgs e)
+        {
+            Home.Visibility = Visibility.Visible;
+            Fade(NBTInstaller, TimeSpan.FromMilliseconds(600)).Begin();
+            foreach (Grid grid in NBTInstaller.Children)
+            {
+                grid.Width = 818;
+            }
+            await Task.Delay(200);
+            var storyboard = Fade(Home, second, 1);
+            storyboard.Completed += delegate
+            {
+                NBTInstaller.Visibility = Visibility.Collapsed;
+            };
+            storyboard.Begin();
         }
     }
+    #endregion
 }

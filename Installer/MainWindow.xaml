@@ -418,9 +418,8 @@
 
             <StackPanel x:Name="NBTInstaller"
                         Orientation="Horizontal">
-                <Grid Width="818"
-                      Name="NBT_Start"
-                      Visibility="Collapsed">
+                <Grid Width="0"
+                      Name="NBT_Start">
                     <Grid x:Name="NBT_LogoGrid"
                           HorizontalAlignment="Center"
                           Height="100"
@@ -461,7 +460,8 @@
                             Padding="20 10"
                             BorderThickness="0,0,0,0"
                             ToolTipService.InitialShowDelay="500"
-                            Margin="0,0,0,107" />
+                            Margin="0,0,0,107"
+                            Click="NBT_ViewOnGithubButton_Click"/>
                     <Button x:Name="NBT_StartProcess"
                             Content="Next"
                             VerticalAlignment="Bottom"
@@ -476,16 +476,16 @@
                             HorizontalAlignment="Right"
                             Width="103"
                             ToolTipService.InitialShowDelay="500"
-                            Margin="0,0,10,10" />
+                            Margin="0,0,10,10" 
+                            Click="NBT_StartProcess_Click"/>
 
                 </Grid>
-                <Grid Width="818"
-                      Name="NBT_Eula"
-                      Visibility="Collapsed">
+                <Grid Width="0"
+                      Name="NBT_Eula">
                     <TextBlock Text="Nebula Client EULA"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
-                               Margin="40,60,0,0"
+                               Margin="20,50,0,0"
                                FontFamily="/Assets/Fonts/#Poppins Medium"
                                Foreground="#DDFFFFFF"
                                FontSize="14"
@@ -493,13 +493,16 @@
 
                     <ScrollViewer HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
-                                  Margin="40,85,40,55"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  Margin="40,85,40,60"
                                   materialdesign:ScrollBarAssist.ButtonsVisibility="Collapsed">
                         <TextBlock x:Name="NBT_EulaText"
                                    FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
                                    Foreground="#CEDCDCDC"
                                    FontSize="12"
-                                   Padding="0"><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /><LineBreak /><Run /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /></TextBlock>
+                                   HorizontalAlignment="Left"
+                                   Padding="0"><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Text="Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet." /><Run Text=" " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /><LineBreak /><Run /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /></TextBlock>
                     </ScrollViewer>
 
                     <Button x:Name="NBT_AcceptEULA"
@@ -516,7 +519,8 @@
                             HorizontalAlignment="Right"
                             Width="143"
                             ToolTipService.InitialShowDelay="500"
-                            Margin="0,0,10,10" />
+                            Margin="0,0,10,10"
+                            Click="NBT_AcceptEULA_Click"/>
                     <Button x:Name="NBT_DeclineEULA"
                             Content="I Do Not Accept The EULA"
                             VerticalAlignment="Bottom"
@@ -531,12 +535,12 @@
                             HorizontalAlignment="Left"
                             Width="183"
                             ToolTipService.InitialShowDelay="500"
-                            Margin="10,0,0,10" />
+                            Margin="10,0,0,10"
+                            Click="NBT_DeclineEULA_Click"/>
 
                 </Grid>
                 <Grid Width="818"
-                      Name="NBT_Customise"
-                      Visibility="Collapsed">
+                      Name="NBT_Customise">
                     <TextBlock Text="Customisation"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
@@ -578,7 +582,8 @@
                                        VerticalAlignment="Center"
                                        Padding="10 0 10 0" />
 
-                            <Button Background="Transparent"
+                            <Button x:Name="NBT_InstallationPathSelectorButton"
+                                    Background="Transparent"
                                     BorderThickness="0"
                                     BorderBrush="Transparent"
                                     Foreground="#AAAAAA"
@@ -592,7 +597,8 @@
                                     VerticalContentAlignment="Center"
                                     Padding="0"
                                     FontSize="12"
-                                    Content="" />
+                                    Content="" 
+                                    Click="NBT_InstallationPathSelectorButton_Click"/>
 
                         </Grid>
                     </Border>
@@ -610,7 +616,7 @@
                               Content="Create A Start Menu Shortcut"
                               Padding="10 0 0 0"
                               Background="#CEDFDFDF"
-                              Opacity=".5"
+                              Opacity=".5" 
                               IsHitTestVisible="False" />
                     <CheckBox Margin="55 260 55 0"
                               VerticalAlignment="Top"
@@ -621,7 +627,7 @@
                               IsHitTestVisible="False" />
 
                     <Button x:Name="NBT_StartInstalling"
-                            Content="Being Installation"
+                            Content="Begin Installation"
                             VerticalAlignment="Bottom"
                             Background="#7F191919"
                             BorderBrush="Transparent"
@@ -634,16 +640,32 @@
                             HorizontalAlignment="Right"
                             Width="153"
                             ToolTipService.InitialShowDelay="500"
-                            Margin="0,0,10,10" />
+                            Margin="0,0,10,10"
+                            Click="NBT_StartInstalling_Click"/>
+                    <Button x:Name="NBT_GoBackFromInstallation"
+                            Content="Back"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Left"
+                            Width="103"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="10,0,0,10" 
+                            Click="NBT_GoBackFromInstallation_Click"/>
 
                 </Grid>
                 <Grid Width="818"
                       Name="NBT_Progress"
-                      Visibility="Collapsed">
+                      Visibility="Hidden">
 
-                    <!--Starting Installation, Navigating Paths, Downloading Files, Extracting, Installing, (Add To PATH)Adding To Path, Done!-->
-
-                    <TextBlock Text="Starting Installation..."
+                    <TextBlock x:Name="NBT_ProgressText"
+                               Text="Starting Installation..."
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"
                                Margin="0,0,0,10"
@@ -652,35 +674,106 @@
                                FontSize="11.5"
                                Padding="0" />
 
-                    <Image Height="220"
-                           Width="240"
+                    <Image Height="210"
+                           Width="210"
                            Source="/Assets/Graphics/Installer Loading Circle.png"
-                           Opacity=".52"
+                           Opacity=".68"
                            RenderOptions.BitmapScalingMode="Fant" />
-                    <Image Source="/Assets/Graphics/Installer Loading Circle Progress.png"
+                    <Image x:Name="NBT_LoaderRotation"
+                           Source="/Assets/Graphics/Installer Loading Circle Progress.png"
                            RenderOptions.BitmapScalingMode="Fant"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           Width="230">
-                        <Image.RenderTransform>
-                            <RotateTransform x:Name="NBT_LoaderRotation"
-                                             CenterX="115"
-                                             CenterY="115"
-                                             Angle="0" />
-                        </Image.RenderTransform>
-                        <Image.Triggers>
-                            <EventTrigger RoutedEvent="Loaded">
-                                <BeginStoryboard>
-                                    <Storyboard RepeatBehavior="Forever">
-                                        <DoubleAnimation Storyboard.TargetName="NBT_LoaderRotation"
-                                                         Storyboard.TargetProperty="Angle"
-                                                         From="0"
-                                                         To="360"
-                                                         Duration="0:0:4" />
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Image.Triggers>
+                           Width="82"
+                           Height="82"
+                           Margin="160,0,0,160">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsVisible, RelativeSource={RelativeSource Self}}"
+                                                 Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Name="SpinStoryboard">
+                                                <Storyboard RepeatBehavior="Forever">
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        From="0,160,160,0"
+                                                                        To="160,0,0,160"
+                                                                        Duration="0:0:3">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:4"
+                                                                        From="160,0,0,160"
+                                                                        To="0,160,160,0"
+                                                                        Duration="0:0:1.7">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:5.7"
+                                                                        From="0,160,160,0"
+                                                                        To="80,0,0,180"
+                                                                        Duration="0:0:2.7">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:8.4"
+                                                                        From="80,0,0,180"
+                                                                        To="150,160,0,0"
+                                                                        Duration="0:0:1.7">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:10.1"
+                                                                        From="150,160,0,0"
+                                                                        To="0,0,180,180"
+                                                                        Duration="0:0:2.7">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:12.4"
+                                                                        From="0,0,180,180"
+                                                                        To="0,0,160,160"
+                                                                        Duration="0:0:0.9">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:13.3"
+                                                                        From="0,0,160,160"
+                                                                        To="0,160,160,0"
+                                                                        Duration="0:0:2.1">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="3.2" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <StopStoryboard BeginStoryboardName="SpinStoryboard" />
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
                     </Image>
 
                 </Grid>
@@ -702,11 +795,11 @@
                                Foreground="#CEDCDCDC"
                                FontSize="14"
                                Padding="0"
-                               TextWrapping="WrapWithOverflow"/>
+                               TextWrapping="WrapWithOverflow" />
                     <Image Source="/Assets/Graphics/Person.png"
                            Height="370"
                            VerticalAlignment="Bottom"
-                           Margin="0,0,0,-60" /> 
+                           Margin="0,0,0,-60" />
                     <Button x:Name="NBT_JoinDiscord"
                             Content="Join Our Discord"
                             VerticalAlignment="Bottom"
@@ -737,11 +830,10 @@
                             HorizontalAlignment="Right"
                             Width="103"
                             ToolTipService.InitialShowDelay="500"
-                            Margin="0,0,10,10" />
+                            Margin="0,0,10,10"
+                            Click="NBT_FinishProcess_Click" />
 
                 </Grid>
-
-                <!--TODO : MUST RESTART AFTER INSTALL FOR PATH!!-->
             </StackPanel>
 
             <Grid x:Name="NebulaLibraryCopy"
@@ -793,17 +885,11 @@
                                     <Paragraph>
                                         <!-- @formatter:off -->
                                         <Run Foreground="#FF957095"
-                                             Text="loadstring" />
-                                        <Run Foreground="#FF7D7D7D"
-                                             Text="(" />
-                                        <Run Text="game:" />
-                                        <Run Foreground="#FF5882AD"
-                                             Text="HttpGet" />
-                                        <Run Foreground="#FF7D7D7D"
-                                             Text="(" />
-                                        <Run Foreground="#FF80AA80"
-                                             Text="'https://raw.nebulasoftworks.xyz/ncscript'" />
-                                        <Run Foreground="#FF7D7D7D"
+                                             Text="loadstring" /><Run Foreground="#FF7D7D7D"
+                                             Text="(" /><Run Text="game:" /><Run Foreground="#FF5882AD"
+                                             Text="HttpGet" /><Run Foreground="#FF7D7D7D"
+                                             Text="(" /><Run Foreground="#FF80AA80"
+                                             Text="'https://raw.nebulasoftworks.xyz/ncscript'" /><Run Foreground="#FF7D7D7D"
                                              Text="))()" />
                                         <!-- @formatter:on -->
                                     </Paragraph>
