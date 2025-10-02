@@ -22,6 +22,7 @@ using System.Windows.Media.Animation;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Windows.Media;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -41,11 +42,11 @@ namespace Installer
     /// </summary>
     public partial class MainWindow
     {
-        private const int DWMWA_SYSTEMBACKDROP_TYPE = 38; private enum DWM_SYSTEMBACKDROP_TYPE {  DWMSBT_AUTO = 0, DWMSBT_NONE = 1,   DWMSBT_MAINWINDOW = 2, DWMSBT_TRANSIENTWINDOW = 3, DWMSBT_TABBEDWINDOW = 4 }
+        private const int DWMWA_SYSTEMBACKDROP_TYPE = 38; private enum DWM_SYSTEMBACKDROP_TYPE { DWMSBT_AUTO = 0, DWMSBT_NONE = 1, DWMSBT_MAINWINDOW = 2, DWMSBT_TRANSIENTWINDOW = 3, DWMSBT_TABBEDWINDOW = 4 }
         [DllImport("dwmapi.dll")]
         private static extern int DwmSetWindowAttribute(IntPtr hwnd, int dwAttribute, ref int pvAttribute, int cbAttribute);
         private void blurdisable(object sender, RoutedEventArgs e)
-        {  var hwnd = new WindowInteropHelper(this).Handle; int backdrop = (int)DWM_SYSTEMBACKDROP_TYPE.DWMSBT_NONE; DwmSetWindowAttribute(hwnd, DWMWA_SYSTEMBACKDROP_TYPE, ref backdrop, sizeof(int)); }
+        { var hwnd = new WindowInteropHelper(this).Handle; int backdrop = (int)DWM_SYSTEMBACKDROP_TYPE.DWMSBT_NONE; DwmSetWindowAttribute(hwnd, DWMWA_SYSTEMBACKDROP_TYPE, ref backdrop, sizeof(int)); }
 
         #region Functions And Prerequisites
         WebClient downloadhandler = new WebClient();
@@ -100,13 +101,13 @@ namespace Installer
         {
             try
             {
-                ZipFile.ExtractToDirectory(file, destination); 
+                ZipFile.ExtractToDirectory(file, destination);
             }
             catch (Exception e)
             {
                 Clipboard.SetText(e.ToString());
                 MessageBox.Show("I'm sorry, we encountered an error, I'm sorry about this. \nIf you see this message box, please show this to Support, I haven't seen this actually happen yet. \n\n[Nebula Client Extract Process]\n " + e.ToString(), "Nebula Client Installer");
-                return false;            
+                return false;
             }
             return true;
         }
@@ -451,9 +452,7 @@ End If
 
             int currentWallpaper = 1;
             new DispatcherTimer(TimeSpan.FromMinutes(2.1), DispatcherPriority.Normal, delegate
-            {
-                // TODO
-                // make this only happen when doing something long (eg. Downloading or installing)
+            { 
                 var currentImage = (Border)FindName($"Wallpaper{currentWallpaper}");
 
                 currentWallpaper++;
@@ -511,8 +510,7 @@ End If
             anim.Begin();
 
             NBT_EulaText.Text = HttpGet(EULALink("Nebula Trinity Engine"));
-            // TODO
-            // add the other product ones
+            Celestia_EulaText.Text = HttpGet(EULALink("Celestia IDE"));
         }
 
         private async void Close(object sender, RoutedEventArgs e)
@@ -554,6 +552,25 @@ End If
             storyboard.Begin();
         }
 
+        private async void celestiastart(object sender, RoutedEventArgs e)
+        {
+            CelestiaInstaller.Visibility = Visibility.Visible;
+            Fade(Home, TimeSpan.FromMilliseconds(600)).Begin();
+            foreach (Grid grid in CelestiaInstaller.Children)
+            {
+                grid.Width = 818;
+            }
+            Celestia_InstallationPath.Text = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Nebula Softworks\Nebula Client\Applications\Nebula Trinity Engine";
+            Celestia_LauncherPath.Text = $@"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}\Celestia IDE";
+            await Task.Delay(200);
+            var storyboard = Fade(CelestiaInstaller, second, 1);
+            storyboard.Completed += delegate
+            {
+                Home.Visibility = Visibility.Collapsed;
+            };
+            storyboard.Begin();
+        }
+
         private async void uninstallstart(object sender, RoutedEventArgs e)
         {
             if (Home.Opacity != 1)
@@ -570,7 +587,7 @@ End If
                 Home.Visibility = Visibility.Collapsed;
             };
             storyboard.Begin();
-        } 
+        }
         #endregion
 
         #region Nebula Library (Suite?)
@@ -582,7 +599,7 @@ End If
             await Task.Delay(1000);
             Fade(nebulalibraryscript, hunsecond, 1).Begin();
             Fade(nebulalibrarynotif, hunsecond, 0).Begin();
-        } 
+        }
         #endregion
 
         #region Nebula Trinity Engine
@@ -617,14 +634,15 @@ End If
             Directory.CreateDirectory(NBT_InstallationPath.Text);
             Directory.CreateDirectory(DataFolder + @"\Nebula Trinity Engine");
             File.WriteAllText(DataFolder + @"\Nebula Trinity Engine\InstallPath.data", NBT_InstallationPath.Text);
-            NBT_ProgressText.Text = "Downloading Files..."; 
+            NBT_ProgressText.Text = "Downloading Files...";
             DownloadFile("https://raw.githubusercontent.com/Nebula-Softworks/Nebula-Client/master/Redistrutables/Nebula%20Trinity%20Engine%20Files.zip", NBT_InstallationPath.Text + "\\NBT.zip");
             while (downloadhandler.IsBusy)
                 await Task.Delay(1000);
 
             await Task.Delay(600);
             NBT_ProgressText.Text = "Extracting Files...";
-            await Task.Run(async () => await Application.Current.Dispatcher.InvokeAsync(async () => {
+            await Task.Run(async () => await Application.Current.Dispatcher.InvokeAsync(async () =>
+            {
 
                 if (File.Exists(NBT_InstallationPath.Text + "\\NBT.zip"))
                 {
@@ -677,6 +695,44 @@ End If
             };
             storyboard.Begin();
         }
+        #endregion
+
+        #region Celestia IDE
+        #endregion
+
+        #region Uninstalls
+        #endregion
+
+        private void Celestia_ViewOnGithubButton_Click(object sender, RoutedEventArgs e) => Redirect(GithubRepo);
+
+        private void Celestia_StartProcess_Click(object sender, RoutedEventArgs e) => Resize(Celestia_Start, halfsecond, 0, 0, null, false);
+
+        private void Celestia_DeclineEULA_Click(object sender, RoutedEventArgs e) => Resize(Celestia_Start, halfsecond, 0, 818, null, false);
+
+        private void Celestia_AcceptEULA_Click(object sender, RoutedEventArgs e) => Resize(Celestia_Eula, halfsecond, 0, 0, null, false);
+
+        private void Celestia_GoBackFromInstallation_Click(object sender, RoutedEventArgs e) => Resize(Celestia_Eula, halfsecond, 0, 818, null, false);
+
+        private void Celestia_StartInstalling_Click(object sender, RoutedEventArgs e)
+        {
+            Resize(Celestia_Customise, halfsecond, 0, 0, null, false);
+        }
+
+        private async void Celestia_FinishProcess_Click(object sender, RoutedEventArgs e)
+        {
+            Home.Visibility = Visibility.Visible;
+            Fade(CelestiaInstaller, TimeSpan.FromMilliseconds(600)).Begin();
+            foreach (Grid grid in CelestiaInstaller.Children)
+            {
+                grid.Width = 818;
+            }
+            await Task.Delay(200);
+            var storyboard = Fade(Home, second, 1);
+            storyboard.Completed += delegate
+            {
+                CelestiaInstaller.Visibility = Visibility.Collapsed;
+            };
+            storyboard.Begin();
+        }
     }
-    #endregion
 }

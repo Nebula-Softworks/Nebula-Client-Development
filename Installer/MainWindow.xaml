@@ -247,7 +247,8 @@
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             Padding="10 10 10 10"
-                            FontSize="10">
+                            FontSize="10"
+                            Click="celestiastart">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40" />
@@ -412,13 +413,476 @@
                            Text="Wish To Uninstall? Find It In The Control Bar." />
             </Grid>
 
-            <Grid x:Name="CelestiaInstaller">
+            <StackPanel x:Name="CelestiaInstaller"
+                        Orientation="Horizontal"
+                        Visibility="Collapsed">
 
-            </Grid>
-
-            <StackPanel x:Name="NBTInstaller"
-                        Orientation="Horizontal">
                 <Grid Width="0"
+                      Name="Celestia_Start">
+                    <Grid x:Name="Celestia_LogoGrid"
+                          HorizontalAlignment="Center"
+                          Height="100"
+                          Margin="0 0 0 70"
+                          VerticalAlignment="Center"
+                          Width="100">
+                        <Image x:Name="Celestia_i1"
+                               Source="/Assets/Graphics/Celestia IDE No Background.png"
+                               Margin="0"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                    </Grid>
+                    <TextBlock Text="The Installer will begin installing the Celestia IDE, press &quot;Next&quot; to Continue."
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Margin="10,0,10,175"
+                               FontFamily="/Assets/Fonts/#Poppins"
+                               Foreground="#DDFFFFFF"
+                               FontSize="13.5"
+                               Padding="0" />
+                    <TextBlock Text="Did you know, Celestia and the rest of Nebula Client is open sourced! You can view it on our GitHub!"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Margin="10,0,10,157"
+                               TextWrapping="WrapWithOverflow"
+                               TextAlignment="Center"
+                               FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                               Foreground="#CEDCDCDC"
+                               FontSize="14"
+                               Padding="0" />
+                    <Button x:Name="Celestia_ViewOnGithubButton"
+                            Content="View on GitHub"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Center"
+                            Background="#9F171717"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                            FontSize="12"
+                            Height="35"
+                            Padding="20 10"
+                            BorderThickness="0,0,0,0"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,0,107"
+                            Click="Celestia_ViewOnGithubButton_Click" />
+                    <Button x:Name="Celestia_StartProcess"
+                            Content="Next"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="103"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,10,10"
+                            Click="Celestia_StartProcess_Click" />
+
+                </Grid>
+                <Grid Width="0"
+                      Name="Celestia_Eula">
+                    <TextBlock Text="Celestia IDE EULA"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="20,50,0,0"
+                               FontFamily="/Assets/Fonts/#Poppins Medium"
+                               Foreground="#DDFFFFFF"
+                               FontSize="14"
+                               Padding="0" />
+
+                    <ScrollViewer HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  Margin="40,85,40,60"
+                                  materialdesign:ScrollBarAssist.ButtonsVisibility="Collapsed">
+                        <TextBlock x:Name="Celestia_EulaText"
+                                   FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                                   Foreground="#CEDCDCDC"
+                                   FontSize="12"
+                                   HorizontalAlignment="Left"
+                                   Padding="0"><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Text="Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet. Lorem Ipsum Dolor Sit Amet." /><Run Text=" " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /><LineBreak /><Run /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run Text="Lorem Ipsum Dolor Sit Amet. " /><LineBreak /><Run /></TextBlock>
+                    </ScrollViewer>
+
+                    <Button x:Name="Celestia_AcceptEULA"
+                            Content="I Accept The EULA"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="143"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,10,10"
+                            Click="Celestia_AcceptEULA_Click" />
+                    <Button x:Name="Celestia_DeclineEULA"
+                            Content="I Do Not Accept The EULA"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Left"
+                            Width="183"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="10,0,0,10"
+                            Click="Celestia_DeclineEULA_Click" />
+
+                </Grid>
+                <Grid Width="0"
+                      Name="Celestia_Customise">
+                    <TextBlock Text="Customisation"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="20,50,0,0"
+                               FontFamily="/Assets/Fonts/#Poppins Medium"
+                               Foreground="#DDFFFFFF"
+                               FontSize="13.5"
+                               Padding="0" />
+                    <TextBlock Text="Enable Or Disable Features During Installation"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="20,75,0,0"
+                               FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                               Foreground="#CEDCDCDC"
+                               FontSize="12"
+                               Padding="0" />
+
+                    <TextBlock Text="Installation Path"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="55,120,0,0"
+                               FontFamily="/Assets/Fonts/#Poppins"
+                               Foreground="#DEDFDFDF"
+                               FontSize="12"
+                               Padding="0" />
+
+                    <Border Height="40"
+                            Margin="55 145 55 0"
+                            VerticalAlignment="Top"
+                            BorderBrush="#3FC1C1C1"
+                            Background="#3f191919"
+                            BorderThickness="1.2"
+                            CornerRadius="6">
+                        <Grid>
+
+                            <TextBlock x:Name="Celestia_InstallationPath"
+                                       Text="C:\Users\hunt3r\AppData\Local\Nebula Softworks\Nebula Client\Applications\Celestia IDE"
+                                       Foreground="White"
+                                       VerticalAlignment="Center"
+                                       Padding="10 0 10 0" />
+
+                            <Button x:Name="Celestia_InstallationPathSelectorButton"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    BorderBrush="Transparent"
+                                    Foreground="#AAAAAA"
+                                    Width="30"
+                                    Height="30"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Margin="0 0 6 0"
+                                    FontFamily="/Installer;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Padding="0"
+                                    FontSize="12"
+                                    Content="" />
+
+                        </Grid>
+                    </Border>
+
+                    <TextBlock Text="Launcher Installation Path"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="55,195,0,0"
+                               FontFamily="/Assets/Fonts/#Poppins"
+                               Foreground="#DEDFDFDF"
+                               FontSize="12"
+                               Padding="0" />
+
+                    <Border Height="40"
+                            Margin="55 220 55 0"
+                            VerticalAlignment="Top"
+                            BorderBrush="#3FC1C1C1"
+                            Background="#3f191919"
+                            BorderThickness="1.2"
+                            CornerRadius="6">
+                        <Grid>
+
+                            <TextBlock x:Name="Celestia_LauncherPath"
+                                       Text="C:\Users\hunt3r\Downloads\Celestia IDE"
+                                       Foreground="White"
+                                       VerticalAlignment="Center"
+                                       Padding="10 0 10 0" />
+
+                            <Button x:Name="Celestia_LauncherPathSelectorButton"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    BorderBrush="Transparent"
+                                    Foreground="#AAAAAA"
+                                    Width="30"
+                                    Height="30"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Margin="0 0 6 0"
+                                    FontFamily="/Installer;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Padding="0"
+                                    FontSize="12"
+                                    Content="" />
+
+                        </Grid>
+                    </Border>
+
+                    <CheckBox x:Name="Celestia_Customise_StartMenu"
+                              Margin="55 280 55 0"
+                              IsChecked="True"
+                              VerticalAlignment="Top"
+                              Content="Create A Start Menu Shortcut"
+                              Padding="10 0 0 0"
+                              Background="#CEDFDFDF" />
+                    
+                    <CheckBox x:Name="Celestia_Customise_DesktopShortcut"
+                              Margin="55 305 55 0"
+                              IsChecked="True"
+                              VerticalAlignment="Top"
+                              Content="Create A Desktop Shortcut"
+                              Padding="10 0 0 0"
+                              Background="#CEDFDFDF" />
+                    
+                    <CheckBox x:Name="Celestia_Customise_PriorityInstall"
+                              Margin="55 330 55 0"
+                              VerticalAlignment="Top"
+                              Content="Install Latest Release Straight Away"
+                              Padding="10 0 0 0"
+                              Background="#CEDFDFDF" />
+
+                    <Button x:Name="Celestia_StartInstalling"
+                            Content="Begin Installation"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="153"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,10,10"
+                            Click="Celestia_StartInstalling_Click"/>
+                    <Button x:Name="Celestia_GoBackFromInstallation"
+                            Content="Back"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Left"
+                            Width="103"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="10,0,0,10"
+                            Click="Celestia_GoBackFromInstallation_Click"/>
+
+                </Grid>
+                <Grid Width="0"
+                      Name="Celestia_Progress"
+                      Visibility="Hidden">
+
+                    <TextBlock x:Name="Celestia_ProgressText"
+                               Text="Starting Installation..."
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Margin="0,0,0,10"
+                               FontFamily="/Assets/Fonts/#Poppins"
+                               Foreground="#CEDEDEDE"
+                               FontSize="11.5"
+                               Padding="0" />
+
+                    <Image Height="210"
+                           Width="210"
+                           Source="/Assets/Graphics/Installer Loading Circle.png"
+                           Opacity=".68"
+                           RenderOptions.BitmapScalingMode="Fant" />
+                    <Image x:Name="Celestia_LoaderRotation"
+                           Source="/Assets/Graphics/Installer Loading Circle Progress.png"
+                           RenderOptions.BitmapScalingMode="Fant"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Width="82"
+                           Height="82"
+                           Margin="160,0,0,160">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsVisible, RelativeSource={RelativeSource Self}}"
+                                                 Value="True">
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard Name="SpinStoryboard">
+                                                <Storyboard RepeatBehavior="Forever">
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        From="0,160,160,0"
+                                                                        To="160,0,0,160"
+                                                                        Duration="0:0:3">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:4"
+                                                                        From="160,0,0,160"
+                                                                        To="0,160,160,0"
+                                                                        Duration="0:0:1.7">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:5.7"
+                                                                        From="0,160,160,0"
+                                                                        To="80,0,0,180"
+                                                                        Duration="0:0:2.7">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:8.4"
+                                                                        From="80,0,0,180"
+                                                                        To="150,160,0,0"
+                                                                        Duration="0:0:1.7">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:10.1"
+                                                                        From="150,160,0,0"
+                                                                        To="0,0,180,180"
+                                                                        Duration="0:0:2.7">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="2.5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:12.4"
+                                                                        From="0,0,180,180"
+                                                                        To="0,0,160,160"
+                                                                        Duration="0:0:0.9">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="5" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                    <ThicknessAnimation Storyboard.TargetProperty="Margin"
+                                                                        BeginTime="0:0:13.3"
+                                                                        From="0,0,160,160"
+                                                                        To="0,160,160,0"
+                                                                        Duration="0:0:2.1">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <PowerEase EasingMode="EaseInOut"
+                                                                       Power="3.2" />
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <StopStoryboard BeginStoryboardName="SpinStoryboard" />
+                                        </DataTrigger.ExitActions>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+
+                </Grid>
+                <Grid Width="0"
+                      Name="Celestia_Finish">
+                    <TextBlock Text="We're Done!"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="20,50,00,00"
+                               FontFamily="/Assets/Fonts/#Poppins Medium"
+                               Foreground="#DDFFFFFF"
+                               FontSize="14.5"
+                               Padding="0" />
+                    <TextBlock HorizontalAlignment="Left"
+                               VerticalAlignment="Top"
+                               Margin="20,75,20,00"
+                               FontFamily="/Assets/Fonts/#Atkinson Hyperlegible"
+                               Foreground="#CEDCDCDC"
+                               FontSize="14"
+                               Padding="0"
+                               TextWrapping="WrapWithOverflow"><Run Text="The Installer has finished installing Celestia('s Bootstrapper) on your local machine! You can now start installing and running the rest of the IDE by running the launcher. You will have to do the Key System, but it is only a few minutes and it lasts for a week. You can skip it, but it helps us earn revenue and keep Nebula Client Alive." /><LineBreak /><Run Text="You Should Join Our Discord Too! We provide support and a community to chat with." /></TextBlock>
+                    <Image Source="/Assets/Graphics/Person.png"
+                           Height="370"
+                           VerticalAlignment="Bottom"
+                           Margin="0,0,0,-60" />
+                    <Button x:Name="Celestia_JoinDiscord"
+                            Content="Join Our Discord"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="123"
+                            Click="discordjoin"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,123,10" />
+                    <Button x:Name="Celestia_FinishProcess"
+                            Content="Finish"
+                            VerticalAlignment="Bottom"
+                            Background="#7F191919"
+                            BorderBrush="Transparent"
+                            Foreground="White"
+                            FontFamily="/Assets/Fonts/#Poppins"
+                            FontSize="12"
+                            Height="30"
+                            Padding="0"
+                            BorderThickness="0"
+                            HorizontalAlignment="Right"
+                            Width="103"
+                            ToolTipService.InitialShowDelay="500"
+                            Margin="0,0,10,10"
+                            Click="Celestia_FinishProcess_Click" />
+
+                </Grid>
+
+            </StackPanel>
+            <StackPanel x:Name="NBTInstaller"
+                        Orientation="Horizontal"
+                        Visibility="Collapsed">
+                <Grid Width="818"
                       Name="NBT_Start">
                     <Grid x:Name="NBT_LogoGrid"
                           HorizontalAlignment="Center"
@@ -480,9 +944,9 @@
                             Click="NBT_StartProcess_Click"/>
 
                 </Grid>
-                <Grid Width="0"
+                <Grid Width="818"
                       Name="NBT_Eula">
-                    <TextBlock Text="Nebula Client EULA"
+                    <TextBlock Text="Nebula Trinity Engine EULA"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Top"
                                Margin="20,50,0,0"
@@ -835,6 +1299,7 @@
 
                 </Grid>
             </StackPanel>
+
 
             <Grid x:Name="NebulaLibraryCopy"
                   Visibility="Collapsed">

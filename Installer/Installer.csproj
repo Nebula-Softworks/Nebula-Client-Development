@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <LangVersion>9.0</LangVersion> <!-- Or 'latest' -->
-      </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
+    <!-- Or 'latest' -->
+  </PropertyGroup>
   <PropertyGroup>
     <DesignTimeBuild>false</DesignTimeBuild>
   </PropertyGroup>
@@ -187,7 +188,6 @@
     <Resource Include="Assets\Graphics\Celestia IDE.png" />
     <Resource Include="Assets\Graphics\Developers\hunt3r.jpg" />
     <Resource Include="Assets\Graphics\Lua.png" />
-    <Resource Include="Assets\Graphics\Nebula Client - Luna X Default PFP.png" />
     <Resource Include="Nebula Client Installer Icon.ico" />
     <Resource Include="Assets\Graphics\Nebula Client Installer Wallpapers\1.png" />
     <Resource Include="Assets\Graphics\Nebula Client Installer Wallpapers\2.png" />
@@ -220,6 +220,9 @@
   <ItemGroup>
     <Resource Include="Assets\Graphics\Installer Loading Circle Progress.png" />
     <Resource Include="Assets\Graphics\Installer Loading Circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Nebula Client Default PFP.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.8.2\build\Fody.targets" Condition="Exists('..\packages\Fody.6.8.2\build\Fody.targets')" />
