@@ -3,7 +3,17 @@
 Only the most recent release will be maintained at all times. Once an update has released, all previous versions will be deprecated.  
   
 ## Submitting Vulnerabilities
-Create an issue with the vulenerability report template and follow the instructions there.  
+Create an issue with the following Template.  
+**What is the Vulnerability?**   
+A clear and concise description of what the issue is. Eg. There is a memory leak [...]  
+  
+**What issues arise from this?**  
+A clear and concise description of what the vulnerability can lead to. Eg. The application will crash, hackers can siphon data [...]  
+  
+**Is this a consistent vulnerability?**  
+Yes/No  
+  
+**Steps to recreate the vulnerability?**    
   
 ## Disclaimer
 To whom it may concern,
