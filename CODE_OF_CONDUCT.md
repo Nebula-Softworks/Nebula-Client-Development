@@ -1,6 +1,6 @@
 # Code of Conduct
 
-When contributing to the project via pull requests, no vulgar language must be made or typed within the project.  
+When contributing to the project via pull requests or discussing/reporting in issues, no vulgar language must be made or typed within the project.  
 Code should be commented, and all linked projects must be open-sourced.  
   
 You are not allowed to redistrubute personally-modified versions of any part of Nebula Client.  

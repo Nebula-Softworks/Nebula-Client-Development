@@ -16,4 +16,4 @@ A clear and concise description of what should happen instead. Eg. Walkspeed set
 **Is this a consistent bug?**
 Yes/No
 
-**Steps to recreate the bug bug?**
+**Steps to recreate the bug?**

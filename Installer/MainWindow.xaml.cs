@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.IO;
+using System.IO.Compression;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -14,7 +19,6 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Web;
-using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Controls;
@@ -22,18 +26,14 @@ using System.Windows.Media.Animation;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Windows.Media;
+using System.Windows.Markup;
+using System.Windows.Input;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Input;
-using System.Windows.Markup;
 using System.Xml;
-using MaterialDesignThemes.Wpf;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WK.Libraries.BetterFolderBrowserNS;
-using System.IO.Compression;
 
 namespace Installer
 {
@@ -139,7 +139,7 @@ namespace Installer
             }
         }
 
-        private void discordjoin(object sender, RoutedEventArgs e)
+        private async void discordjoin(object sender, RoutedEventArgs e)
         {
             Redirect("https://dsc.gg/nebulasoftworks");
         }
@@ -438,9 +438,10 @@ End If
             CelestiaInstaller.Visibility = Visibility.Collapsed;
             NBTInstaller.Visibility = Visibility.Collapsed;
             NebulaLibraryCopy.Visibility = Visibility.Collapsed;
+            Uninstaller.Visibility = Visibility.Collapsed;
         }
 
-        private void Topbar_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) => DragMove();
+        private void Topbar_MouseLeftButtonDown(object sender,  MouseButtonEventArgs e) => DragMove();
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -698,10 +699,6 @@ End If
         #endregion
 
         #region Celestia IDE
-        #endregion
-
-        #region Uninstalls
-        #endregion
 
         private void Celestia_ViewOnGithubButton_Click(object sender, RoutedEventArgs e) => Redirect(GithubRepo);
 
@@ -734,5 +731,9 @@ End If
             };
             storyboard.Begin();
         }
+        #endregion
+
+        #region Uninstalls
+        #endregion
     }
 }
