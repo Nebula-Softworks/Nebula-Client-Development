@@ -43,7 +43,7 @@
             <Grid x:Name="Wallpapers"
                   ClipToBounds="True">
                 <Grid.Effect>
-                    <BlurEffect Radius="4"
+                    <BlurEffect Radius="10"
                                 KernelType="Gaussian"
                                 RenderingBias="Quality" />
                 </Grid.Effect>
@@ -66,7 +66,7 @@
                         Margin="-5"
                         CornerRadius="8">
                     <Border.Background>
-                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/2.png"
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/8.jpeg"
                                     Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
@@ -74,7 +74,7 @@
                         Opacity="0"
                         CornerRadius="8">
                     <Border.Background>
-                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/3.png"
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/2.png"
                                     Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
@@ -82,7 +82,7 @@
                         Opacity="0"
                         CornerRadius="8">
                     <Border.Background>
-                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/4.jpg"
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/3.png"
                                     Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
@@ -91,7 +91,7 @@
                         Margin="-5"
                         CornerRadius="8">
                     <Border.Background>
-                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/5.png"
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/4.jpg"
                                     Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
@@ -100,7 +100,7 @@
                         Margin="-5"
                         CornerRadius="8">
                     <Border.Background>
-                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/6.png"
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/5.png"
                                     Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>
@@ -110,6 +110,15 @@
                         CornerRadius="8">
                     <Border.Background>
                         <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/7.png"
+                                    Stretch="UniformToFill" />
+                    </Border.Background>
+                </Border>
+                <Border x:Name="Wallpaper8"
+                        Opacity="0"
+                        Margin="-5"
+                        CornerRadius="8">
+                    <Border.Background>
+                        <ImageBrush ImageSource="/Installer;component/Assets/Graphics/Nebula Client Installer Wallpapers/6.png"
                                     Stretch="UniformToFill" />
                     </Border.Background>
                 </Border>

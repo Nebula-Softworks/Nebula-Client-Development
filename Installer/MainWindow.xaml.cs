@@ -452,12 +452,12 @@ End If
             Fade(this, halfsecond, 1).Begin();
 
             int currentWallpaper = 1;
-            new DispatcherTimer(TimeSpan.FromMinutes(2.1), DispatcherPriority.Normal, delegate
+            new DispatcherTimer(TimeSpan.FromMinutes(1), DispatcherPriority.Normal, delegate
             { 
                 var currentImage = (Border)FindName($"Wallpaper{currentWallpaper}");
 
                 currentWallpaper++;
-                if (currentWallpaper > 7)
+                if (currentWallpaper > 8)
                     currentWallpaper = 1;
 
                 var nextImage = (Border)FindName($"Wallpaper{currentWallpaper}");
@@ -688,6 +688,7 @@ End If
             {
                 grid.Width = 818;
             }
+            NBT_Finish.Width = 0;
             await Task.Delay(200);
             var storyboard = Fade(Home, second, 1);
             storyboard.Completed += delegate
