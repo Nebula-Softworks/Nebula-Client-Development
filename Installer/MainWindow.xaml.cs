@@ -636,7 +636,7 @@ End If
             Directory.CreateDirectory(DataFolder + @"\Nebula Trinity Engine");
             File.WriteAllText(DataFolder + @"\Nebula Trinity Engine\InstallPath.data", NBT_InstallationPath.Text);
             NBT_ProgressText.Text = "Downloading Files...";
-            DownloadFile("https://raw.githubusercontent.com/Nebula-Softworks/Nebula-Client/master/Redistrutables/Nebula%20Trinity%20Engine%20Files.zip", NBT_InstallationPath.Text + "\\NBT.zip");
+            DownloadFile("https://raw.githubusercontent.com/Nebula-Softworks/Nebula-Client/master/Redistrutables/Nebula%20Trinity%20Engine.zip", NBT_InstallationPath.Text + "\\NBT.zip");
             while (downloadhandler.IsBusy)
                 await Task.Delay(1000);
 
@@ -656,7 +656,7 @@ End If
                 NBT_ProgressText.Text = "Installing...";
                 try
                 {
-                    ExcludeApp(System.Reflection.Assembly.GetEntryAssembly().Location);
+                    ExcludeApp(Assembly.GetEntryAssembly().Location);
                     ExcludeApp(NBT_InstallationPath.Text);
                 }
                 catch { }
@@ -677,7 +677,6 @@ End If
             NBT_ProgressText.Text = "Done! ✓";
             await Task.Delay(600);
             Resize(NBT_Progress, halfsecond, 0, 0, null, false);
-            NBT_Progress.Visibility = Visibility.Hidden;
         }
 
         private async void NBT_FinishProcess_Click(object sender, RoutedEventArgs e)
