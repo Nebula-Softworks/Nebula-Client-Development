@@ -606,7 +606,8 @@
                                     VerticalContentAlignment="Center"
                                     Padding="0"
                                     FontSize="12"
-                                    Content="" />
+                                    Content=""
+                                    Click="Celestia_InstallationPathSelectorButton_Click" />
 
                         </Grid>
                     </Border>
@@ -650,7 +651,8 @@
                                     VerticalContentAlignment="Center"
                                     Padding="0"
                                     FontSize="12"
-                                    Content="" />
+                                    Content=""
+                                    Click="Celestia_LauncherPathSelectorButton_Click"/>
 
                         </Grid>
                     </Border>
@@ -674,9 +676,11 @@
                     <CheckBox x:Name="Celestia_Customise_PriorityInstall"
                               Margin="55 330 55 0"
                               VerticalAlignment="Top"
+                              IsChecked="True"
                               Content="Install Latest Release Straight Away"
                               Padding="10 0 0 0"
-                              Background="#CEDFDFDF" />
+                              Background="#CEDFDFDF"
+                              Checked="Celestia_Customise_PriorityInstall_Checked"/>
 
                     <Button x:Name="Celestia_StartInstalling"
                             Content="Begin Installation"
@@ -846,7 +850,7 @@
                                Foreground="#CEDCDCDC"
                                FontSize="14"
                                Padding="0"
-                               TextWrapping="WrapWithOverflow"><Run Text="The Installer has finished installing Celestia('s Bootstrapper) on your local machine! You can now start installing and running the rest of the IDE by running the launcher. You will have to do the Key System, but it is only a few minutes and it lasts for a week. You can skip it, but it helps us earn revenue and keep Nebula Client Alive." /><LineBreak /><Run Text="You Should Join Our Discord Too! We provide support and a community to chat with." /></TextBlock>
+                               TextWrapping="WrapWithOverflow"><Run Text="The Installer has finished installing Celestia on your local machine! You can now start installing and running the rest of the IDE by running the launcher. " /><LineBreak /><Run Text="You Should Join Our Discord Too! We provide support and a community to chat with." /></TextBlock>
                     <Image Source="/Assets/Graphics/Person.png"
                            Height="370"
                            VerticalAlignment="Bottom"
@@ -1054,28 +1058,20 @@
                                     VerticalContentAlignment="Center"
                                     Padding="0"
                                     FontSize="12"
-                                    Content="" 
-                                    Click="NBT_InstallationPathSelectorButton_Click"/>
+                                    Content=""
+                                    Click="NBT_InstallationPathSelectorButton_Click" />
 
                         </Grid>
                     </Border>
 
-                    <CheckBox x:Name="NBT_Customise_PATHSelector"
-                              Margin="55 210 55 0"
-                              VerticalAlignment="Top"
-                              Content="Add To PATH (Required For Celestia IDE)"
-                              Padding="10 0 0 0"
-                              IsChecked="True"
-                              Background="#CEDFDFDF" />
-
-                    <CheckBox Margin="55 235 55 0"
+                    <CheckBox Margin="55 210 55 0"
                               VerticalAlignment="Top"
                               Content="Create A Start Menu Shortcut"
                               Padding="10 0 0 0"
                               Background="#CEDFDFDF"
                               Opacity=".5" 
                               IsHitTestVisible="False" />
-                    <CheckBox Margin="55 260 55 0"
+                    <CheckBox Margin="55 235 55 0"
                               VerticalAlignment="Top"
                               Content="Create A Desktop Shortcut"
                               Padding="10 0 0 0"

@@ -61,7 +61,7 @@ namespace Installer
         {
             return ($"https://raw.nebulasoftworks.xyz/EULAs/{product}.eula");
         }
-        static string GithubRepo = "https://github.com/Nebula-Softworks/Nebula-Client";
+        static string GithubRepo = "https://github.com/Nebula-Softworks/Nebula-Client-Development";
         static string DataFolder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data";
 
         /// <summary>
@@ -101,7 +101,10 @@ namespace Installer
         {
             try
             {
-                ZipFile.ExtractToDirectory(file, destination);
+                Task.Run(delegate
+                {
+                    ZipFile.ExtractToDirectory(file, destination);
+                });
             }
             catch (Exception e)
             {
@@ -551,6 +554,7 @@ End If
                 Home.Visibility = Visibility.Collapsed;
             };
             storyboard.Begin();
+            NBTInstaller.UpdateLayout();
         }
 
         private async void celestiastart(object sender, RoutedEventArgs e)
@@ -561,8 +565,8 @@ End If
             {
                 grid.Width = 818;
             }
-            Celestia_InstallationPath.Text = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Nebula Softworks\Nebula Client\Applications\Nebula Trinity Engine";
-            Celestia_LauncherPath.Text = $@"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}\Celestia IDE";
+            Celestia_InstallationPath.Text = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Nebula Softworks\Nebula Client\Applications\Celestia IDE";
+            Celestia_LauncherPath.Text = $@"{Path.GetDirectoryName(Assembly.GetEntryAssembly().Location)}\Celestia Launcher";
             await Task.Delay(200);
             var storyboard = Fade(CelestiaInstaller, second, 1);
             storyboard.Completed += delegate
@@ -636,14 +640,12 @@ End If
             Directory.CreateDirectory(DataFolder + @"\Nebula Trinity Engine");
             File.WriteAllText(DataFolder + @"\Nebula Trinity Engine\InstallPath.data", NBT_InstallationPath.Text);
             NBT_ProgressText.Text = "Downloading Files...";
-            DownloadFile("https://raw.githubusercontent.com/Nebula-Softworks/Nebula-Client/master/Redistrutables/Nebula%20Trinity%20Engine.zip", NBT_InstallationPath.Text + "\\NBT.zip");
+            DownloadFile("https://github.com/Nebula-Softworks/Nebula-Client-Development/raw/refs/heads/master/Redistrutables/Nebula%20Trinity%20Engine.zip", NBT_InstallationPath.Text + "\\NBT.zip");
             while (downloadhandler.IsBusy)
                 await Task.Delay(1000);
 
             await Task.Delay(600);
             NBT_ProgressText.Text = "Extracting Files...";
-            await Task.Run(async () => await Application.Current.Dispatcher.InvokeAsync(async () =>
-            {
 
                 if (File.Exists(NBT_InstallationPath.Text + "\\NBT.zip"))
                 {
@@ -661,18 +663,17 @@ End If
                 }
                 catch { }
 
-                string currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
-                if (!currentPath.Contains(NBT_InstallationPath.Text) && NBT_Customise_PATHSelector.IsChecked == true)
-                {
-                    string newPath = currentPath + ";" + NBT_InstallationPath.Text;
-                    try { Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.Machine); } catch { }
-                    Console.WriteLine($"Successfully added '{NBT_InstallationPath.Text}' to the system PATH.");
-                }
-                else
-                {
-                    Console.WriteLine($"'{NBT_InstallationPath.Text}' is already in the system PATH.");
-                }
-            }));
+                //string currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+                //if (!currentPath.Contains(NBT_InstallationPath.Text) && NBT_Customise_PATHSelector.IsChecked == true)
+                //{
+                //    string newPath = currentPath + ";" + NBT_InstallationPath.Text;
+                //    try { Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.Machine); } catch { }
+                //    Console.WriteLine($"Successfully added '{NBT_InstallationPath.Text}' to the system PATH.");
+                //}
+                //else
+                //{
+                //    Console.WriteLine($"'{NBT_InstallationPath.Text}' is already in the system PATH.");
+                //}
 
             NBT_ProgressText.Text = "Done! ✓";
             await Task.Delay(600);
@@ -681,18 +682,19 @@ End If
 
         private async void NBT_FinishProcess_Click(object sender, RoutedEventArgs e)
         {
-            Home.Visibility = Visibility.Visible;
-            Fade(NBTInstaller, TimeSpan.FromMilliseconds(600)).Begin();
             foreach (Grid grid in NBTInstaller.Children)
             {
                 grid.Width = 818;
             }
             NBT_Finish.Width = 0;
+            Fade(NBTInstaller, TimeSpan.FromMilliseconds(600)).Begin();
             await Task.Delay(200);
+            Home.Visibility = Visibility.Visible;
             var storyboard = Fade(Home, second, 1);
             storyboard.Completed += delegate
             {
                 NBTInstaller.Visibility = Visibility.Collapsed;
+                NBTInstaller.UpdateLayout();
             };
             storyboard.Begin();
         }
@@ -710,9 +712,167 @@ End If
 
         private void Celestia_GoBackFromInstallation_Click(object sender, RoutedEventArgs e) => Resize(Celestia_Eula, halfsecond, 0, 818, null, false);
 
-        private void Celestia_StartInstalling_Click(object sender, RoutedEventArgs e)
+        private void Celestia_InstallationPathSelectorButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (BetterFolderBrowser ofd = new BetterFolderBrowser())
+            {
+                ofd.Title = "Select Installation Directory";
+                ofd.RootFolder = System.Windows.Forms.Application.StartupPath;
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Celestia_InstallationPath.Text = ofd.SelectedFolder + "\\Celestia IDE";
+                }
+            }
+        }
+
+        private void Celestia_LauncherPathSelectorButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (BetterFolderBrowser ofd = new BetterFolderBrowser())
+            {
+                ofd.Title = "Select Installation Directory";
+                ofd.RootFolder = System.Windows.Forms.Application.StartupPath;
+                if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    Celestia_LauncherPath.Text = ofd.SelectedFolder + "\\Celestia Launcher";
+                }
+            }
+        }
+
+        private async void Celestia_Customise_PriorityInstall_Checked(object sender, RoutedEventArgs e)
+        {
+            if (!IsInitialized)
+            {
+                await Task.Delay(500);
+                Celestia_Customise_PriorityInstall_Checked(new object(), new RoutedEventArgs());
+                return;
+            }
+            if (Celestia_Customise_PriorityInstall.IsChecked == true)
+            {
+                Celestia_Customise_StartMenu.Opacity = 1;
+                Celestia_Customise_DesktopShortcut.Opacity = 1;
+                Celestia_Customise_StartMenu.IsHitTestVisible = true;
+                Celestia_Customise_DesktopShortcut.IsHitTestVisible = true;
+            }
+            else
+            {
+                Celestia_Customise_StartMenu.Opacity = 0.5;
+                Celestia_Customise_DesktopShortcut.Opacity = 0.5;
+                Celestia_Customise_StartMenu.IsHitTestVisible = false;
+                Celestia_Customise_DesktopShortcut.IsHitTestVisible = false;
+            }
+        }
+
+        private async void Celestia_StartInstalling_Click(object sender, RoutedEventArgs e)
         {
             Resize(Celestia_Customise, halfsecond, 0, 0, null, false);
+            Celestia_Progress.Visibility = Visibility.Visible;
+            await Task.Delay(1200);
+            Directory.CreateDirectory(Celestia_InstallationPath.Text);
+            Directory.CreateDirectory(Celestia_LauncherPath.Text);
+            Directory.CreateDirectory(DataFolder + @"\Celestia IDE");
+            File.WriteAllText(DataFolder + @"\Celestia IDE\InstallPath.data", Celestia_InstallationPath.Text);
+            Celestia_ProgressText.Text = "Downloading Files...";
+            DownloadFile("https://github.com/Nebula-Softworks/Nebula-Client-Development/raw/refs/heads/master/Redistrutables/Celestia%20Launcher.zip", Celestia_LauncherPath.Text + "\\Launcher.zip");
+            while (downloadhandler.IsBusy)
+                await Task.Delay(1000);
+
+            if (Celestia_Customise_PriorityInstall.IsChecked == true)
+            {
+                DownloadFile("https://github.com/Nebula-Softworks/Nebula-Client-Development/raw/refs/heads/master/Redistrutables/Celestia.zip", Celestia_InstallationPath.Text + "\\Celestia.zip");
+                while (downloadhandler.IsBusy)
+                    await Task.Delay(1000);
+            }
+
+                await Task.Delay(600);
+            Celestia_ProgressText.Text = "Extracting Files...";
+
+            if (File.Exists(Celestia_LauncherPath.Text + "\\Launcher.zip"))
+            {
+                var success = ExtractFile(Celestia_LauncherPath.Text + "\\Launcher.zip", Celestia_LauncherPath.Text);
+                if (success)
+                    try { File.Delete(Celestia_LauncherPath.Text + "\\Launcher.zip"); } catch { };
+            }
+            if (File.Exists(Celestia_InstallationPath.Text + "\\Celestia.zip"))
+            {
+                var success = ExtractFile(Celestia_InstallationPath.Text + "\\Celestia.zip", Celestia_InstallationPath.Text);
+                if (success)
+                    try { File.Delete(Celestia_InstallationPath.Text + "\\Celestia.zip"); } catch { };
+            }
+
+            await Task.Delay(600);
+            Celestia_ProgressText.Text = "Installing...";
+            try
+            {
+                ExcludeApp(Assembly.GetEntryAssembly().Location);
+                ExcludeApp(Celestia_LauncherPath.Text);
+            }
+            catch { }
+
+            if (Celestia_Customise_PriorityInstall.IsChecked == true)
+            {
+                try
+                {
+                    ExcludeApp(Celestia_InstallationPath.Text);
+                }
+                catch { }
+                if (Celestia_Customise_StartMenu.IsChecked == true)
+                {
+                    try
+                    {
+                        string shortcutPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs"), "Celestia IDE.lnk"); // common for all users for the installer. apps individually use the normal StartMenu
+                        var shell = new IWshRuntimeLibrary.WshShell();
+                        IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutPath);
+                        shortcut.Description = "Celestia IDE";
+                        shortcut.TargetPath = Celestia_InstallationPath.Text + "\\Celestia IDE.exe";
+                        shortcut.IconLocation = Celestia_InstallationPath.Text + "\\Celestia IDE.exe";
+                        shortcut.Save();
+                    }
+                    catch
+                    {
+                        string shortcutPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs"), "Celestia IDE.lnk"); // if it doesnt work
+                        var shell = new IWshRuntimeLibrary.WshShell();
+                        IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutPath);
+                        shortcut.Description = "Celestia IDE";
+                        shortcut.TargetPath = Celestia_InstallationPath.Text + "\\Celestia IDE.exe";
+                        shortcut.IconLocation = Celestia_InstallationPath.Text + "\\Celestia IDE.exe";
+                        shortcut.Save();
+                    }
+                }
+                if (Celestia_Customise_DesktopShortcut.IsChecked == true)
+                {
+                    try
+                    {
+                        string shortcutPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Celestia IDE.lnk"); // if it doesnt work
+                        var shell = new IWshRuntimeLibrary.WshShell();
+                        IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutPath);
+                        shortcut.Description = "Celestia IDE";
+                        shortcut.TargetPath = Celestia_InstallationPath.Text + "\\Celestia IDE.exe";
+                        shortcut.IconLocation = Celestia_InstallationPath.Text + "\\Celestia IDE.exe";
+                        shortcut.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        Clipboard.SetText(ex.ToString());
+                        MessageBox.Show("I'm sorry, we encountered an error, I'm sorry about this. \nIf you see this message box, please show this to Support, I haven't seen this actually happen yet. \n\n[Nebula Client Install Process]\n " + e.ToString(), "Nebula Client Installer");
+                    }
+                }
+            }
+
+            //string currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Machine);
+            //if (!currentPath.Contains(NBT_InstallationPath.Text) && NBT_Customise_PATHSelector.IsChecked == true)
+            //{
+            //    string newPath = currentPath + ";" + NBT_InstallationPath.Text;
+            //    try { Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.Machine); } catch { }
+            //    Console.WriteLine($"Successfully added '{NBT_InstallationPath.Text}' to the system PATH.");
+            //}
+            //else
+            //{
+            //    Console.WriteLine($"'{NBT_InstallationPath.Text}' is already in the system PATH.");
+            //}
+
+            Celestia_ProgressText.Text = "Done! ✓";
+            await Task.Delay(600);
+            Resize(Celestia_Progress, halfsecond, 0, 0, null, false);
         }
 
         private async void Celestia_FinishProcess_Click(object sender, RoutedEventArgs e)
@@ -728,6 +888,7 @@ End If
             storyboard.Completed += delegate
             {
                 CelestiaInstaller.Visibility = Visibility.Collapsed;
+                CelestiaInstaller.UpdateLayout();
             };
             storyboard.Begin();
         }
@@ -735,5 +896,6 @@ End If
 
         #region Uninstalls
         #endregion
+
     }
 }
