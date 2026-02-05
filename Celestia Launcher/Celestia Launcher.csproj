@@ -39,6 +39,10 @@
     <ApplicationIcon>Celestia IDE Background.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.IWshRuntimeLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Interop.IWshRuntimeLibrary.1.0.1\lib\net45\Interop.IWshRuntimeLibrary.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -59,6 +63,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Assets\Styles\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -90,6 +98,41 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Assets\Fonts\AtkinsonHyperlegible-Bold.ttf" />
+    <Resource Include="Assets\Fonts\AtkinsonHyperlegible-BoldItalic.ttf" />
+    <Resource Include="Assets\Fonts\AtkinsonHyperlegible-Italic.ttf" />
+    <Resource Include="Assets\Fonts\AtkinsonHyperlegible-Regular.ttf" />
+    <Resource Include="Assets\Fonts\Deletefont-Regular.otf" />
+    <Resource Include="Assets\Fonts\Icon\Font Awesome 6 Free-Regular-400.otf" />
+    <Resource Include="Assets\Fonts\Icon\Font Awesome 6 Free-Solid-900.otf" />
+    <Resource Include="Assets\Fonts\Icon\MaterialIconsRound-Regular.otf" />
+    <Resource Include="Assets\Fonts\Icon\Phosphor-Light.ttf" />
+    <Resource Include="Assets\Fonts\Icon\Segoe Fluent Icons.ttf" />
+    <Resource Include="Assets\Fonts\Inter.ttf" />
+    <Resource Include="Assets\Fonts\Jetbrains Mono.ttf" />
+    <Resource Include="Assets\Fonts\JetBrainsMono-Medium.ttf" />
+    <Resource Include="Assets\Fonts\JetBrainsMono-SemiBold.ttf" />
+    <Resource Include="Assets\Fonts\Oswald-Bold.ttf" />
+    <Resource Include="Assets\Fonts\Oswald-ExtraLight.ttf" />
+    <Resource Include="Assets\Fonts\Oswald-Light.ttf" />
+    <Resource Include="Assets\Fonts\Oswald-Medium.ttf" />
+    <Resource Include="Assets\Fonts\Oswald-Regular.ttf" />
+    <Resource Include="Assets\Fonts\Oswald-SemiBold.ttf" />
+    <Resource Include="Assets\Fonts\Oswald-VariableFont_wght.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-BlackItalic.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-Bold.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-BoldItalic.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-ExtraBold.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-ExtraBoldItalic.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-ExtraLight.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-ExtraLightItalic.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-LightItalic.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-MediumItalic.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-Regular.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-SemiBold.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-Thin.ttf" />
+    <Resource Include="Assets\Fonts\Poppins-ThinItalic.ttf" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -103,6 +146,60 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Celestia IDE Background.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Celestia IDE No Background Outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Celestia IDE No Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Celestia IDE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Developers\hunt3r.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Developers\justhey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Developers\pookiepepelss.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Installer Loading Circle Progress.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Installer Loading Circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Lua.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Nebula Client Default PFP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Nebula Client Installer Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Nebula Client Logo Compressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Nebula Client Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Nebula Softworks No Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Nebula Trinity Engine No Background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Nebula Trinity Engine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\no-script.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Graphics\Person.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

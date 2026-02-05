@@ -5,19 +5,120 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Celestia_Launcher"
         mc:Ignorable="d"
-        Title="Celestia Launcher" 
-        Height="450" Width="830"
-        MinHeight="450" MinWidth="830"
+        Title="Celestia Launcher"
+        Height="450"
+        Width="830"
+        MinHeight="450"
+        MinWidth="830"
         AllowsTransparency="True"
         WindowStyle="None"
         UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
         ToolTipService.Placement="MousePoint"
-        ResizeMode="CanResize"
+        ResizeMode="NoResize"
         Topmost="False"
         Icon="Celestia IDE.ico"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Background="{x:Null}">
-    <Grid>
-        <!--do like the hunter infinity/codex design-->
-    </Grid>
+    <Border x:Name="MainBackgroundBorder"
+            Margin="120 40"
+            Background="#0D0C0F"
+            CornerRadius="6"
+            BorderThickness="0"
+            BorderBrush="#2a41434A">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="0"
+                              x:Name="MainBackgroundBorder_Shadow"
+                              Color="#0A0A0A"
+                              BlurRadius="45"
+                              Opacity="1" />
+        </Border.Effect>
+        <Grid>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="2"
+                        Opacity="0"
+                        HorizontalAlignment="Right"
+                        FlowDirection="RightToLeft"
+                        VerticalAlignment="Top"
+                        Margin="4,4">
+                <Button Width="40"
+                        Height="35"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Content="&#xE8BB;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="10"
+                        Foreground="#A4A6AA"
+                        BorderThickness="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Padding="0"
+                        Click="CloseButton_Click" />
+                <Button Width="40"
+                        Height="35"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Content="&#xE738;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="11"
+                        Padding="0 1 0 0"
+                        Foreground="#A4A6AA"
+                        BorderThickness="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="MinimiseButton_Click" />
+            </StackPanel>
+
+            <!--85-->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="-6 0 0 0">
+                <Image Height="100"
+                       Width="100"
+                       x:Name="mainLogo"
+                       Margin="0 0 -16 -10"
+                       Source="/Celestia Launcher;component/Assets/Graphics/Celestia IDE No Background.png"
+                       Opacity="0.9"
+                       RenderOptions.BitmapScalingMode="Fant">
+                    <Image.Effect>
+                        <DropShadowEffect ShadowDepth="0"
+                                          Color="#0A0A0A"
+                                          BlurRadius="45"
+                                          Opacity="0.5" />
+                    </Image.Effect>
+                </Image>
+                <TextBlock FontFamily="/Celestia Launcher;component/Assets/Fonts/#Poppins"
+                           FontSize="32"
+                           x:Name="mainTitle"
+                           VerticalAlignment="Center"
+                           Foreground="#e5e7e7"
+                           Text="elestia IDE.">
+                    <TextBlock.Effect>
+                        <DropShadowEffect ShadowDepth="20"
+                                          Direction="180"
+                                          Color="#ffffff"
+                                          BlurRadius="50"
+                                          Opacity="0.5" />
+                    </TextBlock.Effect>
+                </TextBlock>
+            </StackPanel>
+
+            <Border Opacity="0"
+                    Background="#af141315"
+                    CornerRadius="6"
+                    x:Name="ProgressBarMain"
+                    Height="30"
+                    Width="300"
+                    Margin="1 85 0 0"
+                    VerticalAlignment="Center">
+                <Border x:Name="ProgressBarFill"
+                        CornerRadius="4"
+                        Margin="4"
+                        Opacity="0.6"
+                        Width="8"
+                        HorizontalAlignment="Left"
+                        Background="{StaticResource Accent}" />
+            </Border>
+        </Grid>
+    </Border>
 </Window>
