@@ -1426,7 +1426,7 @@
                             VerticalContentAlignment="Stretch"
                             Padding="10 10 10 10"
                             FontSize="10"
-                            Click="Close">
+                            Click="celestiaide_uninstall">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40" />
@@ -1490,7 +1490,7 @@
                             VerticalContentAlignment="Stretch"
                             Padding="10 10 10 10"
                             FontSize="10"
-                            Click="Close">
+                            Click="nebulatrinityengine_uninstall">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="40" />

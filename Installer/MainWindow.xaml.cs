@@ -895,6 +895,64 @@ End If
         #endregion
 
         #region Uninstalls
+
+        // Source - https://stackoverflow.com/a/22282428
+        // Posted by Jone Polvora, modified by community. See post 'Timeline' for change history
+        // Retrieved 2026-02-05, License - CC BY-SA 4.0
+        public static void ClearFolder(DirectoryInfo baseDir)
+        {
+            if (!baseDir.Exists)
+                return;
+
+            foreach (var dir in baseDir.EnumerateDirectories())
+            {
+                ClearFolder(dir);
+            }
+            baseDir.Delete(true);
+        }
+
+        private void nebulatrinityengine_uninstall(object sender, RoutedEventArgs e)
+        {
+            if (System.Windows.Forms.MessageBox.Show(
+                "WARNING!: THIS WILL CLEAR YOUR AUTOEXEC AND WORKSPACES FOR ALL\nNEBULA TRINITY ENGINE APPS\n\nARE YOU SURE YOU WISH TO PROCEED?", 
+                "WARNING!", System.Windows.Forms.MessageBoxButtons.YesNo ,System.Windows.Forms.MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+            {
+                try
+                {
+                    var folder = Directory.CreateDirectory(DataFolder + @"\Nebula Trinity Engine");
+                    ClearFolder(new DirectoryInfo(File.ReadAllText(folder.FullName + "\\InstallPath.data")));
+                    ClearFolder(folder);
+                }
+                finally
+                {
+
+                    System.Windows.Forms.MessageBox.Show("Uninstalled");
+
+                }
+            }
+        }
+
+        private void celestiaide_uninstall(object sender, RoutedEventArgs e)
+        {
+            if (System.Windows.Forms.MessageBox.Show(
+                "Heads Up!: This will delete all Celestia Application Files on your system (based on the install).\nAppdata and Cache (settings, saved tabs, account) will not be cleared." +
+                "\nLauncher will not be deleted.\n\nAre you sure you wish to proceed?",
+                "WARNING!", System.Windows.Forms.MessageBoxButtons.YesNo, System.Windows.Forms.MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
+            {
+                try
+                {
+                    var folder = Directory.CreateDirectory(DataFolder + @"\Celestia IDE");
+                    ClearFolder(new DirectoryInfo(File.ReadAllText(folder.FullName + "\\InstallPath.data")));
+                }
+                finally
+                {
+
+                    System.Windows.Forms.MessageBox.Show("Uninstalled");
+
+                }
+            }
+        }
+
         #endregion
 
     }
