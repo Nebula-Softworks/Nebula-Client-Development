@@ -156,10 +156,6 @@ namespace Celestia_IDE
         }
         public List<TabItem> tabitemcache = new List<TabItem>();
         bool isabletoclose = false;
-<<<<<<< HEAD
-=======
-        QuorumAPI.QuorumModule quorum = new QuorumAPI.QuorumModule();
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
 
         /// <summary>
         /// Returns the content of a provided webpage
@@ -602,11 +598,7 @@ namespace Celestia_IDE
             PreviewMouseUp += (_, _) => { isDragging = false; explorerPanel._isDragDropActive = false; EngineDraggerButton.ReleaseMouseCapture(); };
             PreviewMouseDown += async (_, e) =>
             {
-<<<<<<< HEAD
                 await Task.Delay(5);
-=======
-                await Task.Delay(10);
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
                 if (_contextmenuover) return;
                 HideMenus();
             };
@@ -685,10 +677,7 @@ namespace Celestia_IDE
                     if (session.ActivePanel != null) if (session.ActivePanel == 0) TerminalCheck.IsChecked = true;
                     if (session.IsPanelOpen != null) if (session.IsPanelOpen == false) PanelBar.Visibility = Visibility.Collapsed;
                     if (PanelBar.IsVisible) TabSystemz.Margin = new Thickness(0, 0, 0, 0 + PanelBar.Height); else TabSystemz.Margin = new Thickness(0, 0, 0, 0);
-<<<<<<< HEAD
                     if (PanelBar.IsVisible) HomeTabPage.Margin = new Thickness(0, 0, 0, 0 + PanelBar.Height); else TabSystemz.Margin = new Thickness(0, 0, 0, 0);
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
                     if (session.IsSidebarOpen != null) if (session.IsSidebarOpen == false)
                         {
                             SideBarColumn.Width = new GridLength(0);
@@ -721,10 +710,6 @@ namespace Celestia_IDE
             {
                 if (isabletoclose == false) e.Cancel = true;
 
-<<<<<<< HEAD
-=======
-                quorum.StopCommunication();
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
                 try
                 {
                     TerminateConnection();
@@ -768,11 +753,7 @@ namespace Celestia_IDE
 
                 File.WriteAllText(NebulaClientPath + @"\cache\workspace.celestia", WorkspaceFolder);
                 isabletoclose = true;
-<<<<<<< HEAD
                 await Task.Delay(5);
-=======
-                await Task.Delay(10);
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
                 listener.Abort();
                 Close();
 
@@ -994,7 +975,6 @@ namespace Celestia_IDE
             }
         }
 
-<<<<<<< HEAD
         private async void CopyOutputButton_Click(object sender, RoutedEventArgs e)
         {
             string CurrentLog = "";
@@ -1014,8 +994,6 @@ namespace Celestia_IDE
             }
         }
 
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
         // SECTION : Layout Resizers
 
         /*
@@ -1027,11 +1005,7 @@ namespace Celestia_IDE
         const double ResizeGrip = 4;
         double? _snapLock = null;
         const double SnapThreshold = 1;   // how close to snap before locking
-<<<<<<< HEAD
         const double SnapRelease = 40;     // how far to pull before unlocking
-=======
-        const double SnapRelease = 60;     // how far to pull before unlocking
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
 
         /// <summary>
         /// If value is within *SnapRelease* +/- to any number within *SnapPoints*, value will not change
@@ -1073,10 +1047,7 @@ namespace Celestia_IDE
             PanelBar.Height = Clamp(MagneticSnap(newHeight, new double[] { 240 }), 60, 350) ;
 
             TabSystemz.Margin = new Thickness(0, 0, 0, 0 + PanelBar.Height);
-<<<<<<< HEAD
             HomeTabPage.Margin = new Thickness(0, 0, 0, 0 + PanelBar.Height);
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
         }
 
         // element-level hover cursor
@@ -1267,10 +1238,7 @@ namespace Celestia_IDE
                     PanelBar.Visibility = Visibility.Visible;
                     ViewMenuButtons(new Button() { Name = "Menus_View_ViewTerminal" }, new RoutedEventArgs());
                     TabSystemz.Margin = new Thickness(0, 0, 0, 0 + PanelBar.Height);
-<<<<<<< HEAD
                     HomeTabPage.Margin = new Thickness(0, 0, 0, 0 + PanelBar.Height);
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
                     break;
                 case "HelpMenuButton":
                     HelpContextMenu.Visibility = Visibility.Visible;
@@ -1462,10 +1430,7 @@ namespace Celestia_IDE
                 case "Menus_View_TogglePanel":
                     PanelBar.Visibility = PanelBar.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
                     if (PanelBar.IsVisible) TabSystemz.Margin = new Thickness(0, 0, 0, 0 + PanelBar.Height); else TabSystemz.Margin = new Thickness(0, 0, 0, 0);
-<<<<<<< HEAD
                     if (PanelBar.IsVisible) HomeTabPage.Margin = new Thickness(0, 0, 0, 0 + PanelBar.Height); else TabSystemz.Margin = new Thickness(0, 0, 0, 0);
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
                     break;
                 case "Menus_View_ToggleSidebar":
                     if (SideBarColumn.ActualWidth == 0)
@@ -1600,17 +1565,13 @@ namespace Celestia_IDE
         Dictionary<int, InstanceControl> ProcessToUI = new();
         Dictionary<int, WebSocket> PortToSocket = new();
         HttpListener listener;
-<<<<<<< HEAD
         Process? engineProcess;
         NamedPipeClientStream pipe;
         bool isPipeConnected = false;
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
 
         /// <summary>
         /// Boots up the Engine communication and DLL Systems
         /// </summary>
-<<<<<<< HEAD
         public async void InitializeEngine()
         {
             try
@@ -1648,24 +1609,10 @@ namespace Celestia_IDE
             catch {
             
             }
-=======
-        public void InitializeEngine()
-        {
-            try
-            {
-                quorum.StartCommunication();
-                QuorumAPI.QuorumModule._AutoUpdateLogs = false;
-                QuorumAPI.QuorumModule.ExecutorInfo.Name = "Nebula Client";
-                QuorumAPI.QuorumModule.ExecutorInfo.Ver = "v0.1.3a";
-                QuorumAPI.QuorumModule.ExecutorInfo.CUA = "Nebula Trinity Engine/v0.1.3a";
-            }
-            catch { }
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
             StartWebSocketServer();
         }
 
         /// <summary>
-<<<<<<< HEAD
         /// handles whenever messages are received for stuff like success and failure
         /// </summary>
         /// <returns></returns>
@@ -1825,8 +1772,6 @@ namespace Celestia_IDE
         }
 
         /// <summary>
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
         /// Begins WebSocket listening for the universal/main WebSocket
         /// </summary>
         async void StartWebSocketServer()
@@ -1985,17 +1930,12 @@ namespace Celestia_IDE
         /// <param name="process"></param>
         public async void newProcess(Process process)
         {
-<<<<<<< HEAD
-
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
             await Task.Run(async delegate
             {
                 Dispatcher.Invoke(delegate
                 {
                     ApplicationPrint(6, $"Injecting into Process {process.Id}");
                 });
-<<<<<<< HEAD
                 try
                 {
                     await Send($"INJECT;{process.Id}");
@@ -2009,92 +1949,6 @@ namespace Celestia_IDE
                     });
                 }
 
-=======
-                if (await quorum.Attach(process.Id, true) == QuorumAPI.QuorumStates.Attached)
-                {
-                    if (quorum.IsPIDAttached(process.Id))
-                    {
-                        InstanceControl instanceBtn = null;
-                        Dispatcher.Invoke(() =>
-                        {
-                            instanceBtn = new InstanceControl();
-                            DraggableEngineButtons.Visibility = Visibility.Visible;
-                            instanceBtn.TitleBlock.Text = "Client " + process.Id.ToString();
-                            instanceBtn.ContentBlock.Text = "Pending Game Join, please join a game first.";
-                            instanceBtn.KillButton.Click += delegate
-                            {
-                                process.Kill();
-                            };
-                            instanceManager.Instances.Children.Add(instanceBtn);
-                            ApplicationPrint(4, $"Sucessfully Injected into Process {process.Id}");
-                            Notify(3, "Injected!", $"Nebula Client has sucessfully injected into Process {process.Id}", 4);
-                            ClientManagerNotification.Visibility = Visibility.Visible;
-
-                            ProcessToUI[process.Id] = instanceBtn;
-                        });
-
-                        [DllImport("user32.dll", SetLastError = true)]
-                        static extern bool SetWindowText(IntPtr hWnd, string lpString);
-
-                        process.EnableRaisingEvents = true;
-                        process.Exited += (s, e) =>
-                        {
-                            int pid;
-                            try
-                            {
-                                pid = process.Id;
-                            }
-                            catch
-                            {
-                                return;
-                            }
-
-                            Dispatcher.BeginInvoke(new Action(() =>
-                            {
-                                try
-                                {
-                                    instanceManager.Instances.Children.Remove(instanceBtn);
-                                    bool robloxAlive = false;
-                                    try
-                                    {
-                                        robloxAlive = Process.GetProcessesByName("RobloxPlayerBeta").Any();
-                                    }
-                                    catch { }
-
-                                    if (!robloxAlive)
-                                    {
-                                        DraggableEngineButtons.Visibility = Visibility.Collapsed;
-                                        ClientManagerNotification.Visibility = Visibility.Collapsed;
-                                    }
-                                    ProcessToUI.Remove(pid);
-                                }
-                                catch
-                                {
-                                    ApplicationPrint(2, "failed to handle killed roblox process");
-                                }
-                            }));
-                        };
-                        if (Settings.UseRamLimit) JobLimits.LimitMemory(process, Settings.RamLimit);
-
-
-                        IntPtr hwnd = WindowUtils.GetMainWindowHandle(process.Id);
-                        if (hwnd != IntPtr.Zero)
-                        {
-                            SetWindowText(hwnd, process.Id.ToString());
-                            SetWindowText(hwnd, process.Id.ToString());
-                        }
-                        SetWindowText(hwnd, process.Id.ToString());
-                    }
-                    else
-                    {
-                        ApplicationPrint(2, $"Failed to Inject into Process {process.Id}");
-                    }
-                }
-                else
-                {
-                    ApplicationPrint(2, $"Failed to Inject into Process {process.Id}");
-                }
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
 
                 //checkruntimefile();
             });
@@ -2163,12 +2017,7 @@ namespace Celestia_IDE
                     try
                     {
                         int pid = int.Parse(instanceBtn.TitleBlock.Text.Substring(7));
-<<<<<<< HEAD
                         Send($"EXECUTE;{pid};{Script}");
-=======
-                        try { if (!quorum.IsPIDAttached(pid)) quorum.Attach(pid, true); } catch { }
-                        quorum.Execute(pid, "if not getgenv().IsNebulaTrinityEngineReady then \n\terror('not loaded')\n\treturn\nend \n\n" + Script);
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
                     }
                     catch { }
                 }
@@ -2476,20 +2325,13 @@ namespace Celestia_IDE
 
             SettingsSlider OpacitySlider = new SettingsSlider();
             settings.Pages_Interface.Children.Add(OpacitySlider);
-<<<<<<< HEAD
-=======
-            OpacitySlider.MainSlider.Value = Settings.Opacity*10;
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
             OpacitySlider.MainSlider.Minimum = 1;
             OpacitySlider.MainSlider.ValueChanged += (_, x) =>
             {
                 Settings.Opacity = x.NewValue / 10;
                 OpacitySlider.ValueBlock.Text = Settings.Opacity.ToString() + " Opacity";
             };
-<<<<<<< HEAD
             OpacitySlider.MainSlider.Value = Settings.Opacity * 10;
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
 
             #endregion
         }

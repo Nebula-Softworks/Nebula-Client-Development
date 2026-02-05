@@ -377,11 +377,8 @@
                     Value="{x:Null}" />
             <Setter Property="Padding"
                     Value="0" />
-<<<<<<< HEAD
             <Setter Property="FontFamily"
                     Value="/Celestia IDE;component/Assets/Fonts/#Poppins Medium" />
-=======
->>>>>>> 20fa59d0767e975914b609ee5cbfb94af4d50f6e
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
