@@ -1,0 +1,23 @@
+﻿<Window x:Class="Celestia_Launcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Celestia_Launcher"
+        mc:Ignorable="d"
+        Title="Celestia Launcher" 
+        Height="450" Width="830"
+        MinHeight="450" MinWidth="830"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        UseLayoutRounding="True"
+        WindowStartupLocation="CenterScreen"
+        ToolTipService.Placement="MousePoint"
+        ResizeMode="CanResize"
+        Topmost="False"
+        Icon="Celestia IDE.ico"
+        Background="{x:Null}">
+    <Grid>
+        <!--do like the hunter infinity/codex design-->
+    </Grid>
+</Window>

@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="Celestia_IDE.Controls.Settings.SettingsKeybind"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Celestia_IDE.Controls.Settings"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             VerticalAlignment="Top"
+             Margin="2 1 1 6"
+             d:DesignWidth="542">
+    <UserControl.Resources>
+        <Style x:Key="InvisibleTextBox"
+               TargetType="{x:Type TextBox}">
+            <Setter Property="TextOptions.TextFormattingMode"
+                    Value="Display" />
+            <Setter Property="TextOptions.TextRenderingMode"
+                    Value="ClearType" />
+            <Setter Property="CaretBrush"
+                    Value="#FFFFFFFF" />
+            <Setter Property="Foreground"
+                    Value="#FFFFFFFF" />
+            <Setter Property="KeyboardNavigation.TabNavigation"
+                    Value="None" />
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Left" />
+            <Setter Property="FocusVisualStyle"
+                    Value="{x:Null}" />
+            <Setter Property="Padding"
+                    Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                          Focusable="False"
+                                          HorizontalScrollBarVisibility="Hidden"
+                                          VerticalScrollBarVisibility="Hidden" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsInactiveSelectionHighlightEnabled"
+                                   Value="True" />
+                        <Condition Property="IsSelectionActive"
+                                   Value="False" />
+                    </MultiTrigger.Conditions>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
+    <Border x:Name="MainBackground"
+            CornerRadius="8"
+            Height="85"
+            BorderBrush="#cf322e36"
+            Background="#1b1a1e"
+            BorderThickness="1 1 1 1">
+        <Grid>
+            <StackPanel Orientation="Vertical"
+                        MaxWidth="400"
+                        Margin="16 14"
+                        HorizontalAlignment="Left">
+                <TextBlock x:Name="TitleBlock"
+                           Grid.ColumnSpan="3"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Text="Delete File Hotkey"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="13"
+                           Foreground="#e5e3e7"
+                           IsHitTestVisible="False" />
+                <TextBlock x:Name="ContentBlock"
+                           Grid.ColumnSpan="3"
+                           TextAlignment="Left"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0 2 0 0"
+                           TextWrapping="Wrap"
+                           Text="The key bound to deleting selected files/tabs when or&#10;when not holding the CONTROL modifier"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="10"
+                           Foreground="#b4b6ba"
+                           IsHitTestVisible="False" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Margin="6 6 16 6">
+                <Border Height="30"
+                        Width="30"
+                        CornerRadius="5"
+                        BorderBrush="#CF322e36"
+                        BorderThickness="1"
+                        Background="#8F322e36">
+                    <Border.Clip>
+                        <RectangleGeometry RadiusX="5"
+                                           RadiusY="5"
+                                           Rect="0,0,30,30" />
+                    </Border.Clip>
+                    <TextBox Name="input"
+                             Text="K"
+                             VerticalAlignment="Center"
+                             Foreground="#d5d3d7"
+                             VerticalContentAlignment="Center"
+                             Height="24"
+                             Width="24"
+                             FontSize="14"
+                             HorizontalContentAlignment="Center"
+                             Style="{StaticResource InvisibleTextBox}"
+                             FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" />
+                </Border>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
+</UserControl>

@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Celestia_IDE.Controls.Settings.SettingsTextbox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Celestia_IDE.Controls.Settings"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             VerticalAlignment="Top"
+             Margin="2 1 1 6"
+             d:DesignWidth="542">
+    <Border x:Name="MainBackground"
+            CornerRadius="8"
+            Height="85"
+            BorderBrush="#cf322e36"
+            Background="#1b1a1e"
+            BorderThickness="1 1 1 1">
+        <Grid>
+            <StackPanel Orientation="Vertical"
+                        MaxWidth="400"
+                        Margin="16 14"
+                        HorizontalAlignment="Left">
+                <TextBlock x:Name="TitleBlock"
+                           Grid.ColumnSpan="3"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Text="Default Tab Header"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="13"
+                           Foreground="#e5e3e7"
+                           IsHitTestVisible="False" />
+                <TextBlock x:Name="ContentBlock"
+                           Grid.ColumnSpan="3"
+                           TextAlignment="Left"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0 2 0 0"
+                           TextWrapping="Wrap"
+                           Text="Sets the default header of New Text Files opened in&#10;the code editor."
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="10"
+                           Foreground="#b4b6ba"
+                           IsHitTestVisible="False" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical"
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="6 6 16 6">
+                <Border Height="32"
+                        Width="200"
+                        CornerRadius="5"
+                        BorderBrush="#CF322e36"
+                        BorderThickness="1"
+                        Background="#8F322e36">
+                    <Border.Clip>
+                        <RectangleGeometry RadiusX="5"
+                                           RadiusY="5"
+                                           Rect="0,0,200,32" />
+                    </Border.Clip>
+                    <TextBox Name="input"
+                             VerticalAlignment="Center"
+                             Foreground="#d5d3d7"
+                             VerticalContentAlignment="Center"
+                             Height="30"
+                             Width="200"
+                             Padding="8 0"
+                             Background="Transparent"
+                             BorderBrush="Transparent"
+                             BorderThickness="0"
+                             Tag="Untitled Text File"
+                             FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" />
+                </Border>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
+</UserControl>

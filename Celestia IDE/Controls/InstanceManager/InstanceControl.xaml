@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="Celestia_IDE.Controls.InstanceManager.InstanceControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Celestia_IDE.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             VerticalAlignment="Top"
+             Margin="2 1 1 6"
+             d:DesignWidth="542">
+    <Border x:Name="MainBackground"
+            CornerRadius="8"
+            Height="120"
+            BorderBrush="#cf322e36"
+            Background="#1b1a1e"
+            BorderThickness="1 1 1 1">
+        <Grid>
+            <StackPanel Orientation="Vertical"
+                        MaxWidth="400"
+                        Margin="16 14"
+                        HorizontalAlignment="Left">
+                <TextBlock x:Name="TitleBlock"
+                           Grid.ColumnSpan="3"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Text="Client 30016"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="13"
+                           Foreground="#e5e3e7"
+                           IsHitTestVisible="False" />
+                <TextBlock x:Name="ContentBlock"
+                           Grid.ColumnSpan="3"
+                           TextAlignment="Left"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0 2 0 0"
+                           TextWrapping="Wrap"
+                           Text="Very Sigma Game Name&#10;mrkillinghunt3r"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="10"
+                           Foreground="#b4b6ba"
+                           IsHitTestVisible="False" />
+            </StackPanel>
+
+            <Border Height="22"
+                    Margin="16 14 0 14"
+                    CornerRadius="4"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Left"
+                    BorderBrush="#CF322e36"
+                    BorderThickness="1"
+                    ToolTipService.HasDropShadow="True"
+                    ToolTipService.InitialShowDelay="500"
+                    ToolTipService.HorizontalOffset="-25"
+                    ToolTipService.VerticalOffset="8"
+                    ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                    ToolTipService.Placement="Bottom"
+                    Background="#8F322e36">
+                <Button x:Name="KillButton"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        BorderBrush="Transparent"
+                        Margin="-1"
+                        FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                        Foreground="#ced3d5d7"
+                        VerticalContentAlignment="Top"
+                        FontSize="10"
+                        Padding="6 3 6 -3"
+                        FontWeight="Regular"
+                        Content="Kill Instance" />
+            </Border>
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Margin="6 6 16 6">
+                <CheckBox VerticalAlignment="Center"
+                          x:Name="isSelectedCheckbox"
+                          Opacity="0.8"
+                          IsChecked="True"
+                          materialDesign:CheckBoxAssist.CheckBoxSize="25" />
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</UserControl>
+

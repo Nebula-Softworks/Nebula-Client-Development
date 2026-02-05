@@ -1,0 +1,115 @@
+﻿<Mappings><Entry OldName="Nebula_Trinity_Engine.Program.listener" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c7cb85ee389ef2931325cd4f9ba94ca9e" />
+<Entry OldName="Nebula_Trinity_Engine.Program.pipe" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c0beb46c5e33c79d300585e7384f27456" />
+<Entry OldName="Nebula_Trinity_Engine.Program.quorum" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cc14013eb047404eeacb624ac96b81a38" />
+<Entry OldName="Nebula_Trinity_Engine.Program._mutex" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c99b60857a7806604e2500cf206f71c05" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;&gt;c.&lt;&gt;9" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.&lt;&gt;c.c3d9197bb57501275fc8f8178dcba429d" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;&gt;c.&lt;&gt;9__5_0" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.&lt;&gt;c.ce4a7fdb7b3150cb209511759c1e58d78" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;&gt;c.&lt;&gt;9__6_0" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.&lt;&gt;c.c47d44c543b7bcf20f4c1c0c6799793bd" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Main&gt;d__5.&lt;&gt;1__state" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c1b2e4f781aa675e6527cb3c085085bd0.cb240fcc49c77d95453218267312e231d" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Main&gt;d__5.&lt;&gt;t__builder" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c1b2e4f781aa675e6527cb3c085085bd0.c0ba42f8d91f067c5aba8329f471c2312" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Main&gt;d__5.&lt;&gt;u__1" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c1b2e4f781aa675e6527cb3c085085bd0.c2431b93cde2a4d3588bc1c7747af1b11" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;&gt;1__state" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.cb240fcc49c77d95453218267312e231d" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;&gt;t__builder" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.c0ba42f8d91f067c5aba8329f471c2312" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;reader&gt;5__1" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.c398251cd0b2c1c4336bec0e7e195753c" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;msg&gt;5__2" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.cac73586f9f93d5ca1d78320b91eddf8d" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;split&gt;5__3" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.c6d4dacaae3ae81288abe809709878ca0" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;type&gt;5__4" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.cfd4c37c1a9e30e67e0ebcd1ce7708af6" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;data&gt;5__5" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.cbcd08c55fa3fcf987b4ca8cc1b8742cf" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;&gt;s__6" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.cdd1ffa8d2c2dfae90cb9d31bd6db77b6" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;&gt;s__7" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.c47fafa642434857fba3f52c1673a4aa8" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;ex&gt;5__8" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.cbdc9d1ceb4ae55d3f738e72b2b9699cb" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;&gt;u__1" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.c2431b93cde2a4d3588bc1c7747af1b11" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;&gt;u__2" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.c8fd22c0670da93087ece3f958297897f" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.&lt;&gt;u__3" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.caa7a8df3fb55b56004b768abc7f63ce8" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Send&gt;d__7.&lt;&gt;1__state" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cbcbb577b26ff1283fb69f276b4a8ce84.cb240fcc49c77d95453218267312e231d" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Send&gt;d__7.&lt;&gt;t__builder" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cbcbb577b26ff1283fb69f276b4a8ce84.c0ba42f8d91f067c5aba8329f471c2312" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Send&gt;d__7.msg" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cbcbb577b26ff1283fb69f276b4a8ce84.c9b0f6c22975b579440a34236d454e32e" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Send&gt;d__7.&lt;writer&gt;5__1" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cbcbb577b26ff1283fb69f276b4a8ce84.c2ff3c8bae349182183acf12f72fe0982" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Send&gt;d__7.&lt;&gt;u__1" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cbcbb577b26ff1283fb69f276b4a8ce84.c2431b93cde2a4d3588bc1c7747af1b11" />
+<Entry OldName="Nebula_Trinity_Engine.Program..ctor()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b..ctor()" />
+<Entry OldName="Nebula_Trinity_Engine.Program..cctor()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b..cctor()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.IsSingleInstance()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cc4bfea0500f4d42b0ba6462c275eeb29()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.Main()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cbc099aae86793786e048392c27cc0c5b()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.ReadLoop()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cedf252fb2e031068eeff7bbf332301bd()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.Send(String msg)" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cfde80c69e51fc5f0e0803e9b48f491d3(String c9b0f6c22975b579440a34236d454e32e)" />
+<Entry OldName="Nebula_Trinity_Engine.Program.InitializeEngine()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c0afed772f3a249da6589b5edbd7b50d2()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Main&gt;()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c6c0e2cfd091548985875d37e673117ae()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;&gt;c..cctor()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.&lt;&gt;c..cctor()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;&gt;c..ctor()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.&lt;&gt;c..ctor()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;&gt;c.&lt;Main&gt;b__5_0(Object &lt;p0&gt;, EventArgs &lt;p1&gt;)" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.&lt;&gt;c.c94fcaf3e0b53761fabc05582560319cf(Object c8e9b6d7fdc757ceac768701ce5668207, EventArgs c0191b3bf0d3eae5191b5601d5ac5633d)" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;&gt;c.&lt;ReadLoop&gt;b__6_0(Char c)" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.&lt;&gt;c.c6e703b94ab38f3ea1cd3334de9909175(Char c213caf5d9bbc724cfa9061665cf64a27)" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Main&gt;d__5..ctor()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c1b2e4f781aa675e6527cb3c085085bd0..ctor()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Main&gt;d__5.MoveNext()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c1b2e4f781aa675e6527cb3c085085bd0.MoveNext()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Main&gt;d__5.SetStateMachine(IAsyncStateMachine stateMachine)" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.c1b2e4f781aa675e6527cb3c085085bd0.SetStateMachine(IAsyncStateMachine stateMachine)" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6..ctor()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd..ctor()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.MoveNext()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.MoveNext()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;ReadLoop&gt;d__6.SetStateMachine(IAsyncStateMachine stateMachine)" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cb2fd963ceea85631f2efea4d16d35cdd.SetStateMachine(IAsyncStateMachine stateMachine)" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Send&gt;d__7..ctor()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cbcbb577b26ff1283fb69f276b4a8ce84..ctor()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Send&gt;d__7.MoveNext()" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cbcbb577b26ff1283fb69f276b4a8ce84.MoveNext()" />
+<Entry OldName="Nebula_Trinity_Engine.Program.&lt;Send&gt;d__7.SetStateMachine(IAsyncStateMachine stateMachine)" NewName="A.c4c63482a7250104b64c5f2a539ceef8b.cbcbb577b26ff1283fb69f276b4a8ce84.SetStateMachine(IAsyncStateMachine stateMachine)" />
+<Entry OldName="Nebula_Trinity_Engine.Program+&lt;&gt;c" NewName="A.c4c63482a7250104b64c5f2a539ceef8b+&lt;&gt;c" />
+<Entry OldName="Nebula_Trinity_Engine.Program+&lt;Main&gt;d__5" NewName="A.c4c63482a7250104b64c5f2a539ceef8b+c1b2e4f781aa675e6527cb3c085085bd0" />
+<Entry OldName="Nebula_Trinity_Engine.Program+&lt;ReadLoop&gt;d__6" NewName="A.c4c63482a7250104b64c5f2a539ceef8b+cb2fd963ceea85631f2efea4d16d35cdd" />
+<Entry OldName="Nebula_Trinity_Engine.Program+&lt;Send&gt;d__7" NewName="A.c4c63482a7250104b64c5f2a539ceef8b+cbcbb577b26ff1283fb69f276b4a8ce84" />
+<Entry OldName="Nebula_Trinity_Engine.Program" NewName="A.c4c63482a7250104b64c5f2a539ceef8b" />
+<Entry OldName="C:\Users\Ethan\source\repos\Nebula Client Windows\Nebula Trinity Engine\Program.cs" NewName="File0" />
+<Assembly Name="Nebula_Trinity_Engine"><Type Token="33554433" Name="&lt;Module&gt;" />
+<Method Token="100663297" Name="" Variables="" ParamCnt="0" />
+<Type Token="33554434" Name="Nebula_Trinity_Engine.Program" />
+<Method Token="100663298" Name=".ctor" Variables="this;" ParamCnt="1" />
+<Method Token="100663299" Name=".cctor" Variables="" ParamCnt="0" />
+<Method Token="100663300" Name="IsSingleInstance" Variables="V_0;" ParamCnt="0" />
+<Method Token="100663301" Name="Main" Variables="V_0;" ParamCnt="0" />
+<Method Token="100663302" Name="ReadLoop" Variables="V_0;" ParamCnt="0" />
+<Method Token="100663303" Name="Send" Variables="msg;V_0;" ParamCnt="1" />
+<Method Token="100663304" Name="InitializeEngine" Variables="" ParamCnt="0" />
+<Method Token="100663305" Name="&lt;Main&gt;" Variables="V_0;" ParamCnt="0" />
+<Field Token="67108865" Name="listener" />
+<Field Token="67108866" Name="pipe" />
+<Field Token="67108867" Name="quorum" />
+<Field Token="67108868" Name="_mutex" />
+<Type Token="33554436" Name="Nebula_Trinity_Engine.Program/&lt;&gt;c" />
+<Method Token="100663307" Name=".cctor" Variables="" ParamCnt="0" />
+<Method Token="100663308" Name=".ctor" Variables="this;" ParamCnt="1" />
+<Method Token="100663309" Name="&lt;Main&gt;b__5_0" Variables="this;&lt;p0&gt;;&lt;p1&gt;;V_0;" ParamCnt="3" />
+<Method Token="100663310" Name="&lt;ReadLoop&gt;b__6_0" Variables="this;c;" ParamCnt="2" />
+<Field Token="67108869" Name="&lt;&gt;9" />
+<Field Token="67108870" Name="&lt;&gt;9__5_0" />
+<Field Token="67108871" Name="&lt;&gt;9__6_0" />
+<Type Token="33554438" Name="Nebula_Trinity_Engine.Program/&lt;Main&gt;d__5" />
+<Method Token="100663317" Name=".ctor" Variables="this;" ParamCnt="1" />
+<Method Token="100663318" Name="MoveNext" Variables="this;V_0;V_1;V_2;V_3;V_4;V_5;V_6;" ParamCnt="1" />
+<Method Token="100663319" Name="SetStateMachine" Variables="this;stateMachine;" ParamCnt="2" />
+<Field Token="67108873" Name="&lt;&gt;1__state" />
+<Field Token="67108874" Name="&lt;&gt;t__builder" />
+<Field Token="67108875" Name="&lt;&gt;u__1" />
+<Type Token="33554439" Name="Nebula_Trinity_Engine.Program/&lt;ReadLoop&gt;d__6" />
+<Method Token="100663320" Name=".ctor" Variables="this;" ParamCnt="1" />
+<Method Token="100663321" Name="MoveNext" Variables="this;V_0;V_1;V_2;V_3;V_4;V_5;V_6;V_7;V_8;V_9;V_10;V_11;V_12;V_13;V_14;" ParamCnt="1" />
+<Method Token="100663322" Name="SetStateMachine" Variables="this;stateMachine;" ParamCnt="2" />
+<Field Token="67108876" Name="&lt;&gt;1__state" />
+<Field Token="67108877" Name="&lt;&gt;t__builder" />
+<Field Token="67108878" Name="&lt;reader&gt;5__1" />
+<Field Token="67108879" Name="&lt;msg&gt;5__2" />
+<Field Token="67108880" Name="&lt;split&gt;5__3" />
+<Field Token="67108881" Name="&lt;type&gt;5__4" />
+<Field Token="67108882" Name="&lt;data&gt;5__5" />
+<Field Token="67108883" Name="&lt;&gt;s__6" />
+<Field Token="67108884" Name="&lt;&gt;s__7" />
+<Field Token="67108885" Name="&lt;ex&gt;5__8" />
+<Field Token="67108886" Name="&lt;&gt;u__1" />
+<Field Token="67108887" Name="&lt;&gt;u__2" />
+<Field Token="67108888" Name="&lt;&gt;u__3" />
+<Type Token="33554440" Name="Nebula_Trinity_Engine.Program/&lt;Send&gt;d__7" />
+<Method Token="100663323" Name=".ctor" Variables="this;" ParamCnt="1" />
+<Method Token="100663324" Name="MoveNext" Variables="this;V_0;V_1;V_2;V_3;" ParamCnt="1" />
+<Method Token="100663325" Name="SetStateMachine" Variables="this;stateMachine;" ParamCnt="2" />
+<Field Token="67108889" Name="&lt;&gt;1__state" />
+<Field Token="67108890" Name="&lt;&gt;t__builder" />
+<Field Token="67108891" Name="msg" />
+<Field Token="67108892" Name="&lt;writer&gt;5__1" />
+<Field Token="67108893" Name="&lt;&gt;u__1" />
+<Type Token="33554435" Name="A.AssemblyInfoAttribute" />
+<Method Token="100663306" Name="" Variables="this;str;" ParamCnt="2" />
+</Assembly><File OldName="C:\Users\Ethan\source\repos\Nebula Client Windows\Nebula Trinity Engine\Program.cs" NewName="File0" />
+</Mappings>

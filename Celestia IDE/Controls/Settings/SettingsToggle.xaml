@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="Celestia_IDE.Controls.Settings.SettingsToggle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Celestia_IDE.Controls.Settings"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             VerticalAlignment="Top"
+             Margin="2 1 1 6"
+             d:DesignWidth="542">
+    <Border x:Name="MainBackground"
+            CornerRadius="8"
+            Height="85"
+            BorderBrush="#cf322e36"
+            Background="#1b1a1e"
+            BorderThickness="1 1 1 1">
+        <Grid>
+            <StackPanel Orientation="Vertical"
+                        MaxWidth="400"
+                        Margin="16 14"
+                        HorizontalAlignment="Left">
+                <TextBlock x:Name="TitleBlock"
+                           Grid.ColumnSpan="3"
+                           TextAlignment="Center"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Text="Hide Window Capture"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="13"
+                           Foreground="#e5e3e7"
+                           IsHitTestVisible="False" />
+                <TextBlock x:Name="ContentBlock"
+                           Grid.ColumnSpan="3"
+                           TextAlignment="Left"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="0 2 0 0"
+                           TextWrapping="Wrap"
+                           Text="Hides Celestia From Video Capturing Software like OBS&#10;Useful for tricking others into thinking you're legit"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="10"
+                           Foreground="#b4b6ba"
+                           IsHitTestVisible="False" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Margin="6 6 16 6">
+                <CheckBox VerticalAlignment="Center"
+                          x:Name="isSelectedCheckbox"
+                          Opacity="0.8"
+                          IsChecked="True"
+                          IsThreeState="False"
+                          materialDesign:CheckBoxAssist.CheckBoxSize="25" />
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</UserControl>
