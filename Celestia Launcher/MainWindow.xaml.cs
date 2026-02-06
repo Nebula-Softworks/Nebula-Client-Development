@@ -37,6 +37,56 @@ namespace Celestia_Launcher
             }
         }
 
+        async Task<bool> ExtractFile(string file, string destination)
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    ZipFile.ExtractToDirectory(file, destination);
+                });
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Clipboard.SetText(e.ToString());
+                MessageBox.Show(
+                    "I'm sorry, we encountered an error, I'm sorry about this.\n" +
+                    "If you see this message box, please show this to Support.\n\n" +
+                    "[Celestia Launcher Extract Process]\n" + e,
+                    "Celestia Launcher");
+
+                return false;
+            }
+        }
+
+
+        async void DownloadFile(string file, string destination)
+        {
+            downloadhandler.DownloadFileAsync(new Uri(file), destination);
+            while (downloadhandler.IsBusy)
+                await Task.Delay(1000);
+        }
+
+        // Source - https://stackoverflow.com/a/22282428
+        // Posted by Jone Polvora, modified by community. See post 'Timeline' for change history
+        // Retrieved 2026-02-05, License - CC BY-SA 4.0
+        public static void ClearFolder(DirectoryInfo baseDir, bool isBase = false)
+        {
+            if (!baseDir.Exists)
+                return;
+            foreach (var file in baseDir.GetFiles())
+            {
+                File.Delete(file.FullName);
+            }
+            foreach (var dir in baseDir.EnumerateDirectories())
+            {
+                ClearFolder(dir, false);
+            }
+            if (!isBase) baseDir.Delete(true);
+        }
+
         #region animation stuff
 
         /// <summary>
@@ -257,7 +307,7 @@ namespace Celestia_Launcher
                 mainLogo.Width = 200;
                 Opacity = 1;
                 await Task.Delay(100);
-                Fade(mainLogo, second, opac: 1, easingStyle: new PowerEase() { Power = 4, EasingMode = EasingMode.EaseInOut } ).Begin();
+                Fade(mainLogo, second, opac: 1, easingStyle: new PowerEase() { Power = 4, EasingMode = EasingMode.EaseInOut }).Begin();
                 await Task.Delay(1400);
                 MainBackgroundBorder.Background.BeginAnimation(SolidColorBrush.ColorProperty, ColorShift(hunsecond, (Color)ColorConverter.ConvertFromString("#0D0C0F")));
                 await Task.Delay(800);
@@ -267,7 +317,7 @@ namespace Celestia_Launcher
 
                 if (!File.Exists(".\\autoexec.lnk"))
                 {
-                    string shortcutPath = ".\\autoexec.lnk"; 
+                    string shortcutPath = ".\\autoexec.lnk";
                     var shell = new IWshRuntimeLibrary.WshShell();
                     IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutPath);
                     shortcut.Description = "Celestia IDE";
@@ -276,7 +326,7 @@ namespace Celestia_Launcher
                 }
                 if (!File.Exists(".\\workspace.lnk"))
                 {
-                    string shortcutPath = ".\\workspace.lnk"; 
+                    string shortcutPath = ".\\workspace.lnk";
                     var shell = new IWshRuntimeLibrary.WshShell();
                     IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(shortcutPath);
                     shortcut.Description = "Celestia IDE";
@@ -284,16 +334,73 @@ namespace Celestia_Launcher
                     shortcut.Save();
                 }
 
-                if (HttpGet("https://github.com/Nebula-Softworks/Nebula-Client-Development/raw/refs/heads/master/Redistrutables/latest_release.txt") == 
-                    File.ReadAllText(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Celestia IDE\InstallPath.data") 
-                    + "\\current_release"))
+                await Task.Delay(900);
+                string latest = HttpGet("https://github.com/Nebula-Softworks/Nebula-Client-Development/raw/refs/heads/master/Redistrutables/latest_release.txt")?.Trim();
+
+                string installDataPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    @"Nebula Softworks\Nebula Client\Data\Celestia IDE\InstallPath.data"
+                );
+
+                string localRelease = "";
+
+                string installFolder = File.ReadAllText(installDataPath).Trim();
+
+                if (Directory.Exists(installFolder))
+                {
+                    string releaseFile = Path.Combine(installFolder, "current_release");
+
+                    if (File.Exists(releaseFile))
+                    {
+                        localRelease = File.ReadAllText(releaseFile).Trim();
+                    }
+                }
+
+                if (latest == localRelease)
                 {
                     CloseWindow();
-                    Process.Start(File.ReadAllText(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Celestia IDE\InstallPath.data")
-                        + "\\Celestia IDE.exe"));
+                    Process.Start(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Celestia IDE\InstallPath.data")
+                        + "\\Celestia IDE.exe");
                 }
-                
-                // else, objectshift up and fade in progress bar and show the close and minimise, then start download
+                else
+                {
+                    // TODO: read settings file and set accent if a custom one exists
+
+                    await Task.Delay(300);
+                    ObjectShift(BrandStack, halfsecond, new Thickness(-8, 0, 0, 85), new PowerEase() { Power = 4, EasingMode = EasingMode.EaseInOut }).Begin();
+                    await Task.Delay(100);
+                    Fade(ProgressBarMain, halfsecond, 1, new PowerEase() { Power = 4, EasingMode = EasingMode.EaseInOut }).Begin();
+                    Fade(statusText, halfsecond, 1, new PowerEase() { Power = 4, EasingMode = EasingMode.EaseInOut }).Begin();
+                    Fade(WindowButtons, halfsecond, 1, new PowerEase() { Power = 5, EasingMode = EasingMode.EaseInOut }).Begin();
+                    statusText.Text = "Checking Versions...";
+                    await Task.Delay(200);
+                    statusText.Text = "Downloading Celestia Files...";
+                    Resize(ProgressBarFill, tenthsecond, 0, 32, new PowerEase() { Power = 4, EasingMode = EasingMode.EaseInOut }, false);
+                    var FolderPath = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Celestia IDE\InstallPath.data");
+                    Console.WriteLine(FolderPath);
+                    ClearFolder(Directory.CreateDirectory(FolderPath), true);
+                    await Task.Delay(800);
+                    DownloadFile("https://github.com/Nebula-Softworks/Nebula-Client-Development/raw/refs/heads/master/Redistrutables/Celestia.zip",
+                         FolderPath + "\\Celestia.zip");
+                    while (downloadhandler.IsBusy)
+                        await Task.Delay(1000);
+                    await Task.Delay(500);
+                    statusText.Text = "Extracting Celestia Files...";
+                    Resize(ProgressBarFill, tenthsecond, 0, 196, new PowerEase() { Power = 4, EasingMode = EasingMode.EaseInOut }, false);
+                    if (File.Exists(FolderPath + "\\Celestia.zip"))
+                    {
+                        var success = await ExtractFile(FolderPath + "\\Celestia.zip", FolderPath);
+                        if (success)
+                            try { File.Delete(FolderPath + "\\Celestia.zip"); } catch { };
+                    }
+                    await Task.Delay(600);
+                    statusText.Text = "Finishing Up...";
+                    Resize(ProgressBarFill, tenthsecond, 0, 287, new PowerEase() { Power = 4, EasingMode = EasingMode.EaseInOut }, false);
+                    await Task.Delay(300);
+                    CloseWindow();
+                    Process.Start(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Celestia IDE\InstallPath.data")
+                        + "\\Celestia IDE.exe");
+                }
             };
         }
 
@@ -301,7 +408,7 @@ namespace Celestia_Launcher
 
         public async void CloseWindow()
         {
-            ObjectShift(MainBackgroundBorder, TimeSpan.FromMilliseconds(300), new Thickness(30)).Begin();
+            ObjectShift(MainBackgroundBorder, TimeSpan.FromMilliseconds(160), new Thickness(80)).Begin();
             Fade(this, TimeSpan.FromMilliseconds(300), 0).Begin();
             await Task.Delay(1000);
             Close();

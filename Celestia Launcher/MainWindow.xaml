@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Celestia_Launcher"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Celestia Launcher"
         Height="450"
@@ -16,10 +17,15 @@
         WindowStartupLocation="CenterScreen"
         ToolTipService.Placement="MousePoint"
         ResizeMode="NoResize"
-        Topmost="False"
+        Topmost="True"
         Icon="Celestia IDE.ico"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Background="{x:Null}">
+
+    <Window.Resources>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+    </Window.Resources>
+    
     <Border x:Name="MainBackgroundBorder"
             Margin="120 40"
             Background="#0D0C0F"
@@ -40,7 +46,8 @@
                         HorizontalAlignment="Right"
                         FlowDirection="RightToLeft"
                         VerticalAlignment="Top"
-                        Margin="4,4">
+                        Margin="4,4"
+                        x:Name="WindowButtons">
                 <Button Width="40"
                         Height="35"
                         Background="Transparent"
@@ -72,7 +79,8 @@
             <!--85-->
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center"
-                        Margin="-6 0 0 0">
+                        Margin="0 0 0 0"
+                        x:Name="BrandStack">
                 <Image Height="100"
                        Width="100"
                        x:Name="mainLogo"
@@ -102,18 +110,27 @@
                     </TextBlock.Effect>
                 </TextBlock>
             </StackPanel>
-
+            <TextBlock Opacity="0"
+                       FontFamily="/Celestia Launcher;component/Assets/Fonts/#Poppins"
+                       FontSize="12"
+                       x:Name="statusText"
+                       Height="30"
+                       HorizontalAlignment="Center"
+                       Margin="1 85 0 0"
+                       VerticalAlignment="Center"
+                       Foreground="#e5e7e7"
+                       Text="elestia IDE." />
             <Border Opacity="0"
                     Background="#af141315"
                     CornerRadius="6"
                     x:Name="ProgressBarMain"
                     Height="30"
                     Width="300"
-                    Margin="1 85 0 0"
+                    Margin="1 120 0 0"
                     VerticalAlignment="Center">
                 <Border x:Name="ProgressBarFill"
                         CornerRadius="4"
-                        Margin="4"
+                        Margin="3"
                         Opacity="0.6"
                         Width="8"
                         HorizontalAlignment="Left"

@@ -48,6 +48,9 @@ namespace Installer
         private void blurdisable(object sender, RoutedEventArgs e)
         { var hwnd = new WindowInteropHelper(this).Handle; int backdrop = (int)DWM_SYSTEMBACKDROP_TYPE.DWMSBT_NONE; DwmSetWindowAttribute(hwnd, DWMWA_SYSTEMBACKDROP_TYPE, ref backdrop, sizeof(int)); }
 
+        [DllImport("Shell32.dll")]
+        private static extern void SHChangeNotify(int wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
         #region Functions And Prerequisites
         WebClient downloadhandler = new WebClient();
 
@@ -76,6 +79,36 @@ namespace Installer
                 webClient.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
                 return webClient.DownloadString(weburl);
             }
+        }
+
+        public async void SetFolderIcon(string folderPath)
+        {
+            using var client = new HttpClient();
+            byte[] data = await client.GetByteArrayAsync("https://raw.githubusercontent.com/Nebula-Softworks/Nebula-Client-Development/refs/heads/master/Assets/Graphics/Nebula%20Client%20Logo.ico");
+            File.WriteAllBytes($"{folderPath}\\icofile.ico", data);
+
+
+            Directory.CreateDirectory(folderPath);
+
+            try
+            {
+                string desktopIni = Path.Combine(folderPath, "desktop.ini");
+
+                File.WriteAllText(desktopIni,
+                    $@"[.ShellClassInfo]
+IconResource={"icofile.ico"},0");
+
+                // Make desktop.ini hidden + system
+                File.SetAttributes(desktopIni,
+                    FileAttributes.Hidden | FileAttributes.System);
+
+                // Mark folder as system so icon applies
+                var attr = File.GetAttributes(folderPath);
+                File.SetAttributes(folderPath, attr | FileAttributes.System);
+            } catch { }
+
+            // Refresh explorer
+            SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
         }
 
         /// <summary>
@@ -364,6 +397,7 @@ namespace Installer
             Loaded += blurdisable;
 
             Directory.CreateDirectory(DataFolder);
+            SetFolderIcon(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client");
 
             #region Weird Shell/Start Menu shit
             try
@@ -904,6 +938,10 @@ End If
             if (!baseDir.Exists)
                 return;
 
+            foreach (var file in baseDir.GetFiles())
+            {
+                File.Delete(file.FullName);
+            }
             foreach (var dir in baseDir.EnumerateDirectories())
             {
                 ClearFolder(dir);
