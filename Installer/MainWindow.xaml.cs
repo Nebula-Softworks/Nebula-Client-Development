@@ -130,14 +130,16 @@ IconResource={"icofile.ico"},0");
             }
         }
 
-        bool ExtractFile(string file, string destination)
+        async Task<bool> ExtractFile(string file, string destination)
         {
             try
             {
-                Task.Run(delegate
+                await Task.Run(() =>
                 {
                     ZipFile.ExtractToDirectory(file, destination);
                 });
+
+                return true;
             }
             catch (Exception e)
             {
@@ -145,7 +147,6 @@ IconResource={"icofile.ico"},0");
                 MessageBox.Show("I'm sorry, we encountered an error, I'm sorry about this. \nIf you see this message box, please show this to Support, I haven't seen this actually happen yet. \n\n[Nebula Client Extract Process]\n " + e.ToString(), "Nebula Client Installer");
                 return false;
             }
-            return true;
         }
 
         async void DownloadFile(string file, string destination)
@@ -683,7 +684,7 @@ End If
 
                 if (File.Exists(NBT_InstallationPath.Text + "\\NBT.zip"))
                 {
-                    var success = ExtractFile(NBT_InstallationPath.Text + "\\NBT.zip", NBT_InstallationPath.Text);
+                    var success = await ExtractFile(NBT_InstallationPath.Text + "\\NBT.zip", NBT_InstallationPath.Text);
                     if (success)
                         try { File.Delete(NBT_InstallationPath.Text + "\\NBT.zip"); } catch { };
                 }
@@ -822,13 +823,13 @@ End If
 
             if (File.Exists(Celestia_LauncherPath.Text + "\\Launcher.zip"))
             {
-                var success = ExtractFile(Celestia_LauncherPath.Text + "\\Launcher.zip", Celestia_LauncherPath.Text);
+                var success = await ExtractFile(Celestia_LauncherPath.Text + "\\Launcher.zip", Celestia_LauncherPath.Text);
                 if (success)
                     try { File.Delete(Celestia_LauncherPath.Text + "\\Launcher.zip"); } catch { };
             }
             if (File.Exists(Celestia_InstallationPath.Text + "\\Celestia.zip"))
             {
-                var success = ExtractFile(Celestia_InstallationPath.Text + "\\Celestia.zip", Celestia_InstallationPath.Text);
+                var success = await ExtractFile(Celestia_InstallationPath.Text + "\\Celestia.zip", Celestia_InstallationPath.Text);
                 if (success)
                     try { File.Delete(Celestia_InstallationPath.Text + "\\Celestia.zip"); } catch { };
             }
