@@ -663,7 +663,8 @@
                               VerticalAlignment="Top"
                               Content="Create A Start Menu Shortcut"
                               Padding="10 0 0 0"
-                              Background="#CEDFDFDF" />
+                              Background="#CEDFDFDF"
+                              Foreground="White" />
                     
                     <CheckBox x:Name="Celestia_Customise_DesktopShortcut"
                               Margin="55 305 55 0"
@@ -671,7 +672,8 @@
                               VerticalAlignment="Top"
                               Content="Create A Desktop Shortcut"
                               Padding="10 0 0 0"
-                              Background="#CEDFDFDF" />
+                              Background="#CEDFDFDF"
+                              Foreground="White" />
                     
                     <CheckBox x:Name="Celestia_Customise_PriorityInstall"
                               Margin="55 330 55 0"
@@ -680,6 +682,7 @@
                               Content="Install Latest Release Straight Away"
                               Padding="10 0 0 0"
                               Background="#CEDFDFDF"
+                              Foreground="White"
                               Checked="Celestia_Customise_PriorityInstall_Checked"/>
 
                     <Button x:Name="Celestia_StartInstalling"
@@ -1069,6 +1072,7 @@
                               Content="Create A Start Menu Shortcut"
                               Padding="10 0 0 0"
                               Background="#CEDFDFDF"
+                              Foreground="White"
                               Opacity=".5" 
                               IsHitTestVisible="False" />
                     <CheckBox Margin="55 235 55 0"
@@ -1076,6 +1080,7 @@
                               Content="Create A Desktop Shortcut"
                               Padding="10 0 0 0"
                               Background="#CEDFDFDF"
+                              Foreground="White"
                               Opacity=".5"
                               IsHitTestVisible="False" />
 
