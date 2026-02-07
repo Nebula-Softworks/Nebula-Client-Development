@@ -2004,7 +2004,7 @@ namespace Celestia_IDE
         /// <param name="Script">The script to execute</param>
         public void ExecuteScript(string Script)
         {
-            if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\AutoExec\runtimes.txt"))
+            if (!File.Exists(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Nebula Trinity Engine\InstallPath.data") + @"\AutoExec\runtimes.txt"))
             {
                 ApplicationPrint(2, "deleted runtimes");
                 return;
