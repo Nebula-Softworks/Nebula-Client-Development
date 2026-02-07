@@ -18,8 +18,7 @@
                         ImageSource="/Celestia IDE;component/Assets/Graphics/no-script.png"
                         TileMode="None"
                         Stretch="UniformToFill"
-                        Opacity="0.85"
-                        RenderOptions.BitmapScalingMode="Unspecified"/>
+                        RenderOptions.BitmapScalingMode="LowQuality"/>
         </Border.Background>
         <Grid Margin="-101 -1 -1 -1">
             <Grid.ColumnDefinitions>
