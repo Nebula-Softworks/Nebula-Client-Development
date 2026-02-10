@@ -8,12 +8,12 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Celestia Launcher")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("The Next Generation Of Roblox Exploiting")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Celestia Launcher")]
-[assembly: AssemblyCopyright("Copyright ©  2026")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("Nebula Softworks")]
+[assembly: AssemblyProduct("Nebula Client")]
+[assembly: AssemblyCopyright("Copyright © Nebula Softworks LLC 2024-2026")]
+[assembly: AssemblyTrademark("Nebula Softworks LLC")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

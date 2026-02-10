@@ -124,9 +124,9 @@
                     Background="#af141315"
                     CornerRadius="6"
                     x:Name="ProgressBarMain"
-                    Height="30"
+                    Height="26"
                     Width="300"
-                    Margin="1 120 0 0"
+                    Margin="1 124 0 0"
                     VerticalAlignment="Center">
                 <Border x:Name="ProgressBarFill"
                         CornerRadius="4"
