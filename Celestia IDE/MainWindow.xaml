@@ -571,15 +571,6 @@
                 </StackPanel>
             </Grid>
 
-            <StackPanel x:Name="NotificationPanel"
-                        IsHitTestVisible="False"
-                        Grid.RowSpan="3"
-                        Grid.Column="2"
-                        Width="300"
-                        HorizontalAlignment="Right"
-                        Margin="20">
-            </StackPanel>
-
             <Grid x:Name="DraggableEngineButtonsGrid"
                   Grid.ColumnSpan="3"
                   Grid.RowSpan="2">
@@ -667,6 +658,15 @@
                     </Grid>
                 </Border>
             </Grid>
+
+            <StackPanel x:Name="NotificationPanel"
+                        IsHitTestVisible="False"
+                        Grid.RowSpan="3"
+                        Grid.Column="2"
+                        Width="300"
+                        HorizontalAlignment="Right"
+                        Margin="20">
+            </StackPanel>
 
             <Canvas x:Name="WindowMenus"
                     Grid.ColumnSpan="3"

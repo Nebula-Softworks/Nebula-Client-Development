@@ -593,9 +593,7 @@ namespace Celestia_IDE
             MouseMove += Window_MouseMove;
             MouseMove += Dragger_MouseMove;
             MouseUp += Window_MouseUp;
-            MouseEnter += delegate { _mouseInside = true; };
-            MouseLeave += delegate { _mouseInside = false; };
-            PreviewMouseUp += (_, _) => { isDragging = false; explorerPanel._isDragDropActive = false; EngineDraggerButton.ReleaseMouseCapture(); };
+            PreviewMouseUp += (_, _) => { explorerPanel._isDragDropActive = false; EngineDraggerButton.ReleaseMouseCapture(); };
             PreviewMouseDown += async (_, e) =>
             {
                 await Task.Delay(5);
@@ -1481,80 +1479,24 @@ namespace Celestia_IDE
         /*
          Dragging Mechanic of the Engine Buttons
          */
-        public bool isDragging;
-        private bool _mouseInside;
         private Point _mouseDownPos;
-        private Point _lastMousePos;
-        private bool _xLocked;
-        private bool _yLocked;
         private void EngineDragger_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            isDragging = true;
-            _mouseInside = true;
-
-            _mouseDownPos = e.GetPosition(this);
-            _lastMousePos = _mouseDownPos;
-
-            _xLocked = false;
-            _yLocked = false;
+            _mouseDownPos = new Point(e.GetPosition(DraggableEngineButtons).X, e.GetPosition(DraggableEngineButtons).Y);
 
             EngineDraggerButton.CaptureMouse();
         }
         private void Dragger_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!isDragging) return;
-            if (!_mouseInside)
+            if (e.LeftButton == MouseButtonState.Pressed && EngineDraggerButton.IsMouseCaptured)
             {
-                return;
-            }
-
-            Point mouse = e.GetPosition(this);
-            Vector delta = mouse - _lastMousePos;
-
-
-            var border = DraggableEngineButtons;
-            double left = border.Margin.Left;
-            double top = border.Margin.Top;
-
-            if (!_xLocked)
-            {
-                double nextX = left + delta.X;
-                double clampedX = Clamp(nextX, 15, ActualWidth - 42 - border.ActualWidth);
-
-                if (nextX != clampedX)
-                    _xLocked = true;
-                else
-                    left = clampedX;
-            }
-            else
-            {
-                if ((delta.X < 0 && mouse.X <= _mouseDownPos.X) ||
-                    (delta.X > 0 && mouse.X >= _mouseDownPos.X))
-                {
-                    _xLocked = false;
-                }
-            }
-            if (!_yLocked)
-            {
-                double nextY = top + delta.Y;
-                double clampedY = Clamp(nextY, 15, ActualHeight - 45 - border.ActualHeight);
-
-                if (nextY != clampedY)
-                    _yLocked = true;
-                else
-                    top = clampedY;
-            }
-            else
-            {
-                if ((delta.Y < 0 && mouse.Y <= _mouseDownPos.Y) ||
-                    (delta.Y > 0 && mouse.Y >= _mouseDownPos.Y))
-                {
-                    _yLocked = false;
-                }
-            }
-
-            border.Margin = new Thickness(left, top, 0, 0);
-            _lastMousePos = mouse;
+                DraggableEngineButtons.Margin = new Thickness(
+                    Clamp(e.GetPosition(MainBackgroundBorder).X - _mouseDownPos.X, 
+                        15, ActualWidth - 42 - DraggableEngineButtons.ActualWidth),
+                    Clamp(e.GetPosition(MainBackgroundBorder).Y - _mouseDownPos.Y,
+                        15, ActualHeight - 45 - DraggableEngineButtons.ActualHeight),
+                    0, 0);
+            }   
         }
 
         #endregion
