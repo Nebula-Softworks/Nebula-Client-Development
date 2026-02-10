@@ -354,16 +354,26 @@
                     ToolTipService.Placement="Center"
                     Click="Activitybar_Settings" />
             <!--#endregion-->
+            <Border Background="#1b1a1e"
+                    Width="10"
+                    Height="10"
+                    VerticalAlignment="Top"
+                    IsHitTestVisible="False"
+                    Margin="18 166 0 0"
+                    Grid.Row="1"
+                    Visibility="{Binding ElementName=ClientManagerNotification, Path=Visibility}"
+                    CornerRadius="5" />
             <Ellipse x:Name="ClientManagerNotification"
-                     Height="6"
-                     Width="6"
-                     Fill="Orange"
+                     Height="7"
+                     Width="7"
+                     Fill="{StaticResource Accent}"
                      Stroke="Transparent"
-                     Grid.Row="1" 
+                     Grid.Row="1"
                      VerticalAlignment="Top"
-                     Margin="20 164 0 0"
+                     Margin="19 167 0 0"
                      Visibility="Collapsed"
-                     IsHitTestVisible="False"/>
+                     IsHitTestVisible="False">
+            </Ellipse>
 
             <Border x:Name="Sidebar"
                     Grid.Row="1"
@@ -494,24 +504,13 @@
                                Text="Welcome to Nebula Client"
                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                FontSize="18"
-                               Margin="0 5 0 0"
+                               Margin="0 0 0 0"
                                Foreground="#ffffff"
                                Opacity="0.15"
                                IsHitTestVisible="False" />
-                    <TextBlock Grid.ColumnSpan="3"
-                               TextAlignment="Center"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               Text="Here are some basic Celestia Shortcuts to get you started."
-                               FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins Semilight"
-                               FontSize="12"
-                               Margin="0 4 0 0"
-                               Foreground="#ffffff"
-                               Opacity="0.12"
-                               IsHitTestVisible="False" />
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Center"
-                                Margin="0 16 0 0">
+                                Margin="0 20 0 0">
                         <TextBlock Grid.ColumnSpan="3"
                                    TextAlignment="Center"
                                    VerticalAlignment="Center"
@@ -587,7 +586,7 @@
                 <Border Width="126"
                         Height="50"
                         Margin="300 150"
-                        CornerRadius="8"
+                        CornerRadius="10"
                         BorderThickness="1.5"
                         BorderBrush="#8f322e36"
                         Background="#1b1a1e"
@@ -596,7 +595,7 @@
                         Visibility="Collapsed"
                         x:Name="DraggableEngineButtons">
                     <Border.Effect>
-                        <DropShadowEffect Opacity="0.8"
+                        <DropShadowEffect Opacity="1"
                                           BlurRadius="100"
                                           Color="#0b0b0b"
                                           ShadowDepth="0"/>

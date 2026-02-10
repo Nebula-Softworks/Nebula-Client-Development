@@ -1988,6 +1988,14 @@ namespace Celestia_IDE
                                 //ApplicationPrint(1, pid.ToString());
                                 //ApplicationPrint(1, Process.GetProcessById(pid).ToString());
                             }
+                            if (name == "RobloxCrashHandler.exe")
+                            {
+                                try
+                                {
+                                    Process.GetProcessById(pid).Kill();
+                                }
+                                catch { }
+                            }
                         });
                     };
 
