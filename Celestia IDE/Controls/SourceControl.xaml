@@ -1,32 +1,33 @@
 ﻿<Page x:Class="Celestia_IDE.Controls.SourceControl"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Celestia_IDE.Controls"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="SourceControl">
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="SourceControl"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      mc:Ignorable="d">
 
     <Grid>
-        <Label Foreground="#d5d3d7"
+        <Label Margin="8"
+               Content="Source Control"
+               FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                FontSize="12"
-               Margin="8"
-               FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-               Content="Source Control" />
+               Foreground="#d5d3d7" />
         <Label x:Name="inactive"
-               Foreground="#d5d3d7"
-               FontSize="14"
-               VerticalAlignment="Center"
                HorizontalAlignment="Center"
-               VerticalContentAlignment="Center"
+               VerticalAlignment="Center"
                HorizontalContentAlignment="Center"
-               FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+               VerticalContentAlignment="Center"
                Content="Git is not installed"
+               FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+               FontSize="14"
+               Foreground="#d5d3d7"
                IsHitTestVisible="False" />
-        <TreeView Background="Transparent"
+        <TreeView Margin="0 40 0 0"
+                  Background="Transparent"
                   BorderBrush="#CF322e36"
-                  Margin="0 40 0 0"
                   BorderThickness="0 1.5 0 0"
                   Visibility="Visible" />
     </Grid>

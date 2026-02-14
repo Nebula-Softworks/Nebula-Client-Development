@@ -10,8 +10,8 @@
                         <Border Background="#5F302e32"
                                 BorderBrush="#CF322e36"
                                 BorderThickness="1"
-                                Opacity="0"
-                                CornerRadius="6">
+                                CornerRadius="6"
+                                Opacity="0">
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Style.Triggers>
@@ -49,8 +49,8 @@
                                 </Style>
                             </Border.Style>
                         </Border>
-                        <Label Height="36"
-                               Width="NaN"
+                        <Label Width="NaN"
+                               Height="36"
                                Padding="{TemplateBinding Padding}"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
@@ -64,13 +64,12 @@
                                FontSize="15"
                                Foreground="#A4A6AA">
                             <Label.Style>
-                                <Style TargetType="Label"
-                                       BasedOn="{StaticResource {x:Type Label}}">
-                                    <Setter Property="Foreground"
-                                            Value="#A4A6AA" />
+                                <Style BasedOn="{StaticResource {x:Type Label}}"
+                                       TargetType="Label">
+                                    <Setter Property="Foreground" Value="#A4A6AA" />
                                     <Style.Triggers>
 
-                                        <!-- Checked: Foreground White -->
+                                        <!--  Checked: Foreground White  -->
                                         <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
                                                      Value="True">
                                             <DataTrigger.EnterActions>
@@ -90,13 +89,11 @@
                                             </DataTrigger.ExitActions>
                                         </DataTrigger>
 
-                                        <!-- Hover & NOT Checked: Foreground White -->
+                                        <!--  Hover & NOT Checked: Foreground White  -->
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}"
-                                                           Value="True" />
-                                                <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
-                                                           Value="False" />
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                                <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
                                             </MultiDataTrigger.Conditions>
                                             <MultiDataTrigger.EnterActions>
                                                 <BeginStoryboard x:Name="HoverEnterStoryboard"
@@ -113,13 +110,11 @@
                                             </MultiDataTrigger.ExitActions>
                                         </MultiDataTrigger>
 
-                                        <!-- Neither Hover nor Checked: Back to default -->
+                                        <!--  Neither Hover nor Checked: Back to default  -->
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}"
-                                                           Value="False" />
-                                                <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
-                                                           Value="False" />
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
+                                                <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
                                             </MultiDataTrigger.Conditions>
                                             <MultiDataTrigger.EnterActions>
                                                 <BeginStoryboard x:Name="NormalEnterStoryboard"
@@ -140,9 +135,9 @@
                                 </Style>
                             </Label.Style>
                         </Label>
-                        <Label Height="36"
-                               Width="NaN"
-                               Padding="35,0,0,0"
+                        <Label Width="NaN"
+                               Height="36"
+                               Padding="35 0 0 0"
                                HorizontalAlignment="Left"
                                VerticalAlignment="Center"
                                HorizontalContentAlignment="Left"
@@ -155,13 +150,12 @@
                                FontSize="{TemplateBinding FontSize}"
                                Foreground="#A4A6AA">
                             <Label.Style>
-                                <Style TargetType="Label"
-                                       BasedOn="{StaticResource {x:Type Label}}">
-                                    <Setter Property="Foreground"
-                                            Value="#A4A6AA" />
+                                <Style BasedOn="{StaticResource {x:Type Label}}"
+                                       TargetType="Label">
+                                    <Setter Property="Foreground" Value="#A4A6AA" />
                                     <Style.Triggers>
 
-                                        <!-- Checked: Foreground White -->
+                                        <!--  Checked: Foreground White  -->
                                         <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
                                                      Value="True">
                                             <DataTrigger.EnterActions>
@@ -181,13 +175,11 @@
                                             </DataTrigger.ExitActions>
                                         </DataTrigger>
 
-                                        <!-- Hover & NOT Checked: Foreground White -->
+                                        <!--  Hover & NOT Checked: Foreground White  -->
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}"
-                                                           Value="True" />
-                                                <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
-                                                           Value="False" />
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                                                <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
                                             </MultiDataTrigger.Conditions>
                                             <MultiDataTrigger.EnterActions>
                                                 <BeginStoryboard x:Name="HoverEnterStoryboard"
@@ -204,13 +196,11 @@
                                             </MultiDataTrigger.ExitActions>
                                         </MultiDataTrigger>
 
-                                        <!-- Neither Hover nor Checked: Back to default -->
+                                        <!--  Neither Hover nor Checked: Back to default  -->
                                         <MultiDataTrigger>
                                             <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}"
-                                                           Value="False" />
-                                                <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}"
-                                                           Value="False" />
+                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
+                                                <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
                                             </MultiDataTrigger.Conditions>
                                             <MultiDataTrigger.EnterActions>
                                                 <BeginStoryboard x:Name="NormalEnterStoryboard"

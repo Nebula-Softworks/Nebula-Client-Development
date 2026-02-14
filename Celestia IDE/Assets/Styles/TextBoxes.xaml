@@ -14,50 +14,48 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <Grid>
-                        <Label Content="{TemplateBinding TextSearch.Text}"
+                        <Label Width="30"
+                               Height="30"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               HorizontalContentAlignment="Right"
+                               VerticalContentAlignment="Center"
+                               Content="{TemplateBinding TextSearch.Text}"
                                FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Material Icons Round"
                                FontSize="17"
-                               VerticalAlignment="Center"
-                               Width="30"
-                               HorizontalAlignment="Left"
-                               Height="30"
-                               VerticalContentAlignment="Center"
-                               HorizontalContentAlignment="Right"
                                FontWeight="Light"
                                Foreground="{TemplateBinding Foreground}" />
                         <TextBox x:Name="textSource"
+                                 Padding="15 0 0 0"
+                                 VerticalAlignment="Stretch"
                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                  Panel.ZIndex="2"
-                                 VerticalAlignment="Stretch"
                                  materialDesign:TextFieldAssist.IncludeSpellingSuggestions="True"
+                                 materialDesign:TextFieldAssist.UnderlineBrush="{TemplateBinding Foreground}"
+                                 materialDesign:TextFieldAssist.UnderlineCornerRadius="0 0 4 4"
                                  Background="Transparent"
                                  BorderThickness="0"
-                                 Padding="15 0 0 0"
-                                 materialDesign:TextFieldAssist.UnderlineCornerRadius="0 0 4 4"
-                                 materialDesign:TextFieldAssist.UnderlineBrush="{TemplateBinding Foreground}"
                                  FontFamily="{TemplateBinding FontFamily}"
                                  Foreground="{TemplateBinding Foreground}"
-                                 Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                 Style="{StaticResource MaterialDesignTextBox}" />
+                                 Style="{StaticResource MaterialDesignTextBox}"
+                                 Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}" />
 
-                        <Label HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        <Label Padding="{TemplateBinding Padding}"
                                VerticalAlignment="Stretch"
+                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                Background="{TemplateBinding Background}"
                                BorderThickness="0"
-                               Padding="{TemplateBinding Padding}"
-                               FontFamily="{TemplateBinding FontFamily}"
-                               Content="{TemplateBinding Tag}">
+                               Content="{TemplateBinding Tag}"
+                               FontFamily="{TemplateBinding FontFamily}">
                             <Label.Style>
                                 <Style TargetType="{x:Type Label}">
-                                    <Setter Property="Foreground"
-                                            Value="Transparent" />
+                                    <Setter Property="Foreground" Value="Transparent" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Text, Source={x:Reference textSource}}"
                                                      Value="">
-                                            <Setter Property="Foreground"
-                                                    Value="#FFA3A3A3" />
+                                            <Setter Property="Foreground" Value="#FFA3A3A3" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -76,15 +74,15 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <Grid>
-                        <Label Content="{TemplateBinding TextSearch.Text}"
+                        <Label Width="30"
+                               Height="30"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               HorizontalContentAlignment="Right"
+                               VerticalContentAlignment="Bottom"
+                               Content="{TemplateBinding TextSearch.Text}"
                                FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Material Icons Round"
                                FontSize="17"
-                               VerticalAlignment="Center"
-                               Width="30"
-                               HorizontalAlignment="Left"
-                               Height="30"
-                               VerticalContentAlignment="Bottom"
-                               HorizontalContentAlignment="Right"
                                Foreground="White" />
                         <Grid Margin="{TemplateBinding Padding}">
                             <TextBox x:Name="textSource"
@@ -96,8 +94,8 @@
                                      Background="Transparent"
                                      BorderThickness="0"
                                      Foreground="{TemplateBinding Foreground}"
-                                     Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
-                                     Style="{StaticResource MaterialDesignTextBox}">
+                                     Style="{StaticResource MaterialDesignTextBox}"
+                                     Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}">
 
                                 <TextBox.Resources>
                                     <Style TargetType="{x:Type Border}" />
@@ -105,24 +103,22 @@
                             </TextBox>
                             <TextBox HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                     Background="{TemplateBinding Background}"
                                      materialDesign:TextFieldAssist.IncludeSpellingSuggestions="True"
                                      materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
+                                     Background="{TemplateBinding Background}"
                                      BorderThickness="0"
                                      Text="{TemplateBinding Tag}">
                                 <TextBox.Resources>
                                     <Style TargetType="{x:Type Border}" />
                                 </TextBox.Resources>
                                 <TextBox.Style>
-                                    <Style TargetType="{x:Type TextBox}"
-                                           BasedOn="{StaticResource MaterialDesignTextBox}">
-                                        <Setter Property="Foreground"
-                                                Value="Transparent" />
+                                    <Style BasedOn="{StaticResource MaterialDesignTextBox}"
+                                           TargetType="{x:Type TextBox}">
+                                        <Setter Property="Foreground" Value="Transparent" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Text, Source={x:Reference textSource}}"
                                                          Value="">
-                                                <Setter Property="Foreground"
-                                                        Value="#FFA3A3A3" />
+                                                <Setter Property="Foreground" Value="#FFA3A3A3" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>

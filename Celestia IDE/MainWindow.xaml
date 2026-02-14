@@ -1,46 +1,49 @@
 ﻿<Window x:Class="Celestia_IDE.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:Controls="clr-namespace:Celestia_IDE.Controls"
-        xmlns:instancemanager="clr-namespace:Celestia_IDE.Controls.InstanceManager"
-        xmlns:Consoles="clr-namespace:Celestia_IDE.Controls.Console"
         xmlns:CefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
-        mc:Ignorable="d"
-        Title="Celestia IDE (Nebula Client) - v0.1.3a" 
-        Height="850" Width="1330"
-        MinHeight="850" MinWidth="1130"
+        xmlns:Consoles="clr-namespace:Celestia_IDE.Controls.Console"
+        xmlns:Controls="clr-namespace:Celestia_IDE.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:instancemanager="clr-namespace:Celestia_IDE.Controls.InstanceManager"
+        xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="Celestia IDE (Nebula Client) - v0.1.3a"
+        Width="1330"
+        Height="850"
+        MinWidth="1130"
+        MinHeight="850"
+        materialdesign:ButtonAssist.CornerRadius="6"
         AllowsTransparency="True"
-        WindowStyle="None"
+        Background="{x:Null}"
+        Icon="Celestia IDE.ico"
+        ResizeMode="CanResize"
+        ToolTipService.Placement="MousePoint"
+        Topmost="False"
         UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
-        materialdesign:ButtonAssist.CornerRadius="6"
-        ToolTipService.Placement="MousePoint"
-        ResizeMode="CanResize"
-        Topmost="False"
-        Icon="Celestia IDE.ico"
-        Background="{x:Null}">
+        WindowStyle="None"
+        mc:Ignorable="d">
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="0"
-                      ResizeBorderThickness="15"
                       CornerRadius="8"
+                      ResizeBorderThickness="15"
                       UseAeroCaptionButtons="True" />
     </WindowChrome.WindowChrome>
 
-    <Border x:Name="MainBackgroundBorder" 
+    <Border x:Name="MainBackgroundBorder"
             Margin="15"
             Background="#171619"
-            CornerRadius="8"
+            BorderBrush="#9F41434A"
             BorderThickness="1"
-            BorderBrush="#9F41434A">
+            CornerRadius="8">
+
         <Border.Effect>
-            <DropShadowEffect ShadowDepth="0"
-                              x:Name="MainBackgroundBorder_Shadow"
-                              Color="#0B0B0B"
+            <DropShadowEffect x:Name="MainBackgroundBorder_Shadow"
                               BlurRadius="12"
-                              Opacity="1" />
+                              Opacity="1"
+                              ShadowDepth="0"
+                              Color="#0B0B0B" />
         </Border.Effect>
 
         <Grid>
@@ -50,1274 +53,1351 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="58" />
-                <ColumnDefinition Width="220" x:Name="SideBarColumn" />
+                <ColumnDefinition x:Name="SideBarColumn"
+                                  Width="220" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Border x:Name="Topbar" 
+            <tray:NotifyIcon xmlns:tray="http://schemas.lepo.co/wpfui/2022/xaml/tray"
+                             xmlns:wpfui="http://schemas.lepo.co/wpfui/2022/xaml"
+                             x:Name="trayicon"
+                             FocusOnLeftClick="False"
+                             MenuFontSize="10"
+                             Icon="/Celestia IDE;component/Assets/Graphics/Celestia IDE No Background.png"
+                             MenuOnRightClick="True"
+                             TooltipText="Celestia IDE">
+                <tray:NotifyIcon.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <wpfui:ThemesDictionary Theme="Dark" />
+                            <ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Controls/ContextMenu/ContextMenu.xaml" />
+                            <ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Controls/ContextMenu/ContextMenuLoader.xaml" />
+                            <wpfui:ControlsDictionary />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </tray:NotifyIcon.Resources>
+                <tray:NotifyIcon.Menu>
+                    <ContextMenu>
+                        
+                    </ContextMenu>
+                </tray:NotifyIcon.Menu>
+            </tray:NotifyIcon>
+
+            <Border x:Name="Topbar"
                     Grid.ColumnSpan="3"
                     Background="#1B1A1E"
-                    CornerRadius="8 8 0 0"
-                    BorderThickness="0 0 0 1.2"
                     BorderBrush="#CF322e36"
-                    MouseLeftButtonDown="drag"/>
+                    BorderThickness="0 0 0 1.2"
+                    CornerRadius="8 8 0 0"
+                    MouseLeftButtonDown="drag" />
             <TextBlock Grid.ColumnSpan="3"
-                       TextAlignment="Center"
                        VerticalAlignment="Center"
-                       Text="Celestia IDE - v0.1.3a"
                        FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                        FontSize="14"
                        Foreground="#e5e3e7"
-                       IsHitTestVisible="False"/>
-            <Image Source="/Celestia IDE;component/Assets/Graphics/Celestia IDE No Background.png" 
+                       IsHitTestVisible="False"
+                       Text="Celestia IDE - v0.1.3a"
+                       TextAlignment="Center" />
+            <Image Height="36"
+                   IsHitTestVisible="False"
                    RenderOptions.BitmapScalingMode="HighQuality"
-                   Height="36"
-                   IsHitTestVisible="False" />
-            <StackPanel Orientation="Horizontal"
-                        Grid.Column="2"
+                   Source="/Celestia IDE;component/Assets/Graphics/Celestia IDE No Background.png" />
+
+            <StackPanel Grid.Column="2"
+                        Margin="5 0"
                         HorizontalAlignment="Right"
                         FlowDirection="RightToLeft"
-                        Margin="5,0">
+                        Orientation="Horizontal">
                 <Button Width="45"
                         Height="35"
+                        Padding="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="CloseButton_Click"
                         Content="&#xE8BB;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="10"
-                        Foreground="#A4A6AA"
-                        BorderThickness="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Padding="0" 
-                        Click="CloseButton_Click"/>
+                        Foreground="#A4A6AA" />
                 <Button x:Name="MaximiseButton"
                         Width="45"
                         Height="35"
+                        Padding="-1 1 0 0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="MaximiseButton_Click"
                         Content="&#xe922;"
                         FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Segoe Fluent Icons"
                         FontSize="11"
-                        Padding="-1 1 0 0"
                         Foreground="#A4A6AA"
-                        BorderThickness="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        TextOptions.TextFormattingMode="Display"
-                        Click="MaximiseButton_Click" />
+                        TextOptions.TextFormattingMode="Display" />
                 <Button Width="45"
                         Height="35"
+                        Padding="0 2 -1 0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="MinimiseButton_Click"
                         Content="&#xE738;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="11"
-                        Padding="0 2 -1 0"
-                        Foreground="#A4A6AA"
-                        BorderThickness="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Click="MinimiseButton_Click"/>
+                        Foreground="#A4A6AA" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        Grid.Column="1"
+            <StackPanel Grid.Column="1"
                         Grid.ColumnSpan="2"
+                        Margin="-10 0"
                         HorizontalAlignment="Left"
-                        Margin="-10,0">
+                        Orientation="Horizontal">
                 <Button x:Name="FileMenuButton"
                         Height="35"
+                        Padding="10 0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="MenuButtons"
                         Content="File"
                         FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                         FontSize="13"
                         FontWeight="Normal"
-                        Foreground="#c5c3c7"
-                        BorderThickness="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Padding="10 0"
-                        Click="MenuButtons"/>
+                        Foreground="#c5c3c7" />
                 <Button x:Name="EditMenuButton"
                         Height="35"
+                        Padding="10 0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="MenuButtons"
                         Content="Edit"
                         FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                         FontSize="13"
                         FontWeight="Normal"
-                        Foreground="#c5c3c7"
-                        BorderThickness="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Padding="10 0"
-                        Click="MenuButtons" />
+                        Foreground="#c5c3c7" />
                 <Button x:Name="ViewMenuButton"
                         Height="35"
+                        Padding="10 0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="MenuButtons"
                         Content="View"
                         FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                         FontSize="13"
                         FontWeight="Normal"
-                        Foreground="#c5c3c7"
-                        BorderThickness="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Padding="10 0"
-                        Click="MenuButtons" />
+                        Foreground="#c5c3c7" />
                 <Button x:Name="TerminalMenuButton"
                         Height="35"
+                        Padding="10 0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="MenuButtons"
                         Content="Terminal"
                         FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                         FontSize="13"
                         FontWeight="Normal"
-                        Foreground="#c5c3c7"
-                        BorderThickness="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Padding="10 0"
-                        Click="MenuButtons" />
+                        Foreground="#c5c3c7" />
                 <Button x:Name="HelpMenuButton"
                         Height="35"
+                        Padding="10 0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="MenuButtons"
                         Content="Help"
                         FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                         FontSize="13"
                         FontWeight="Normal"
-                        Foreground="#c5c3c7"
-                        BorderThickness="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Padding="10 0"
-                        Click="MenuButtons" />
+                        Foreground="#c5c3c7" />
             </StackPanel>
 
             <Border x:Name="Activitybar"
                     Grid.Row="1"
                     Grid.RowSpan="2"
                     Background="#1B1A1E"
-                    CornerRadius="0 0 0 8"
+                    BorderBrush="#CF322e36"
                     BorderThickness="0 0 1.2 0"
-                    BorderBrush="#CF322e36" />
+                    CornerRadius="0 0 0 8" />
             <Border x:Name="NavIndicator"
                     Grid.Row="1"
-                    Height="40"
                     Width="2"
+                    Height="40"
+                    Margin="-.5 10 0 0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Background="#d5d3d7"
-                    CornerRadius="0 8 8 0"
-                    Margin="-.5 10 0 0" />
+                    CornerRadius="0 8 8 0" />
+
             <!--#region ActivityBarButtons-->
             <Button x:Name="ActivitybarButtons_Explorer"
+                    Grid.Row="1"
                     Width="50"
                     Height="50"
-                    Grid.Row="1"
+                    Margin="0 5 0 0"
+                    Padding="0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Click="Activitybar_Explorer"
                     Content="&#xe260;"
                     FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
                     FontSize="28"
                     Foreground="#d5d3d7"
-                    BorderThickness="0"
-                    Padding="0"
-                    Margin="0 5 0 0" 
                     ToolTip="Explorer"
                     ToolTipService.HasDropShadow="True"
-                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.HorizontalOffset="55"
-                    ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.Placement="Center"
-                    Click="Activitybar_Explorer"/>
+                    ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
             <Button x:Name="ActivitybarButtons_SourceControl"
+                    Grid.Row="1"
                     Width="50"
                     Height="50"
-                    Grid.Row="1"
+                    Margin="0 55 0 0"
+                    Padding="0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Click="Activitybar_SourceControl"
                     Content="&#xe280;"
                     FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
                     FontSize="28"
                     Foreground="#A4A6AA"
-                    BorderThickness="0"
-                    Padding="0"
-                    Margin="0 55 0 0"
                     ToolTip="Source Control"
                     ToolTipService.HasDropShadow="True"
-                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.HorizontalOffset="65"
-                    ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.Placement="Center"
-                    Click="Activitybar_SourceControl"/>
+                    ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
             <Button x:Name="ActivitybarButtons_ScriptCloud"
+                    Grid.Row="1"
                     Width="50"
                     Height="50"
-                    Grid.Row="1"
+                    Margin="0 105 0 0"
+                    Padding="0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Click="Activitybar_ScriptCloud"
                     Content="&#xe1aa;"
                     FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
                     FontSize="28"
                     Foreground="#A4A6AA"
-                    BorderThickness="0"
-                    Padding="0"
-                    Margin="0 105 0 0"
                     ToolTip="Script Cloud"
                     ToolTipService.HasDropShadow="True"
-                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.HorizontalOffset="65"
-                    ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.Placement="Center"
-                    Click="Activitybar_ScriptCloud" />
+                    ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
             <Button x:Name="ActivitybarButtons_InstanceManager"
+                    Grid.Row="1"
                     Width="50"
                     Height="50"
-                    Grid.Row="1"
+                    Margin="0 155 0 0"
+                    Padding="0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Click="Activitybar_InstanceManager"
                     Content="&#xe466;"
                     FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
                     FontSize="28"
                     Foreground="#A4A6AA"
-                    BorderThickness="0"
-                    Padding="0"
-                    Margin="0 155 0 0"
                     ToolTip="Instance Manager"
                     ToolTipService.HasDropShadow="True"
-                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.HorizontalOffset="70"
-                    ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.Placement="Center"
-                    Click="Activitybar_InstanceManager" />
+                    ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
             <Button x:Name="ActivitybarButtons_ExtensionMenu"
+                    Grid.Row="1"
                     Width="50"
                     Height="50"
-                    Grid.Row="1"
+                    Margin="0 205 0 0"
+                    Padding="0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Click="Activitybar_ExtensionMenu"
                     Content="&#xe190;"
                     FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
                     FontSize="28"
                     Foreground="#A4A6AA"
-                    BorderThickness="0"
-                    Padding="0"
-                    Margin="0 205 0 0"
                     ToolTip="Extension Cloud"
                     ToolTipService.HasDropShadow="True"
-                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.HorizontalOffset="65"
-                    ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.Placement="Center"
-                    Click="Activitybar_ExtensionMenu" />
+                    ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
+
             <StackPanel x:Name="ExtensionButtons"
-                        Width="50"
                         Grid.Row="1"
-                        VerticalAlignment="Top"
+                        Width="50"
                         Margin="0 255 0 0"
-                        Orientation="Vertical"/>
+                        VerticalAlignment="Top"
+                        Orientation="Vertical" />
 
             <Button x:Name="ActivitybarButtons_Settings"
+                    Grid.Row="1"
                     Width="50"
                     Height="50"
-                    Grid.Row="1"
+                    Margin="0 0 0 5"
+                    Padding="0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
                     Background="Transparent"
                     BorderBrush="Transparent"
+                    BorderThickness="0"
+                    Click="Activitybar_Settings"
                     Content="&#xe272;"
                     FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
                     FontSize="28"
                     Foreground="#A4A6AA"
-                    BorderThickness="0"
-                    Padding="0"
-                    Margin="0 0 0 5"
                     ToolTip="Settings"
                     ToolTipService.HasDropShadow="True"
-                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.HorizontalOffset="55"
-                    ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                    ToolTipService.InitialShowDelay="500"
                     ToolTipService.Placement="Center"
-                    Click="Activitybar_Settings" />
+                    ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
             <!--#endregion-->
-            <Border Background="#1b1a1e"
+
+            <Border Grid.Row="1"
                     Width="10"
                     Height="10"
-                    VerticalAlignment="Top"
-                    IsHitTestVisible="False"
                     Margin="18 166 0 0"
-                    Grid.Row="1"
-                    Visibility="{Binding ElementName=ClientManagerNotification, Path=Visibility}"
-                    CornerRadius="5" />
+                    VerticalAlignment="Top"
+                    Background="#1b1a1e"
+                    CornerRadius="5"
+                    IsHitTestVisible="False"
+                    Visibility="{Binding ElementName=ClientManagerNotification, Path=Visibility}" />
             <Ellipse x:Name="ClientManagerNotification"
-                     Height="7"
-                     Width="7"
-                     Fill="{StaticResource Accent}"
-                     Stroke="Transparent"
                      Grid.Row="1"
-                     VerticalAlignment="Top"
+                     Width="7"
+                     Height="7"
                      Margin="19 167 0 0"
-                     Visibility="Collapsed"
-                     IsHitTestVisible="False">
+                     VerticalAlignment="Top"
+                     Fill="{StaticResource Accent}"
+                     IsHitTestVisible="False"
+                     Stroke="Transparent"
+                     Visibility="Collapsed">
             </Ellipse>
 
             <Border x:Name="Sidebar"
                     Grid.Row="1"
                     Grid.Column="1"
                     Background="#1B1A1E"
-                    BorderThickness="0 0 1.2 0"
-                    BorderBrush="#CF322e36">
-                <Frame x:Name="SidebarFrame" 
-                       NavigationUIVisibility="Hidden"/>
+                    BorderBrush="#CF322e36"
+                    BorderThickness="0 0 1.2 0">
+                <Frame x:Name="SidebarFrame"
+                       NavigationUIVisibility="Hidden" />
             </Border>
 
             <Border x:Name="PanelBar"
                     Grid.Row="2"
                     Grid.Column="2"
-                    VerticalAlignment="Bottom"
                     Height="240"
+                    VerticalAlignment="Bottom"
                     Background="#7A1f1d22"
-                    CornerRadius="0 0 8 0"
+                    BorderBrush="#CF322e36"
                     BorderThickness="0 1.2 0 0"
-                    BorderBrush="#CF322e36">
+                    CornerRadius="0 0 8 0">
                 <Grid>
-                    <StackPanel Orientation="Horizontal"
-                                Height="50"
-                                VerticalAlignment="Top">
+                    <StackPanel Height="50"
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal">
                         <RadioButton x:Name="TerminalCheck"
-                                     Style="{StaticResource ConsoleSelector}"
+                                     Width="100"
+                                     Checked="TerminalToggle"
                                      Content="Terminal"
-                                     Width="100" 
-                                     Checked="TerminalToggle"/>
+                                     Style="{StaticResource ConsoleSelector}" />
                         <RadioButton x:Name="OutputCheck"
-                                     Style="{StaticResource ConsoleSelector}"
-                                     Content="Output"
                                      Width="90"
-                                     Checked="OutputToggle" />
+                                     Checked="OutputToggle"
+                                     Content="Output"
+                                     Style="{StaticResource ConsoleSelector}" />
                     </StackPanel>
                     <Button x:Name="ClearOutputButton"
+                            Grid.Row="1"
                             Width="40"
                             Height="40"
-                            Grid.Row="1"
                             Margin="0 5 5 0"
+                            Padding="0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Background="Transparent"
                             BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Click="ClearOutputButton_Click"
                             Content="&#xe4a6;"
                             FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
                             FontSize="16"
                             Foreground="#A4A6AA"
-                            BorderThickness="0"
-                            Padding="0"
                             ToolTip="Clear Output"
                             ToolTipService.HasDropShadow="True"
-                            ToolTipService.InitialShowDelay="500"
                             ToolTipService.HorizontalOffset="-55"
-                            ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                            ToolTipService.InitialShowDelay="500"
                             ToolTipService.Placement="Center"
-                            Click="ClearOutputButton_Click"/>
+                            ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
                     <Button x:Name="SaveOutputButton"
+                            Grid.Row="1"
                             Width="40"
                             Height="40"
                             Margin="0 5 50 0"
-                            Grid.Row="1"
+                            Padding="0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Background="Transparent"
                             BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Click="SaveOutputButton_Click"
                             Content="&#xe248;"
                             FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
                             FontSize="16"
                             Foreground="#A4A6AA"
-                            BorderThickness="0"
-                            Padding="0"
                             ToolTip="Save Output To File"
                             ToolTipService.HasDropShadow="True"
-                            ToolTipService.InitialShowDelay="500"
                             ToolTipService.HorizontalOffset="-55"
-                            ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                            ToolTipService.InitialShowDelay="500"
                             ToolTipService.Placement="Center"
-                            Click="SaveOutputButton_Click"/>
+                            ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
                     <Button x:Name="CopyOutputButton"
+                            Grid.Row="1"
                             Width="40"
                             Height="40"
                             Margin="0 5 100 0"
-                            Grid.Row="1"
+                            Padding="0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Background="Transparent"
                             BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Click="CopyOutputButton_Click"
                             Content="&#xe198;"
                             FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
                             FontSize="16"
                             Foreground="#A4A6AA"
-                            BorderThickness="0"
-                            Padding="0"
                             ToolTip="Copy Output To Clipboard"
                             ToolTipService.HasDropShadow="True"
-                            ToolTipService.InitialShowDelay="500"
                             ToolTipService.HorizontalOffset="-55"
-                            ToolTipService.ShowsToolTipOnKeyboardFocus="True"
+                            ToolTipService.InitialShowDelay="500"
                             ToolTipService.Placement="Center"
-                            Click="CopyOutputButton_Click" />
-                    <Frame NavigationUIVisibility="Hidden"
+                            ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
+                    <Frame x:Name="ConsoleFrame"
                            Margin="0 50 0 0"
-                           x:Name="ConsoleFrame" />
+                           NavigationUIVisibility="Hidden" />
                 </Grid>
             </Border>
 
             <Controls:TabSystem x:Name="TabSystemz"
-                                Grid.Column="3"
                                 Grid.Row="2"
+                                Grid.Column="3"
                                 Margin="0 0 0 240" />
             <Grid x:Name="HomeTabPage"
-                  Margin="0 0 0 240"
+                  Grid.Row="2"
                   Grid.Column="3"
-                  Grid.Row="2">
+                  Margin="0 0 0 240">
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Orientation="Vertical">
-                    <Image Height="200"
-                           Width="200"
+                    <Image Width="200"
+                           Height="200"
                            Margin="0 0 1 0"
-                           Source="/Celestia IDE;component/Assets/Graphics/Nebula Softworks No Background.png"
-                           Opacity="0.1" />
+                           Opacity="0.1"
+                           Source="/Celestia IDE;component/Assets/Graphics/Nebula Softworks No Background.png" />
                     <TextBlock Grid.ColumnSpan="3"
-                               TextAlignment="Center"
-                               VerticalAlignment="Center"
+                               Margin="0 0 0 0"
                                HorizontalAlignment="Center"
-                               Text="Welcome to Nebula Client"
+                               VerticalAlignment="Center"
                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                FontSize="18"
-                               Margin="0 0 0 0"
                                Foreground="#ffffff"
+                               IsHitTestVisible="False"
                                Opacity="0.15"
-                               IsHitTestVisible="False" />
-                    <StackPanel Orientation="Horizontal"
+                               Text="Welcome to Nebula Client"
+                               TextAlignment="Center" />
+                    <StackPanel Margin="0 20 0 0"
                                 HorizontalAlignment="Center"
-                                Margin="0 20 0 0">
+                                Orientation="Horizontal">
                         <TextBlock Grid.ColumnSpan="3"
-                                   TextAlignment="Center"
-                                   VerticalAlignment="Center"
                                    HorizontalAlignment="Left"
-                                   Text="New Text File"
+                                   VerticalAlignment="Center"
                                    FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins Light"
                                    FontSize="12"
                                    Foreground="#ffffff"
+                                   IsHitTestVisible="False"
                                    Opacity="0.3"
-                                   IsHitTestVisible="False" />
-                        <Border Padding="6 0"
-                                Height="20"
-                                CornerRadius="3"
+                                   Text="New Text File"
+                                   TextAlignment="Center" />
+                        <Border Height="20"
                                 Margin="10 0 0 0"
-                                Background="#7f121212">
+                                Padding="6 0"
+                                Background="#7f121212"
+                                CornerRadius="3">
                             <TextBlock Grid.ColumnSpan="3"
-                                       TextAlignment="Center"
-                                       VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
-                                       Text="Ctrl + N"
+                                       VerticalAlignment="Center"
                                        FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins Semilight"
                                        FontSize="10"
                                        Foreground="#efefef"
+                                       IsHitTestVisible="False"
                                        Opacity="0.35"
-                                       IsHitTestVisible="False" />
+                                       Text="Ctrl + N"
+                                       TextAlignment="Center" />
                         </Border>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal"
+                    <StackPanel Margin="0 4 0 0"
                                 HorizontalAlignment="Center"
-                                Margin="0 4 0 0">
+                                Orientation="Horizontal">
                         <TextBlock Grid.ColumnSpan="3"
-                                   TextAlignment="Center"
-                                   VerticalAlignment="Center"
                                    HorizontalAlignment="Left"
-                                   Text="Open Folder (Workspace)"
+                                   VerticalAlignment="Center"
                                    FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins Light"
                                    FontSize="12"
                                    Foreground="#ffffff"
+                                   IsHitTestVisible="False"
                                    Opacity="0.3"
-                                   IsHitTestVisible="False" />
-                        <Border Padding="6 0"
-                                Height="20"
-                                CornerRadius="3"
+                                   Text="Open Folder (Workspace)"
+                                   TextAlignment="Center" />
+                        <Border Height="20"
                                 Margin="10 0 0 0"
-                                Background="#7f121212">
+                                Padding="6 0"
+                                Background="#7f121212"
+                                CornerRadius="3">
                             <TextBlock Grid.ColumnSpan="3"
-                                       TextAlignment="Center"
-                                       VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
-                                       Text="Ctrl + K"
+                                       VerticalAlignment="Center"
                                        FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins Semilight"
                                        FontSize="10"
                                        Foreground="#efefef"
+                                       IsHitTestVisible="False"
                                        Opacity="0.35"
-                                       IsHitTestVisible="False" />
+                                       Text="Ctrl + K"
+                                       TextAlignment="Center" />
                         </Border>
                     </StackPanel>
                 </StackPanel>
             </Grid>
 
             <Grid x:Name="DraggableEngineButtonsGrid"
-                  Grid.ColumnSpan="3"
-                  Grid.RowSpan="2">
-                <Border Width="126"
+                  Grid.RowSpan="2"
+                  Grid.ColumnSpan="3">
+                <Border x:Name="DraggableEngineButtons"
+                        Width="126"
                         Height="50"
                         Margin="300 150"
-                        CornerRadius="10"
-                        BorderThickness="1.5"
-                        BorderBrush="#8f322e36"
-                        Background="#1b1a1e"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
-                        Visibility="Collapsed"
-                        x:Name="DraggableEngineButtons">
+                        Background="#1b1a1e"
+                        BorderBrush="#8f322e36"
+                        BorderThickness="1.5"
+                        CornerRadius="10"
+                        Visibility="Collapsed">
                     <Border.Effect>
-                        <DropShadowEffect Opacity="1"
-                                          BlurRadius="100"
-                                          Color="#0b0b0b"
-                                          ShadowDepth="0"/>
+                        <DropShadowEffect BlurRadius="100"
+                                          Opacity="1"
+                                          ShadowDepth="0"
+                                          Color="#0b0b0b" />
                     </Border.Effect>
-                    <Grid Margin ="3 0">
+                    <Grid Margin="3 0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Label Background="Transparent"
-                                BorderBrush="Transparent"
-                                BorderThickness="0"
-                               x:Name="EngineDraggerButton"
-                                Content="&#xEAE2;"
-                                Foreground="#d5d3d7"
-                                FontSize="28"
-                                VerticalAlignment="Stretch"
-                                Margin="0"
-                               ForceCursor="True"
+                        <Label x:Name="EngineDraggerButton"
+                               Margin="0"
+                               Padding="0 0 0 0"
+                               VerticalAlignment="Stretch"
+                               HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center"
+                               Background="Transparent"
+                               BorderBrush="Transparent"
+                               BorderThickness="0"
+                               Content="&#xEAE2;"
                                Cursor="Hand"
-                                VerticalContentAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                Padding="0 0 0 0"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
-                                MouseLeftButtonDown="EngineDragger_MouseLeftButtonDown"/>
-                        <!--used to be Dark Sea Green-->
-                        <Button Background="Transparent"
-                                BorderBrush="Transparent"
-                                BorderThickness="0"
-                                Content="&#xE768;"
-                                Grid.Column="1"
-                                Foreground="#DFF5B7FF"
-                                FontSize="20"
-                                VerticalContentAlignment="Center"
-                                HorizontalContentAlignment="Center"
-                                VerticalAlignment="Stretch"
+                               FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
+                               FontSize="28"
+                               ForceCursor="True"
+                               Foreground="#d5d3d7"
+                               MouseLeftButtonDown="EngineDragger_MouseLeftButtonDown" />
+                        <!--  used to be Dark Sea Green  -->
+                        <Button Grid.Column="1"
                                 Margin="0"
                                 Padding="-1 -1 1 1"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="ExecuteScriptButton_Click"
+                                Content="&#xE768;"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Segoe Fluent Icons"
+                                FontSize="20"
+                                Foreground="#DFF5B7FF"
                                 ToolTip="Execute Script"
                                 ToolTipService.HasDropShadow="True"
                                 ToolTipService.InitialShowDelay="500"
-                                ToolTipService.ShowsToolTipOnKeyboardFocus="True"
                                 ToolTipService.Placement="Bottom"
-                                Click="ExecuteScriptButton_Click"/>
-                        <!--used to be Powder Blue-->
-                        <Button Background="Transparent"
-                                BorderBrush="Transparent"
-                                BorderThickness="0"
-                                Grid.Column="2"
-                                Content="&#xe1bc;"
-                                Foreground="#DFC690FF"
-                                Opacity="0.9"
-                                FontSize="26"
-                                FontWeight="Thin"
-                                VerticalContentAlignment="Center"
-                                HorizontalContentAlignment="Center"
+                                ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
+                        <!--  used to be Powder Blue  -->
+                        <Button Grid.Column="2"
+                                Margin="0"
                                 Padding="-1 -1 0 1"
                                 VerticalAlignment="Stretch"
-                                Margin="0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="ExecuteFileButton_Click"
+                                Content="&#xe1bc;"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
+                                FontSize="26"
+                                FontWeight="Thin"
+                                Foreground="#DFC690FF"
+                                Opacity="0.9"
                                 ToolTip="Execute File Content"
                                 ToolTipService.HasDropShadow="True"
                                 ToolTipService.InitialShowDelay="500"
-                                ToolTipService.ShowsToolTipOnKeyboardFocus="True"
                                 ToolTipService.Placement="Bottom"
-                                Click="ExecuteFileButton_Click"/>
+                                ToolTipService.ShowsToolTipOnKeyboardFocus="True" />
                     </Grid>
                 </Border>
             </Grid>
 
             <StackPanel x:Name="NotificationPanel"
-                        IsHitTestVisible="False"
                         Grid.RowSpan="3"
                         Grid.Column="2"
                         Width="300"
+                        Margin="20"
                         HorizontalAlignment="Right"
-                        Margin="20">
+                        IsHitTestVisible="False">
             </StackPanel>
 
             <Canvas x:Name="WindowMenus"
-                    Grid.ColumnSpan="3"
-                  Grid.RowSpan="2">
+                    Grid.RowSpan="2"
+                    Grid.ColumnSpan="3">
                 <Border x:Name="FileContextMenu"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        CornerRadius="6"
                         Width="200"
                         Height="288"
-                        Visibility="Collapsed"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
                         Background="#1b1a1e"
+                        BorderBrush="#eF322e36"
                         BorderThickness="1.2"
-                        PreviewMouseDown="ContextMenuDown"
+                        CornerRadius="6"
                         MouseLeave="ContextMenuUp"
-                        BorderBrush="#eF322e36">
+                        PreviewMouseDown="ContextMenuDown"
+                        Visibility="Collapsed">
                     <Border.Effect>
-                        <DropShadowEffect ShadowDepth="0"
-                              Color="#191919"
-                              BlurRadius="18"
-                              Opacity="0.8" />
+                        <DropShadowEffect BlurRadius="18"
+                                          Opacity="0.8"
+                                          ShadowDepth="0"
+                                          Color="#191919" />
                     </Border.Effect>
 
-                    <StackPanel Orientation="Vertical"
-                                Width="NaN"
-                                Margin="6 8">
+                    <StackPanel Width="NaN"
+                                Margin="6 8"
+                                Orientation="Vertical">
                         <Button x:Name="Menus_File_NewTxtFile"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="FileMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="New Text File"/>
-                                    <Run Text="  (Ctrl + N)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="New Text File" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + N)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_File_NewFile"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="FileMenuButtons"
+                                Content="New File"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                 FontSize="12"
                                 FontWeight="Regular"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
-                                BorderThickness="0"
-                                Content="New File"
-                                Click="FileMenuButtons"
-                                Padding="10 0"/>
-                        <Border Height="1" Background="#cF322e36" Margin="8 6"/>
+                                Foreground="#c5c3c7" />
+                        <Border Height="1"
+                                Margin="8 6"
+                                Background="#cF322e36" />
                         <Button x:Name="Menus_File_OpenFile"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="FileMenuButtons"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                 FontSize="12"
                                 FontWeight="Regular"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
-                                BorderThickness="0"
-                                Click="FileMenuButtons"
-                                Padding="10 0">
+                                Foreground="#c5c3c7">
                             <Button.Content>
                                 <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Open File"/>
-                                    <Run Text="  (Ctrl + O)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Open File" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + O)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_File_OpenFolder"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="FileMenuButtons"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                 FontSize="12"
                                 FontWeight="Regular"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
-                                BorderThickness="0"
-                                Click="FileMenuButtons"
-                                Padding="10 0">
+                                Foreground="#c5c3c7">
                             <Button.Content>
                                 <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Open Folder"/>
-                                    <Run Text="  (Ctrl + K)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Open Folder" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + K)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_File_ClearFolder"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                FontWeight="Regular"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="FileMenuButtons"
                                 Content="Clear Folder"
-                                Padding="10 0"/>
-                        <Border Height="1" Background="#cF322e36" Margin="8 6"/>
-                        <Button x:Name="Menus_File_SaveFile"
-                                Height="30"
-                                Background="Transparent"
-                                BorderBrush="Transparent"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                 FontSize="12"
                                 FontWeight="Regular"
+                                Foreground="#c5c3c7" />
+                        <Border Height="1"
+                                Margin="8 6"
+                                Background="#cF322e36" />
+                        <Button x:Name="Menus_File_SaveFile"
+                                Height="30"
+                                Padding="10 0"
                                 HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
                                 BorderThickness="0"
                                 Click="FileMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                FontWeight="Regular"
+                                Foreground="#c5c3c7">
                             <Button.Content>
                                 <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Save File"/>
-                                    <Run Text="  (Ctrl + S)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Save File" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + S)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_File_SaveFileAs"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontWeight="Regular"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
-                                Content="Save File As ..."
                                 Click="FileMenuButtons"
-                                Padding="10 0"/>
+                                Content="Save File As ..."
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                FontWeight="Regular"
+                                Foreground="#c5c3c7" />
                         <Button x:Name="Menus_File_SaveAllFiles"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontWeight="Regular"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
-                                Content="Save All Files"
                                 Click="FileMenuButtons"
-                                Padding="10 0"/>
+                                Content="Save All Files"
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                FontWeight="Regular"
+                                Foreground="#c5c3c7" />
                     </StackPanel>
                 </Border>
                 <Border x:Name="EditContextMenu"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        CornerRadius="6"
                         Width="265"
                         Height="358"
-                        Background="#1b1a1e"
-                        BorderThickness="1.2"
                         Margin="50 0 0 0"
-                        Visibility="Collapsed"
-                        PreviewMouseDown="ContextMenuDown"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#1b1a1e"
+                        BorderBrush="#eF322e36"
+                        BorderThickness="1.2"
+                        CornerRadius="6"
                         MouseLeave="ContextMenuUp"
-                        BorderBrush="#eF322e36">
+                        PreviewMouseDown="ContextMenuDown"
+                        Visibility="Collapsed">
                     <Border.Effect>
-                        <DropShadowEffect ShadowDepth="0"
-                              Color="#191919"
-                              BlurRadius="18"
-                              Opacity="0.8" />
+                        <DropShadowEffect BlurRadius="18"
+                                          Opacity="0.8"
+                                          ShadowDepth="0"
+                                          Color="#191919" />
                     </Border.Effect>
 
-                    <StackPanel Orientation="Vertical"
-                                Width="NaN"
-                                Margin="6 8">
+                    <StackPanel Width="NaN"
+                                Margin="6 8"
+                                Orientation="Vertical">
                         <Button x:Name="Menus_Edit_Cut"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="EditMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Cut"/>
-                                    <Run Text="  (Ctrl + X)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Cut" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + X)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_Edit_Copy"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="EditMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Copy"/>
-                                    <Run Text="  (Ctrl + C)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Copy" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + C)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_Edit_Paste"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="EditMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Paste"/>
-                                    <Run Text="  (Ctrl + V)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Paste" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + V)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
-                        <Border Height="1" Background="#cF322e36" Margin="8 6"/>
+                        <Border Height="1"
+                                Margin="8 6"
+                                Background="#cF322e36" />
                         <Button x:Name="Menus_Edit_Undo"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="EditMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Undo"/>
-                                    <Run Text="  (Ctrl + Z)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Undo" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + Z)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_Edit_Redo"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="EditMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Redo"/>
-                                    <Run Text="  (Ctrl + Y)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Redo" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + Y)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_Edit_Clear"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="EditMenuButtons"
+                                Content="Clear Text Editor"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                 FontSize="12"
                                 FontWeight="Regular"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
-                                BorderThickness="0"
-                                Content="Clear Text Editor"
-                                Click="EditMenuButtons"
-                                Padding="10 0"/>
-                        <Border Height="1" Background="#cF322e36" Margin="8 6"/>
+                                Foreground="#c5c3c7" />
+                        <Border Height="1"
+                                Margin="8 6"
+                                Background="#cF322e36" />
                         <Button x:Name="Menus_Edit_Find"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="EditMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Find"/>
-                                    <Run Text="  (Ctrl + F)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Find" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + F)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_Edit_Replace"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="EditMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Replace"/>
-                                    <Run Text="  (Ctrl + H)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Replace" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + H)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
-                        <Border Height="1" Background="#cF322e36" Margin="8 6"/>
+                        <Border Height="1"
+                                Margin="8 6"
+                                Background="#cF322e36" />
                         <Button x:Name="Menus_Edit_ToggleBlockComment"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="EditMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Toggle Block Comment"/>
-                                    <Run Text="  (Shift + Alt + A)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Toggle Block Comment" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Shift + Alt + A)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_Edit_ToggleLineComment"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="EditMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Toggle Line Comment"/>
-                                    <Run Text="  (Ctrl + /)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Toggle Line Comment" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + /)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                     </StackPanel>
                 </Border>
                 <Border x:Name="ViewContextMenu"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        CornerRadius="6"
                         Width="200"
                         Height="225"
-                        Background="#1b1a1e"
-                        BorderThickness="1.2"
                         Margin="96 0 0 0"
-                        Visibility="Collapsed"
-                        PreviewMouseDown="ContextMenuDown"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#1b1a1e"
+                        BorderBrush="#eF322e36"
+                        BorderThickness="1.2"
+                        CornerRadius="6"
                         MouseLeave="ContextMenuUp"
-                        BorderBrush="#eF322e36">
+                        PreviewMouseDown="ContextMenuDown"
+                        Visibility="Collapsed">
                     <Border.Effect>
-                        <DropShadowEffect ShadowDepth="0"
-                              Color="#191919"
-                              BlurRadius="18"
-                              Opacity="0.8" />
+                        <DropShadowEffect BlurRadius="18"
+                                          Opacity="0.8"
+                                          ShadowDepth="0"
+                                          Color="#191919" />
                     </Border.Effect>
 
-                    <StackPanel Orientation="Vertical"
-                                Width="NaN"
-                                Margin="6 8">
+                    <StackPanel Width="NaN"
+                                Margin="6 8"
+                                Orientation="Vertical">
                         <Button x:Name="Menus_View_ToggleSidebar"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="ViewMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Toggle Sidebar"/>
-                                    <Run Text="  (Ctrl + B)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Toggle Sidebar" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + B)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_View_TogglePanel"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="ViewMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="Toggle Panel"/>
-                                    <Run Text="  (Ctrl + J)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="Toggle Panel" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + J)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
-                        <Border Height="1" Background="#cF322e36" Margin="8 6"/>
+                        <Border Height="1"
+                                Margin="8 6"
+                                Background="#cF322e36" />
                         <Button x:Name="Menus_View_ViewExplorer"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="ViewMenuButtons"
+                                Content="View Explorer"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                 FontSize="12"
                                 FontWeight="Regular"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
-                                BorderThickness="0"
-                                Content="View Explorer"
-                                Click="ViewMenuButtons"
-                                Padding="10 0"/>
+                                Foreground="#c5c3c7" />
                         <Button x:Name="Menus_View_ViewSourceControl"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="ViewMenuButtons"
+                                Content="View Source Control"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                 FontSize="12"
                                 FontWeight="Regular"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
-                                BorderThickness="0"
-                                Content="View Source Control"
-                                Click="ViewMenuButtons"
-                                Padding="10 0"/>
-                        <Border Height="1" Background="#cF322e36" Margin="8 6"/>
+                                Foreground="#c5c3c7" />
+                        <Border Height="1"
+                                Margin="8 6"
+                                Background="#cF322e36" />
                         <Button x:Name="Menus_View_ViewTerminal"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="ViewMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="View Terminal"/>
-                                    <Run Text="  (Ctrl + `)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="View Terminal" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + `)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                         <Button x:Name="Menus_View_ViewOutput"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
-                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                                FontSize="12"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
                                 BorderThickness="0"
                                 Click="ViewMenuButtons"
-                                Padding="10 0">
+                                FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                                FontSize="12"
+                                Foreground="#c5c3c7">
                             <Button.Content>
-                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins" 
+                                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                            FontSize="12"
-                                            FontWeight="Regular"
+                                           FontWeight="Regular"
                                            Foreground="#c5c3c7"
                                            TextAlignment="Left">
-                                    <Run Text="View Output"/>
-                                    <Run Text="  (Ctrl + L)" FontSize="11" Foreground="#acc5c3c7" />
+                                    <Run Text="View Output" />
+                                    <Run FontSize="11"
+                                         Foreground="#acc5c3c7"
+                                         Text="  (Ctrl + L)" />
                                 </TextBlock>
                             </Button.Content>
                         </Button>
                     </StackPanel>
                 </Border>
                 <Border x:Name="HelpContextMenu"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        CornerRadius="6"
                         Width="140"
                         Height="80"
-                        Background="#1b1a1e"
-                        BorderThickness="1.2"
                         Margin="206 0 0 0"
-                        Visibility="Collapsed"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#1b1a1e"
+                        BorderBrush="#eF322e36"
+                        BorderThickness="1.2"
+                        CornerRadius="6"
                         MouseEnter="ContextMenuDown"
                         MouseLeave="ContextMenuUp"
-                        BorderBrush="#eF322e36">
+                        Visibility="Collapsed">
                     <Border.Effect>
-                        <DropShadowEffect ShadowDepth="0"
-                              Color="#191919"
-                              BlurRadius="18"
-                              Opacity="0.8" />
+                        <DropShadowEffect BlurRadius="18"
+                                          Opacity="0.8"
+                                          ShadowDepth="0"
+                                          Color="#191919" />
                     </Border.Effect>
 
-                    <StackPanel Orientation="Vertical"
-                                Width="NaN"
-                                Margin="6 8">
+                    <StackPanel Width="NaN"
+                                Margin="6 8"
+                                Orientation="Vertical">
                         <Button x:Name="Menus_Help_Discord"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="HelpMenuButtons"
+                                Content="Join Discord"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                 FontSize="12"
                                 FontWeight="Regular"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
-                                BorderThickness="0"
-                                Content="Join Discord"
-                                Click="HelpMenuButtons"
-                                Padding="10 0"/>
+                                Foreground="#c5c3c7" />
                         <Button x:Name="Menus_Help_Documentation"
                                 Height="30"
+                                Padding="10 0"
+                                HorizontalContentAlignment="Left"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
+                                BorderThickness="0"
+                                Click="HelpMenuButtons"
+                                Content="Documentation"
                                 FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                                 FontSize="12"
                                 FontWeight="Regular"
-                                HorizontalContentAlignment="Left"
-                                Foreground="#c5c3c7"
-                                BorderThickness="0"
-                                Content="Documentation"
-                                Click="HelpMenuButtons"
-                                Padding="10 0"/>
+                                Foreground="#c5c3c7" />
                     </StackPanel>
                 </Border>
             </Canvas>
 
             <Border x:Name="DialogBackground"
-                    Grid.ColumnSpan="3"
                     Grid.RowSpan="2"
+                    Grid.ColumnSpan="3"
+                    Background="#d70b0b0b"
                     CornerRadius="8"
-                    Opacity="0"
-                    Visibility="Collapsed"
                     MouseLeftButtonDown="DialogBackground_MouseLeftButtonDown"
-                    Background="#d70b0b0b">
+                    Opacity="0"
+                    Visibility="Collapsed">
                 <Grid x:Name="DialogHost">
-                    
+
                 </Grid>
             </Border>
 
             <StackPanel x:Name="PreviewFooterOverlayStack"
-                        Orientation="Horizontal"
+                        Grid.Row="1"
                         Grid.Column="2"
-                        IsHitTestVisible="False"
-                        VerticalAlignment="Bottom"
-                        HorizontalAlignment="Right"
                         Margin="20"
-                        Grid.Row="1">
-                <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        IsHitTestVisible="False"
+                        Orientation="Horizontal">
+                <TextBlock Margin="0 0 0 2"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                            FontSize="48"
-                        Opacity="0.3"
-                           Margin="0 0 0 2"
                            Foreground="#ccc7ce"
-                           Text="β"/>
-                <StackPanel
-                           Margin="12 2 8 0"
-                           VerticalAlignment="Center">
+                           Opacity="0.3"
+                           Text="β" />
+                <StackPanel Margin="12 2 8 0"
+                            VerticalAlignment="Center">
                     <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                           FontSize="16"
-                               TextAlignment="Right"
-                           Foreground="#504D51"
-                           Text="THIS IS A PREVIEW RELEASE"/>
-                    <TextBlock FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                           FontSize="12"
-                           Foreground="#504D51"
-                               TextAlignment="Right"
-                               MaxWidth="300"
-                               TextWrapping="Wrap"
-                               LineHeight="16"
+                               FontSize="16"
+                               Foreground="#504D51"
+                               Text="THIS IS A PREVIEW RELEASE"
+                               TextAlignment="Right" />
+                    <TextBlock MaxWidth="300"
                                Margin="0 4 0 0"
+                               FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                               FontSize="12"
+                               Foreground="#504D51"
+                               LineHeight="16"
                                LineStackingStrategy="BlockLineHeight"
-                           Text="THIS IS A PREBUILD OF THE PRODUCT. THINGS ARE SUBJECT TO CHANGE"/>
+                               Text="THIS IS A PREBUILD OF THE PRODUCT. THINGS ARE SUBJECT TO CHANGE"
+                               TextAlignment="Right"
+                               TextWrapping="Wrap" />
                 </StackPanel>
             </StackPanel>
         </Grid>

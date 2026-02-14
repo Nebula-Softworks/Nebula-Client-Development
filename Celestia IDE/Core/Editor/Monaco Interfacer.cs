@@ -74,17 +74,22 @@ namespace Celestia_IDE.Core.Editor
 
             if (Settings.Minimap) enable_minimap();
             if (Settings.InlayHints) InlayTypes(true);
-            if (!Settings.Intellisense) disable_autocomplete();
+            if (!Settings.AutoComplete) disable_autocomplete();
             if (!Settings.AutoFormat) SwitchAutoIndent(false);
+            if (!Settings.Intellisense) disable_intellisense();
 
             FontSize(Settings.FontSize);
 
             if (Settings.AntiSkid)
-            {
-                Blur(30);
-                MouseEnter += (_, _) => Blur(0);
-                MouseLeave += (_, _) => Blur(30);
-            }
+                Blur(10);
+                MouseEnter += (_, _) =>
+                {
+                    if (Settings.AntiSkid) Blur(0);
+                };
+                MouseLeave += (_, _) =>
+                {
+                    if (Settings.AntiSkid) Blur(10);
+                };
 
             if (Settings.Ligatures)
                 SwitchLig(true);
@@ -115,18 +120,6 @@ namespace Celestia_IDE.Core.Editor
             await BrowserCore.EvaluateScriptAsync($"editor.setValue(`{text}`);");
         }
 
-        public void AddIntellisense(string label, Types type, string description, string insert)
-        {
-            if (!isDOMLoaded || !Settings.Intellisense)
-                return;
-
-            var t = type == Types.None ? "" : type.ToString();
-
-            BrowserCore.EvaluateScriptAsync(
-                $"AddIntellisense({label}, {t}, {description}, {insert});"
-            );
-        }
-
         public void Cut() => Exec("Cut();");
         public void Copy() => Exec("Copy();");
         public void Paste() => Exec("Paste();");
@@ -136,6 +129,7 @@ namespace Celestia_IDE.Core.Editor
         public void Replace() => Exec("Replace();");
         public void BlockC() => Exec("BlockComment();");
         public void LineC() => Exec("LineComment();");
+        public void Format() => Exec("Format()");
         public void refresh() => Exec("Refresh();");
 
         public void enable_minimap()
@@ -152,6 +146,9 @@ namespace Celestia_IDE.Core.Editor
 
         public void enable_autocomplete() => Exec("SwitchAutoComplete(true);");
         public void disable_autocomplete() => Exec("SwitchAutoComplete(false);");
+
+        public void enable_intellisense() => Exec("SwitchIntellisense(true);");
+        public void disable_intellisense() => Exec("SwitchIntellisense(false);");
 
         public void SetTheme(string name) => Exec($"SetTheme({name});");
         public void Blur(double n) => Exec($"BlurEditor({n});");

@@ -8,6 +8,20 @@ using System.Windows.Media;
 
 namespace Celestia_IDE.Core
 {
+    public enum InterfaceLanguages
+    {
+        English,
+        Mandarin,
+        Hindi,
+        Japanese,
+        German,
+        Portugese,
+        Filipino,
+        French,
+        Arabic,
+        Spanish
+    }
+
     public static class Settings
     {
         public static event Action<string>? OnUpdate;
@@ -18,7 +32,7 @@ namespace Celestia_IDE.Core
         private static bool _usingTrayIcon;
         private static double _opacity;
         private static double _scale;
-        private static int _langauge;
+        private static InterfaceLanguages _langauge;
         private static bool _rpc = true;
         private static Dictionary<string, Key> _keyBinds = new Dictionary<string, Key>()
         {
@@ -37,6 +51,7 @@ namespace Celestia_IDE.Core
         private static bool _startOnStartup;
         //appearance
         private static Dictionary<string, Color> _colorChoices;
+        private static string _editorTheme;
         private static string? _backgroundPhotoPath;
         //engine
         private static bool _fpsUnlock;
@@ -51,6 +66,7 @@ namespace Celestia_IDE.Core
         private static bool _formatOnSave;
         private static bool _saveWorkspaceTabs;
         private static bool _ligatures;
+        private static bool _autoComplete   ;
         private static bool _intellisense;
         private static bool _antiSkid;
         private static double _fontSize;
@@ -126,18 +142,8 @@ namespace Celestia_IDE.Core
                 OnUpdate?.Invoke("Scale_Setting");
             }
         }
-        public static int InterfaceLanguage
+        public static InterfaceLanguages InterfaceLanguage
         {
-            // 0 = English
-            // 1 = Mandarin
-            // 2 = Hindi
-            // 3 = Japanese
-            // 4 = German
-            // 5 = Portugese
-            // 6 = Filipino
-            // 7 = French
-            // 8 = Arabic
-            // 9 = Spanish
             get
             {
                 return _langauge;
@@ -195,6 +201,18 @@ namespace Celestia_IDE.Core
             {
                 _colorChoices = value;
                 OnUpdate?.Invoke("ColorChoices_Setting");
+            }
+        }
+        public static string EditorTheme
+        {
+            get
+            {
+                return _editorTheme;
+            }
+            set
+            {
+                _editorTheme = value;
+                OnUpdate?.Invoke("EditorTheme_Setting");
             }
         }
         public static string BackgroundPhotoPath
@@ -341,6 +359,18 @@ namespace Celestia_IDE.Core
             {
                 _ligatures = value;
                 OnUpdate?.Invoke("Ligatures_Setting");
+            }
+        }
+        public static bool AutoComplete
+        {
+            get
+            {
+                return _autoComplete;
+            }
+            set
+            {
+                _autoComplete = value;
+                OnUpdate?.Invoke("AutoComplete_Setting");
             }
         }
         public static bool Intellisense

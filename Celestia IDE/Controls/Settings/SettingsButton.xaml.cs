@@ -12,17 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Wpf.Ui;
 using Wpf.Ui.Appearance;
 
 namespace Celestia_IDE.Controls.Settings
 {
     /// <summary>
-    /// Interaction logic for SettingsDropdown.xaml
+    /// Interaction logic for SettingsButton.xaml
     /// </summary>
-    public partial class SettingsDropdown : UserControl
+    public partial class SettingsButton : UserControl
     {
-        public SettingsDropdown()
+        public SettingsButton()
         {
             InitializeComponent();
             ApplicationThemeManager.Apply(this);

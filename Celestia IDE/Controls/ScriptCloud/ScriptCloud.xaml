@@ -1,171 +1,176 @@
 ﻿<UserControl x:Class="Celestia_IDE.Controls.ScriptCloud.ScriptCloud"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Celestia_IDE.Controls.ScriptCloud"
-      mc:Ignorable="d" 
-             UseLayoutRounding="True"
-                    MouseLeftButtonDown="Button_MouseLeftButtonDown"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Celestia_IDE.Controls.ScriptCloud"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-      d:DesignHeight="540" d:DesignWidth="800">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="540"
+             d:DesignWidth="800"
+             MouseLeftButtonDown="Button_MouseLeftButtonDown"
+             UseLayoutRounding="True"
+             mc:Ignorable="d">
     <UserControl.Resources>
-        <FontFamily x:Key="solid" >/Celestia IDE;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid</FontFamily>
-        <FontFamily x:Key="regular" >/Celestia IDE;component/Assets/Fonts/Icon/#Font Awesome 6 Free Regular</FontFamily>
+        <FontFamily x:Key="solid">
+            /Celestia IDE;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid
+        </FontFamily>
+        <FontFamily x:Key="regular">
+            /Celestia IDE;component/Assets/Fonts/Icon/#Font Awesome 6 Free Regular
+        </FontFamily>
     </UserControl.Resources>
 
     <Border x:Name="MainBackground"
-            Background="#171619"
-            BorderThickness="1.5"
-            IsHitTestVisible="True"
-            BorderBrush="#aF322e36"
-            CornerRadius="8"
             Width="800"
             Height="540"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            HorizontalAlignment="Center">
+            Background="#171619"
+            BorderBrush="#aF322e36"
+            BorderThickness="1.5"
+            CornerRadius="8"
+            IsHitTestVisible="True">
         <Border.Effect>
-            <DropShadowEffect ShadowDepth="0"
-                              x:Name="MainBackgroundBorder_Shadow"
-                              Color="#141414"
+            <DropShadowEffect x:Name="MainBackgroundBorder_Shadow"
                               BlurRadius="120"
-                              Opacity="0.6" />
+                              Opacity="0.6"
+                              ShadowDepth="0"
+                              Color="#141414" />
         </Border.Effect>
-        <Grid Margin="20 15"
-              x:Name="MainGrid">
+        <Grid x:Name="MainGrid"
+              Margin="20 15">
             <Button Margin="-20 -15"
                     Background="Transparent"
                     BorderBrush="Transparent"
-                    BorderThickness="0"/>
-            <Border CornerRadius="8 0 0 8" 
+                    BorderThickness="0" />
+            <Border Width="210"
+                    Margin="-20 -15 0 -15"
+                    HorizontalAlignment="Left"
                     Background="#1b1a1e"
                     BorderBrush="#cF322e36"
                     BorderThickness="0 0 1 0"
-                    Width="210"
-                    HorizontalAlignment="Left"
-                    Margin="-20 -15 0 -15"/>
-            <TextBlock x:Name="TitleBlock" 
+                    CornerRadius="8 0 0 8" />
+            <TextBlock x:Name="TitleBlock"
                        Grid.ColumnSpan="3"
-                       TextAlignment="Center"
+                       Margin="5"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
-                       Text="Script Cloud"
                        FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                        FontSize="14"
-                       Margin="5"
                        Foreground="#e5e3e7"
-                       IsHitTestVisible="False"/>
+                       IsHitTestVisible="False"
+                       Text="Script Cloud"
+                       TextAlignment="Center" />
 
-            <StackPanel Margin="0 36 0 5"
-                        HorizontalAlignment="Left"
-                        Width="170">
+            <StackPanel Width="170"
+                        Margin="0 36 0 5"
+                        HorizontalAlignment="Left">
                 <RadioButton x:Name="ScriptBloxButton"
-                             Tag="&#xe1be;"
                              Padding="11 0 0 0"
-                             Foreground="#e5e3e7"
-                             FontSize="12"
+                             Checked="SourceSelector_Checked"
                              Content="Scriptblox Scripts"
                              FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Phosphor"
+                             FontSize="12"
+                             Foreground="#e5e3e7"
                              GroupName="CloudSelectors"
                              IsChecked="True"
-                             Checked="SourceSelector_Checked"
-                             Style="{StaticResource ScriptCloudSelector}"/>
+                             Style="{StaticResource ScriptCloudSelector}"
+                             Tag="&#xe1be;" />
                 <RadioButton x:Name="RScriptsButton"
-                             Tag="r"
-                             Padding="13 0 0 0"
-                             Foreground="#e5e3e7"
-                             FontSize="12"
                              Margin="0 2 0 0"
+                             Padding="13 0 0 0"
+                             Checked="SourceSelector_Checked"
                              Content="Rscripts Scripts"
                              FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid"
-                             GroupName="CloudSelectors"
-                             Checked="SourceSelector_Checked"
-                             Style="{StaticResource ScriptCloudSelector}"/>
-                <RadioButton x:Name="FavoritedScriptsButton"
-                             Tag="star"
-                             Padding="10 0 0 0"
-                             Foreground="#e5e3e7"
                              FontSize="12"
+                             Foreground="#e5e3e7"
+                             GroupName="CloudSelectors"
+                             Style="{StaticResource ScriptCloudSelector}"
+                             Tag="r" />
+                <RadioButton x:Name="FavoritedScriptsButton"
                              Margin="0 2 0 0"
+                             Padding="10 0 0 0"
+                             Checked="SourceSelector_Checked"
                              Content="Favorited Scripts"
                              FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid"
+                             FontSize="12"
+                             Foreground="#e5e3e7"
                              GroupName="CloudSelectors"
-                             Checked="SourceSelector_Checked"
-                             Style="{StaticResource ScriptCloudSelector}"/>
+                             Style="{StaticResource ScriptCloudSelector}"
+                             Tag="star" />
             </StackPanel>
 
-            <TextBlock x:Name="CurrentCloudTitleBlock" 
-                       TextAlignment="Center"
+            <TextBlock x:Name="CurrentCloudTitleBlock"
+                       Margin="214 7 0 0"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Top"
-                       Text="Powered by scriptblox.com"
                        FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                        FontSize="12"
-                       Margin="214 7 0 0"
                        Foreground="#c5c3c7"
-                       IsHitTestVisible="False"/>
-            
+                       IsHitTestVisible="False"
+                       Text="Powered by scriptblox.com"
+                       TextAlignment="Center" />
+
             <Border x:Name="SearchBorder"
-                Background="#1b1a1e"
-                BorderBrush="#CF322e36"
-                Margin="210 0 0  0"
-                Height="32"
                     Width="300 "
+                    Height="32"
+                    Margin="210 0 0 0"
                     HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                BorderThickness="1"
-                CornerRadius="4">
+                    VerticalAlignment="Top"
+                    Background="#1b1a1e"
+                    BorderBrush="#CF322e36"
+                    BorderThickness="1"
+                    CornerRadius="4">
                 <TextBox x:Name="ScriptCloudSearch"
-                     Grid.Row="1"
-                     Padding="30 0 0 0"
-                     VerticalContentAlignment="Center"
-                     Tag="Search Scripts"
-                     TextSearch.Text="search"
-                     FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                     Foreground="#d5d3d7"
-                     Background="Transparent"
-                     BorderThickness="0"
+                         Grid.Row="1"
+                         Padding="30 0 0 0"
+                         VerticalContentAlignment="Center"
+                         Background="Transparent"
+                         BorderBrush="Transparent"
+                         BorderThickness="0"
+                         FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                         Foreground="#d5d3d7"
                          KeyDown="ScriptCloudSearch_KeyDown"
-                     BorderBrush="Transparent" />
+                         Tag="Search Scripts"
+                         TextSearch.Text="search" />
             </Border>
 
             <ScrollViewer x:Name="MainContentScroller"
-                          Margin="210 42  -3 0">
+                          Margin="210 42 -3 0">
                 <StackPanel x:Name="ScriptBlox">
                     <Button x:Name="ScriptBloxBtn"
-                        Height="45"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        Content="Load More Scripts"
-                        FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                        FontSize="13"
-                        FontWeight="Normal"
-                        Foreground="#c5c3c7"
-                        BorderThickness="0 "
-                        VerticalAlignment="Center"
-                        Padding="10 0"
-                        Click="ScriptScroller_ScrollChanged"/>
+                            Height="45"
+                            Padding="10 0"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            Click="ScriptScroller_ScrollChanged"
+                            Content="Load More Scripts"
+                            FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                            FontSize="13"
+                            FontWeight="Normal"
+                            Foreground="#c5c3c7" />
                 </StackPanel>
             </ScrollViewer>
-            
-            <!--set these to the scrollviewer-->
+
+            <!--  set these to the scrollviewer  -->
             <StackPanel x:Name="Rscripts">
                 <Button x:Name="RscriptBtn"
                         Height="45"
+                        Padding="10 0"
+                        VerticalAlignment="Center"
                         Background="Transparent"
                         BorderBrush="Transparent"
+                        BorderThickness="0"
+                        Click="ScriptScroller_ScrollChanged"
                         Content="Load More Scripts"
                         FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                         FontSize="13"
                         FontWeight="Normal"
-                        Foreground="#c5c3c7"
-                        BorderThickness="0 "
-                        VerticalAlignment="Center"
-                        Padding="10 0"
-                        Click="ScriptScroller_ScrollChanged"/>
+                        Foreground="#c5c3c7" />
             </StackPanel>
             <StackPanel x:Name="FavoritedScripts"
-                        VirtualizingPanel.IsVirtualizing="True"/>
+                        VirtualizingPanel.IsVirtualizing="True" />
         </Grid>
     </Border>
 </UserControl>

@@ -23,6 +23,7 @@ namespace Celestia_IDE.Controls.Settings
         public SettingsPage()
         {
             InitializeComponent();
+            MainGrid.Children.Remove(Pages_Keybinds);
             MainGrid.Children.Remove(Pages_Editor);
             MainGrid.Children.Remove(Pages_Appearance);
             MainGrid.Children.Remove(Pages_Engine);
@@ -37,6 +38,10 @@ namespace Celestia_IDE.Controls.Settings
                 case "Selectors_Interface":
                     CurrentSettingsNameBlock.Text = "Interface Settings";
                     MainContentScroller.Content = Pages_Interface;
+                    break;
+                case "Selectors_Keybinds":
+                    CurrentSettingsNameBlock.Text = "Interface Keybinds";
+                    MainContentScroller.Content = Pages_Keybinds;
                     break;
                 case "Selectors_Editor":
                     CurrentSettingsNameBlock.Text = "Code Editor Settings";

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Celestia Launcher", "Celest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nebula Trinity Engine", "Nebula Trinity Engine\Nebula Trinity Engine.csproj", "{1519CD9C-15D7-4CF9-8A1B-C3202E52BB2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicUI", "BasicUI\BasicUI.csproj", "{3B0A945D-E1B6-4723-8D7E-1D005D5DADDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{1519CD9C-15D7-4CF9-8A1B-C3202E52BB2F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1519CD9C-15D7-4CF9-8A1B-C3202E52BB2F}.Release|x64.ActiveCfg = Release|Any CPU
 		{1519CD9C-15D7-4CF9-8A1B-C3202E52BB2F}.Release|x64.Build.0 = Release|Any CPU
+		{3B0A945D-E1B6-4723-8D7E-1D005D5DADDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B0A945D-E1B6-4723-8D7E-1D005D5DADDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B0A945D-E1B6-4723-8D7E-1D005D5DADDB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3B0A945D-E1B6-4723-8D7E-1D005D5DADDB}.Debug|x64.Build.0 = Debug|Any CPU
+		{3B0A945D-E1B6-4723-8D7E-1D005D5DADDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B0A945D-E1B6-4723-8D7E-1D005D5DADDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B0A945D-E1B6-4723-8D7E-1D005D5DADDB}.Release|x64.ActiveCfg = Release|Any CPU
+		{3B0A945D-E1B6-4723-8D7E-1D005D5DADDB}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

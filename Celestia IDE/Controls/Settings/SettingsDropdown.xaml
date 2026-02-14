@@ -1,87 +1,97 @@
 ﻿<UserControl x:Class="Celestia_IDE.Controls.Settings.SettingsDropdown"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Celestia_IDE.Controls.Settings"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
-             VerticalAlignment="Top"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:wpfui="http://schemas.lepo.co/wpfui/2022/xaml"
              Margin="2 1 1 6"
-             d:DesignWidth="542">
+             VerticalAlignment="Top"
+             d:DesignWidth="542"
+             mc:Ignorable="d">
     <Border x:Name="MainBackground"
-            CornerRadius="8"
             Height="85"
-            BorderBrush="#cf322e36"
             Background="#1b1a1e"
-            BorderThickness="1 1 1 1">
+            BorderBrush="#cf322e36"
+            BorderThickness="1 1 1 1"
+            CornerRadius="8">
         <Grid>
-            <StackPanel Orientation="Vertical"
-                        MaxWidth="400"
+            <StackPanel MaxWidth="400"
                         Margin="16 14"
-                        HorizontalAlignment="Left">
-                <TextBlock x:Name="TitleBlock" 
-                    Grid.ColumnSpan="3"
-                       TextAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Orientation="Vertical">
+                <TextBlock x:Name="TitleBlock"
+                           Grid.ColumnSpan="3"
                            HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       Text="Interface Language"
-                       FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                       FontSize="13"
-                       Foreground="#e5e3e7"
-                       IsHitTestVisible="False"/>
-                <TextBlock x:Name="ContentBlock" 
-                    Grid.ColumnSpan="3"
-                       TextAlignment="Left"
-                           HorizontalAlignment="Left"
-                       VerticalAlignment="Top"
+                           VerticalAlignment="Center"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="13"
+                           Foreground="#e5e3e7"
+                           IsHitTestVisible="False"
+                           Text="Interface Language"
+                           TextAlignment="Center" />
+                <TextBlock x:Name="ContentBlock"
+                           Grid.ColumnSpan="3"
                            Margin="0 2 0 0"
-                           TextWrapping="Wrap"
-                       Text="Translates Text in the Interface to be easier to understand&#10;for everybody (ONLY ENGLISH AT THE MOMENT)."
-                       FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                       FontSize="10"
-                       Foreground="#b4b6ba"
-                       IsHitTestVisible="False"/>
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                           FontSize="10"
+                           Foreground="#b4b6ba"
+                           IsHitTestVisible="False"
+                           Text="Translates Text in the Interface to be easier to understand&#10;for everybody (ONLY ENGLISH AT THE MOMENT)."
+                           TextAlignment="Left"
+                           TextWrapping="Wrap" />
             </StackPanel>
 
-            <StackPanel Orientation="Vertical"
-                    Grid.Column="2"
+            <StackPanel Grid.Column="2"
+                        Margin="6 6 16 6"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    Margin="6 6 16 6">
-                <ComboBox Width="200"
+                        Orientation="Vertical">
+
+                <StackPanel.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <wpfui:ThemesDictionary Theme="Dark" />
+                            <wpfui:ControlsDictionary />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </StackPanel.Resources>
+                <!--<ComboBox x:Name="MainDropdown"
+                          Width="200"
                           Height="32"
-                          x:Name="MainDropdown"
-                          IsEditable="False"
-                          Background="#1b1a1e"
-                          BorderBrush="#cf322e36"
-                          Foreground="#d5d3d7"
-                          BorderThickness="1"
                           Padding="6 4 4 4"
                           Panel.ZIndex="2"
+                          FontSize="12"
+                          Background="#1b1a1e"
+                          BorderBrush="#cf322e36"
+                          BorderThickness="1"
                           FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                          materialDesign:MenuAssist.TopLevelMenuItemHeight="20"
-                          materialDesign:TextFieldAssist.TextFieldCornerRadius="6"
-                          materialDesign:TextFieldAssist.UnderlineBrush="Transparent"
-                          materialDesign:TextFieldAssist.RippleOnFocusEnabled="False"
-                          materialDesign:ComboBoxAssist.ShowSelectedItem="True"
-                          materialDesign:ComboBoxAssist.MaxLength="200"
-                          materialDesign:ComboBoxAssist.ClassicMode="True">
-                    <ComboBoxItem Content="h"/>
-                    <ComboBoxItem Content="h"/>
-                    <ComboBoxItem Content="h"/>
-                    <ComboBox.Resources>
-                        <SolidColorBrush x:Key="MaterialDesignCheckBoxDisabled"
-                             Color="#d5d3d7" />
-                        <SolidColorBrush x:Key="MaterialDesignPaper"
-                             Color="#1b1a1e"/>
-                    </ComboBox.Resources>
+                          Foreground="#d5d3d7"
+                          IsEditable="False">
+                    <ComboBoxItem Content="h" />
+                    <ComboBoxItem Content="h" />
+                    <ComboBoxItem Content="h" />
+                </ComboBox>-->
+
+                <ComboBox x:Name="MainDropdown"
+                          Height="32"
+                          MinWidth="200"
+                          Padding="10 4 4 4"
+                          HorizontalAlignment="Left"
+                          VerticalContentAlignment="Center"
+                          Background="#1b1a1e"
+                          BorderBrush="#cf322e36"
+                          BorderThickness="1"
+                          FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                          FontSize="12"
+                          Foreground="#d5d3d7"
+                          SelectedIndex="0">
+                    <ComboBoxItem Content="English" />
                 </ComboBox>
             </StackPanel>
 
         </Grid>
     </Border>
-    <UserControl.Resources>
-        
-    </UserControl.Resources>
 </UserControl>

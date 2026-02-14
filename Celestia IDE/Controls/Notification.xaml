@@ -1,56 +1,50 @@
 ﻿<UserControl x:Class="Celestia_IDE.Controls.Notification"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Celestia_IDE.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="300"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             HorizontalAlignment="Right"
+             d:DesignHeight="450"
+             d:DesignWidth="300"
              IsHitTestVisible="False"
-             HorizontalAlignment="Right">
+             mc:Ignorable="d">
     <Border x:Name="Main"
-            Background="White"
-            VerticalAlignment="Center"
-            Margin="0 0 0 8"
             Width="300"
+            Margin="0 0 0 8"
+            VerticalAlignment="Center"
+            Background="White"
             CornerRadius="6">
         <Grid x:Name="Grid"
               Margin="12 11 12 7">
 
             <TextBlock x:Name="Icon"
+                       Margin="0 1.5"
+                       VerticalAlignment="Center"
+                       FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Material Icons Round"
+                       FontSize="23"
                        Foreground="CornflowerBlue"
-                       FontFamily="/Celestia IDE;component/Assets/Fonts/Icon/#Font Awesome 6 Free Solid"
-                       FontSize="20"
-                       Margin="1.5"
-                       Text="&#xf05a;"
-                       VerticalAlignment="Center" />
-            <TextBlock x:Name="Title"
-                       Foreground="#1B1A1E"
-                       FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                       FontSize="12"
-                       Text="Validating account..."
-                       VerticalAlignment="Top"
-                       Margin="32 3 0 0" />
+                       Text="info" />
 
             <TextBlock x:Name="Description"
-                       Foreground="#5B5A5E"
+                       Margin="32 0 0 1"
+                       VerticalAlignment="Center"
                        FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
                        FontSize="10"
+                       Foreground="#5B5A5E"
                        Text="We are checking your account status. You may continue using Nebula Client and Celestia in the meantime."
-                       TextWrapping="Wrap"
-                       VerticalAlignment="Top"
-                       Margin="32 23 0 5" />
+                       TextWrapping="Wrap" />
 
             <Border x:Name="DurationBar"
-                    Height="4"
+                    Height="3"
                     Margin="-12 0 -12 -7"
                     VerticalAlignment="Bottom"
-                    CornerRadius="0 0 6 6"
-                    Background="CornflowerBlue">
+                    Background="CornflowerBlue"
+                    CornerRadius="0 0 6 6">
                 <Border.Clip>
-                    <RectangleGeometry Rect="0,0,300,4"
-                                       RadiusX="0"
-                                       RadiusY="6"/>
+                    <RectangleGeometry RadiusX="0"
+                                       RadiusY="6"
+                                       Rect="0,0,300,3" />
                 </Border.Clip>
             </Border>
         </Grid>

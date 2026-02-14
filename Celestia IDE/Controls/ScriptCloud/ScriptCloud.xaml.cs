@@ -269,7 +269,7 @@ namespace Celestia_IDE.Controls.ScriptCloud
                                             }
                                             catch (Exception ex)
                                             {
-                                                mainWindow.ApplicationPrint(2, "failed scriptcloud func. error: " + ex.Message);
+                                                mainWindow.ApplicationPrint(OutputTypes.Error, "failed scriptcloud func. error: " + ex.Message);
                                             }
                                             finally
                                             {
@@ -297,7 +297,7 @@ namespace Celestia_IDE.Controls.ScriptCloud
                 {
                     await Dispatcher.InvokeAsync(() =>
                     {
-                        mainWindow.ApplicationPrint(2, "Failed To Connect To Scriptblox: " + ex.Message + " | " + ex.StackTrace);
+                        mainWindow.ApplicationPrint(OutputTypes.Error, "Failed To Connect To Scriptblox: " + ex.Message + " | " + ex.StackTrace);
                         mainWindow.Prompt("The Script Blox Integration System has encountered a Connectivity Issue. Please Read The Output For The Full Error and Send it to us on Discord.", "Script Blox Error");
                     });
                 }
@@ -425,7 +425,7 @@ namespace Celestia_IDE.Controls.ScriptCloud
                                             }
                                             catch (Exception ex)
                                             {
-                                                mainWindow.ApplicationPrint(2, "failed scriptcloud func. error: " + ex.Message);
+                                                mainWindow.ApplicationPrint(OutputTypes.Error, "failed scriptcloud func. error: " + ex.Message);
                                             }
                                             finally
                                             {
@@ -453,7 +453,7 @@ namespace Celestia_IDE.Controls.ScriptCloud
                 {
                     await Dispatcher.InvokeAsync(() =>
                     {
-                        mainWindow.ApplicationPrint(2, "Failed To Connect To Rscripts: " + ex.Message + " | " + ex.StackTrace);
+                        mainWindow.ApplicationPrint(OutputTypes.Error, "Failed To Connect To Rscripts: " + ex.Message + " | " + ex.StackTrace);
                         mainWindow.Prompt("The Rscripts Integration System has encountered a Connectivity Issue. Please Read The Output For The Full Error and Send it to us on Discord.", "Rscripts Error");
                     });
                 }

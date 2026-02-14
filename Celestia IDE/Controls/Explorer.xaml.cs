@@ -343,16 +343,16 @@ namespace Celestia_IDE.Controls
         {
             autoScrollTimer.Stop();
 
-            //mainWindow.ApplicationPrint(1, "drag func/dropped");
+            //mainWindow.ApplicationPrint(OutputTypes.Debug, "drag func/dropped");
             if (!e.Data.GetDataPresent(typeof(TreeViewItem))) return;
 
 
-            //mainWindow.ApplicationPrint(1, "passed initial check");
+            //mainWindow.ApplicationPrint(OutputTypes.Debug, "passed initial check");
 
             var draggedTvi = (TreeViewItem)e.Data.GetData(typeof(TreeViewItem));
             var draggedItem = draggedTvi.DataContext as FileSystemItem;
             if (draggedItem == null) return;
-            //mainWindow.ApplicationPrint(1, "not null");
+            //mainWindow.ApplicationPrint(OutputTypes.Debug, "not null");
 
             // Determine drop target
             var target = GetDropTarget(e.OriginalSource as DependencyObject);
@@ -371,13 +371,13 @@ namespace Celestia_IDE.Controls
                     mainWindow.WorkspaceFolder,
                     GetRelativePath(folder)
                 );
-                //mainWindow.ApplicationPrint(1, destinationDir);
+                //mainWindow.ApplicationPrint(OutputTypes.Debug, destinationDir);
             }
             else if (target == null)
             {
                 // dropped on empty space → root
                 destinationDir = mainWindow.WorkspaceFolder;
-                //mainWindow.ApplicationPrint(1, destinationDir);
+                //mainWindow.ApplicationPrint(OutputTypes.Debug, destinationDir);
             }
 
             string destPath = Path.Combine(destinationDir, draggedItem.Header);
@@ -394,7 +394,7 @@ namespace Celestia_IDE.Controls
 
             try
             {
-                //mainWindow.ApplicationPrint(1, "Starting Move");
+                //mainWindow.ApplicationPrint(OutputTypes.Debug, "Starting Move");
                 if (draggedItem is FolderItem)
                     MoveFolder(sourcePath, destPath);
                 else
@@ -404,7 +404,7 @@ namespace Celestia_IDE.Controls
             }
             catch (Exception ex)
             {
-                mainWindow.ApplicationPrint(2, $"Move failed: {ex.Message}");
+                mainWindow.ApplicationPrint(OutputTypes.Error, $"Move failed: {ex.Message}");
             }
             _isDragDropActive = false;
         }
@@ -520,7 +520,7 @@ namespace Celestia_IDE.Controls
             }
             catch (Exception e)
             {
-                mainWindow.ApplicationPrint(2, $"Failed to rename file! {e.Message}");
+                mainWindow.ApplicationPrint(OutputTypes.Error, $"Failed to rename file! {e.Message}");
             }
         }
 
@@ -542,7 +542,7 @@ namespace Celestia_IDE.Controls
             }
             catch (Exception ex)
             {
-                mainWindow.ApplicationPrint(2, $"Failed to delete file! {ex.Message}");
+                mainWindow.ApplicationPrint(OutputTypes.Error, $"Failed to delete file! {ex.Message}");
             }
             Reload();
         }
@@ -829,7 +829,7 @@ namespace Celestia_IDE.Controls
                     {
                         var cm = mainWindow.TabSystemz;
                         cm.add_tab_from_file(Path.GetFullPath(filePath));
-                        //mainWindow.ApplicationPrint(1, filePath);
+                        //mainWindow.ApplicationPrint(OutputTypes.Debug, filePath);
                     }
                     catch { }
                 }
@@ -850,7 +850,7 @@ namespace Celestia_IDE.Controls
                 try
                 {
                     selectedItem.IsExpanded = !selectedItem.IsExpanded;
-                } catch { mainWindow.ApplicationPrint(1, "failed"); }
+                } catch { mainWindow.ApplicationPrint(OutputTypes.Debug, "failed"); }
             }
         }
 

@@ -62,7 +62,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ColorPicker;
 using RPC = DiscordRPC;
-using NullSoftware.ToolKit;
+using Wpf.Ui;
+using Wpf.Ui.Markup;
+using Wpf.Ui.Tray;
+using Wpf.Ui.Appearance;
 
 namespace Celestia_IDE
 {
@@ -77,6 +80,24 @@ namespace Celestia_IDE
     {
         public int ActiveTabIndex { get; set; }
         public List<tabclass> Tabs { get; set; } = new();
+    }
+
+    public enum NotifyTypes
+    {
+        Info,
+        Error,
+        Success,
+        Warning,
+    }
+
+    public enum OutputTypes
+    {
+        Default,
+        Debug,
+        Error,
+        Warning,
+        Success,
+        Info,
     }
 
     /// <summary>
@@ -156,6 +177,7 @@ namespace Celestia_IDE
         }
         public List<TabItem> tabitemcache = new List<TabItem>();
         bool isabletoclose = false;
+        bool IsCurrentlyTrayed = false;
 
         /// <summary>
         /// Returns the content of a provided webpage
@@ -189,7 +211,7 @@ namespace Celestia_IDE
             }
             catch
             {
-                ApplicationPrint(2, "Failed to redirect user. Manually Prompting To Copy Link To Clipboard...");
+                ApplicationPrint(OutputTypes.Error, "Failed to redirect user. Manually Prompting To Copy Link To Clipboard...");
                 if ((await Prompt($"We Couldn't Redirect You To The Page {url}.\nWould You Like Us To Copy The Link To Your Clipboard Instead?", "Failed to Open Link", "No Thanks", "Okay") == MessageBoxResult.OK))
                     Clipboard.SetText(url); // source: https://stackoverflow.com/questions/899350/how-do-i-copy-the-contents-of-a-string-to-the-clipboard-in-c
             }
@@ -200,29 +222,29 @@ namespace Celestia_IDE
         /// </summary>
         /// <param name="OUTPUT_TYPE">DEBUG, ERROR, WARNING, SUCCESS, INFO, nil (no content in type)</param>
         /// <param name="OUTPUT_CONTENT"></param>
-        public void ApplicationPrint(int OUTPUT_TYPE, string OUTPUT_CONTENT)
+        public void ApplicationPrint(OutputTypes OUTPUT_TYPE, string OUTPUT_CONTENT)
         {
             string typestring = null;
             Brush brush = null;
             switch (OUTPUT_TYPE)
             {
-                case 1:
+                case OutputTypes.Debug:
                     typestring = "[DEBUG] ";
                     brush = (SolidColorBrush)new BrushConverter().ConvertFrom("#CF9FFF");
                     break;
-                case 2:
+                case OutputTypes.Error:
                     typestring = "[ERROR] ";
                     brush = (SolidColorBrush)new BrushConverter().ConvertFrom("#e59d9d");
                     break;
-                case 3:
+                case OutputTypes.Warning:
                     typestring = "[WARNING] ";
                     brush = (SolidColorBrush)new BrushConverter().ConvertFrom("#f0d686");
                     break;
-                case 4:
+                case OutputTypes.Success:
                     typestring = "[SUCCESS] ";
                     brush = Brushes.LightGreen;
                     break;
-                case 5:
+                case OutputTypes.Info:
                     typestring = "[INFO ] ";
                     brush = Brushes.CornflowerBlue;
                     break;
@@ -308,36 +330,35 @@ namespace Celestia_IDE
         /// <param name="Title">The header</param>
         /// <param name="Content">The paragraph text</param>
         /// <param name="Duration">How long the notification will be visible</param>
-        public async void Notify(int Notification_Type, string Title, string Content, int Duration)
+        public async void Notify(NotifyTypes Notification_Type, string Title, string Content, int Duration)
         {
             Notification notification = new Notification();
             Brush brush = null;
             switch (Notification_Type)
             {
-                case 1: //info (checking key, updated, update available, etc)
+                case NotifyTypes.Info: //info (checking key, updated, update available, etc)
                     brush = Brushes.CornflowerBlue;
-                    notification.Icon.Text = "";
+                    notification.Icon.Text = "\ue88e";
                     break;
 
-                case 2: // error (failed to inject, missing files, etc)
+                case NotifyTypes.Error: // error (failed to inject, missing files, etc)
                     brush = Brushes.IndianRed;
-                    notification.Icon.Text = "";
+                    notification.Icon.Text = "\ue000";
                     break;
 
-                case 3: // success (succesfully injected etc)
-                    brush = Brushes.LightGreen;
-                    notification.Icon.Text = "";
+                case NotifyTypes.Success: // success (succesfully injected etc)
+                    brush = Brushes.LimeGreen;
+                    notification.Icon.Text = "\ue86c";
                     break;
 
-                case 4: //warning (use alt, beta, etc)
-                    brush = Brushes.Orange;
-                    notification.Icon.Text = "";
+                case NotifyTypes.Warning: //warning (use alt, beta, etc)
+                    brush = Brushes.SandyBrown;
+                    notification.Icon.Text = "\ue002";
                     break;
             }
 
             notification.DurationBar.Background = brush;
             notification.Icon.Foreground = brush;
-            notification.Title.Text = Title;
             notification.Description.Text = Content;
 
             NotificationPanel.Children.Insert(0, notification);
@@ -570,6 +591,7 @@ namespace Celestia_IDE
         public MainWindow()
         {
             InitializeComponent();
+            ApplicationThemeManager.Apply(trayicon);
 
             /*
              Initialise Components And bind Events
@@ -608,14 +630,14 @@ namespace Celestia_IDE
                 CreateSettingsObjects();
 
                 if (!Directory.Exists(NebulaClientPath)) Directory.CreateDirectory(NebulaClientPath);
-                ApplicationPrint(1, "Celestia IDE is up to date.");
-                ApplicationPrint(1, "Checking files, this may take awhile...");
+                ApplicationPrint(OutputTypes.Debug, "Celestia IDE is up to date.");
+                ApplicationPrint(OutputTypes.Debug, "Checking files, this may take awhile...");
                 await Task.Delay(2300);
-                ApplicationPrint(1, "All Files Available, check closed.");
-                ApplicationPrint(5, "Celestia Fully Initialised, Welcome to Nebula Client!");
-                Notify(4, "Nebula Client is in Alpha!", "Please take note that Celestia and the rest of Nebula Client is currently in its Alpha Stage.\nExpect Bugs, and help report them in the discord server. Thank you.", 5);
-                Notify(1, "Checking for updates", "Celestia is currently checking for Nebula Client updates.\nYou may continue to use it while it does.", 3);
-                ApplicationPrint(3, "Please Make Sure to Use On An ALT Account to ensure maximum security of your account, we will not be responsible for bans!");
+                ApplicationPrint(OutputTypes.Debug, "All Files Available, check closed.");
+                ApplicationPrint(OutputTypes.Info, "Celestia Fully Initialised, Welcome to Nebula Client!");
+                Notify(NotifyTypes.Warning, "Nebula Client is in Alpha!", "Please take note that Celestia and the rest of Nebula Client is currently in its Alpha Stage.\nExpect Bugs, and help report them in the discord server. Thank you.", 5);
+                Notify(NotifyTypes.Info, "Checking for updates", "Celestia is currently checking for Nebula Client updates.\nYou may continue to use it while it does.", 3);
+                ApplicationPrint(OutputTypes.Warning, "Please Make Sure to Use On An ALT Account to ensure maximum security of your account, we will not be responsible for bans!");
             };
             SizeChanged += delegate
             {
@@ -704,14 +726,27 @@ namespace Celestia_IDE
                     windowstate(0, WindowState == WindowState.Maximized);
                 }
             };
+
             Closing += async (_, e) =>
             {
+                if (Settings.UsingTrayIcon)
+                {
+                    if (!IsCurrentlyTrayed)
+                    {
+                        e.Cancel = true;
+                        Hide();
+                        IsCurrentlyTrayed = true;
+                        return;
+                    }
+                }
+
                 if (isabletoclose == false) e.Cancel = true;
 
                 try
                 {
                     TerminateConnection();
-                } catch { }
+                }
+                catch { }
 
                 var tabTasks = tabitemcache.Cast<TabItem>().Select(async t => new tabclass
                 {
@@ -730,7 +765,7 @@ namespace Celestia_IDE
 
                 var json = JsonConvert.SerializeObject(session, Newtonsoft.Json.Formatting.Indented);
 
-                File.WriteAllText(NebulaClientPath + @"\cache\tabs.celestia", json);
+                if (Settings.SaveWorkspaceTabs) File.WriteAllText(NebulaClientPath + @"\cache\tabs.celestia", json);
 
                 var windowjson = JsonConvert.SerializeObject(new
                 {
@@ -746,16 +781,24 @@ namespace Celestia_IDE
                     IsPanelOpen = PanelBar.Visibility != Visibility.Collapsed,
                     EngineButtonX = DraggableEngineButtons.Margin.Left,
                     EngineButtonY = DraggableEngineButtons.Margin.Top
-                }, Newtonsoft.Json.Formatting.Indented) ;
+                }, Newtonsoft.Json.Formatting.Indented);
                 File.WriteAllText(NebulaClientPath + @"\cache\window.celestia", windowjson);
 
                 File.WriteAllText(NebulaClientPath + @"\cache\workspace.celestia", WorkspaceFolder);
                 isabletoclose = true;
                 await Task.Delay(5);
-                listener.Abort();
-                Close();
+                try
+                {
+                    listener.Abort();
+                }
+                finally
+                {
+                    Close();
+                }
 
             };
+
+
             PreviewKeyDown += (sender, e) =>
             {
                 /*
@@ -802,9 +845,9 @@ namespace Celestia_IDE
                     e.Handled = true;
                 }
             };
-            //Notify(1, "test!", "Please take note that Celestia and the rest of Nebula Client is currently in its Alpha Stage.\nExpect Bugs, and help report them in the discord server. Thank you.", 5);
-            //Notify(2, "test!", "Please take note that Celestia and the rest of Nebula Client is currently in its Alpha Stage.\nExpect Bugs, and help report them in the discord server. Thank you.", 2);
-            //Notify(3, "test!", "Please take note that Celestia and the rest of Nebula Client is currently in its Alpha Stage.\nExpect Bugs, and help report them in the discord server. Thank you.", 3);
+            //Notify(NotifyTypes.Info, "test!", "Please take note that Celestia and the rest of Nebula Client is currently in its Alpha Stage.\nExpect Bugs, and help report them in the discord server. Thank you.", 5);
+            //Notify(NotifyTypes.Error, "test!", "Please take note that Celestia and the rest of Nebula Client is currently in its Alpha Stage.\nExpect Bugs, and help report them in the discord server. Thank you.", 2);
+            //Notify(NotifyTypes.Success, "test!", "Please take note that Celestia and the rest of Nebula Client is currently in its Alpha Stage.\nExpect Bugs, and help report them in the discord server. Thank you.", 3);
         }
 
         #region Window Functionality
@@ -968,7 +1011,7 @@ namespace Celestia_IDE
             }
             catch (Exception ex)
             {
-                ApplicationPrint(2, "Error: " + ex.Message);
+                ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
                 await Prompt("Error Saving Output Log to File", "File Manager");
             }
         }
@@ -987,7 +1030,7 @@ namespace Celestia_IDE
             }
             catch (Exception ex)
             {
-                ApplicationPrint(2, "Error: " + ex.Message);
+                ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
                 await Prompt("Error Saving Output Log to Clipboard", "File Manager");
             }
         }
@@ -1267,11 +1310,11 @@ namespace Celestia_IDE
                         };
                         if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             TabSystemz.add_tab_from_file(openFileDialog.FileName);
-                        //ApplicationPrint(1, openFileDialog.FileName);
+                        //ApplicationPrint(OutputTypes.Debug, openFileDialog.FileName);
                     }
                     catch (Exception ex)
                     {
-                        ApplicationPrint(2, "Error: " + ex.Message);
+                        ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
                         await Prompt("Error Importing File Contents Into Editor", "File Manager");
                     }
                     break;
@@ -1285,11 +1328,11 @@ namespace Celestia_IDE
                         };
                         if (openFolderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                             WorkspaceFolder = openFolderDialog.SelectedFolder;
-                        //ApplicationPrint(1, openFileDialog.FileName);
+                        //ApplicationPrint(OutputTypes.Debug, openFileDialog.FileName);
                     }
                     catch (Exception ex)
                     {
-                        ApplicationPrint(2, "Error: " + ex.Message);
+                        ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
                         await Prompt("Error Opening Folder", "File Manager");
                     }
                     break;
@@ -1300,7 +1343,7 @@ namespace Celestia_IDE
                     }
                     catch (Exception ex)
                     {
-                        ApplicationPrint(2, "Error: " + ex.Message);
+                        ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
                         await Prompt("Error Clearing Folder", "File Manager");
                     }
                     break;
@@ -1310,12 +1353,12 @@ namespace Celestia_IDE
                         TabItem currentTab = (TabItem)TabSystemz.maintabs.SelectedItem;
                         if (currentTab == null) return;
                         if (currentTab.Tag == null) { FileMenuButtons(new Button() { Name = "Menus_File_SaveFileAs" }, new RoutedEventArgs()); return; }
-
+                        TabSystemz.current_monaco().Format();
                         File.WriteAllText((string)currentTab.Tag, await TabSystemz.current_monaco().GetText());
                     }
                     catch (Exception ex)
                     {
-                        ApplicationPrint(2, "Error: " + ex.Message);
+                        ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
                         await Prompt("Error Saving Editor Contents To File", "File Manager");
                     }
                     break;
@@ -1332,6 +1375,7 @@ namespace Celestia_IDE
 
                         if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
+                            TabSystemz.current_monaco().Format();
                             File.WriteAllText(saveFileDialog.FileName, await TabSystemz.current_monaco().GetText());
                             TabItem currentTab = (TabItem)TabSystemz.maintabs.SelectedItem;
                             currentTab.Tag = saveFileDialog.FileName;
@@ -1340,7 +1384,7 @@ namespace Celestia_IDE
                     }
                     catch (Exception ex)
                     {
-                        ApplicationPrint(2, "Error: " + ex.Message);
+                        ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
                         await Prompt("Error Saving Editor Contents To File", "File Manager");
                     }
                     break;
@@ -1373,7 +1417,7 @@ namespace Celestia_IDE
                     }
                     catch (Exception ex)
                     {
-                        ApplicationPrint(2, "Error: " + ex.Message);
+                        ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
                         await Prompt("Error Saving Editor Contents To File(s)" + ex.Message, "File Manager");
                     }
                     break;
@@ -1592,8 +1636,8 @@ namespace Celestia_IDE
                                         process.Kill();
                                     };
                                     instanceManager.Instances.Children.Add(instanceBtn);
-                                    ApplicationPrint(4, $"Sucessfully Injected into Process {process.Id}");
-                                    Notify(3, "Injected!", $"Nebula Client has sucessfully injected into Process {process.Id}", 4);
+                                    ApplicationPrint(OutputTypes.Success, $"Sucessfully Injected into Process {process.Id}");
+                                    Notify(NotifyTypes.Success, "Injected!", $"Nebula Client has sucessfully injected into Process {process.Id}", 4);
                                     ClientManagerNotification.Visibility = Visibility.Visible;
 
                                     ProcessToUI[process.Id] = instanceBtn;
@@ -1636,7 +1680,7 @@ namespace Celestia_IDE
                                         }
                                         catch
                                         {
-                                            ApplicationPrint(2, "failed to handle killed roblox process");
+                                            ApplicationPrint(OutputTypes.Error, "failed to handle killed roblox process");
                                         }
                                     }));
                                 };
@@ -1656,15 +1700,15 @@ namespace Celestia_IDE
                             {
                                 Dispatcher.Invoke(delegate
                                 {
-                                    ApplicationPrint(2, $"error: {ex.Message}\n{ex.StackTrace}");
+                                    ApplicationPrint(OutputTypes.Error, $"error: {ex.Message}\n{ex.StackTrace}");
                                 });
                             }
                             break;
                         case "FAILEDINJECT":
                             Dispatcher.Invoke(delegate
                             {
-                                ApplicationPrint(3, $"Failed to Inject into {process.Id}");
-                                Notify(4, "Failed to Inject", $"Nebula Trinity Engine has failed to inject into {process.Id}!", 4);
+                                ApplicationPrint(OutputTypes.Warning, $"Failed to Inject into {process.Id}");
+                                Notify(NotifyTypes.Warning, "Failed to Inject", $"Nebula Trinity Engine has failed to inject into {process.Id}!", 4);
                             });
                             break;
                     }
@@ -1676,8 +1720,8 @@ namespace Celestia_IDE
                 {
                     Dispatcher.Invoke(delegate
                     {
-                        ApplicationPrint(2, $"Failed to Inject: " + ex.Message + "\n" + ex.StackTrace);
-                        Notify(2, "Failed to Inject", $"Nebula Trinity Engine has failed to inject !", 4);
+                        ApplicationPrint(OutputTypes.Error, $"Failed to Inject: " + ex.Message + "\n" + ex.StackTrace);
+                        Notify(NotifyTypes.Error, "Failed to Inject", $"Nebula Trinity Engine has failed to inject !", 4);
                     });
                 }
             }
@@ -1708,7 +1752,7 @@ namespace Celestia_IDE
 
                 Dispatcher.Invoke(delegate
                 {
-                    ApplicationPrint(2, $"failed into Process {msg}: {ex.Message}\n{ex.StackTrace}");
+                    ApplicationPrint(OutputTypes.Error, $"failed into Process {msg}: {ex.Message}\n{ex.StackTrace}");
                 });
             }
         }
@@ -1763,7 +1807,7 @@ namespace Celestia_IDE
 
             }
 
-            ApplicationPrint(1, $"Instance socket {port} disconnected");
+            ApplicationPrint(OutputTypes.Debug, $"Instance socket {port} disconnected");
         }
 
         /// <summary>
@@ -1805,7 +1849,7 @@ namespace Celestia_IDE
         /// <param name="port"></param>
         async void StartInstanceServer(int port)
         {
-            //ApplicationPrint(1, "instance server started" + port.ToString());
+            //ApplicationPrint(OutputTypes.Debug, "instance server started" + port.ToString());
             HttpListener listener = new();
             listener.Prefixes.Add($"http://localhost:{port}/");
             listener.Start();
@@ -1828,11 +1872,11 @@ namespace Celestia_IDE
 
                     string type = split[0];
                     string data = split[1];
-                    //ApplicationPrint(1, "WebSocket is open");
+                    //ApplicationPrint(OutputTypes.Debug, "WebSocket is open");
 
                     if (!PortToProcess.TryGetValue(port, out int pid)) continue;
                     if (!ProcessToUI.TryGetValue(pid, out var ui)) continue;
-                    //ApplicationPrint(1, "ready, finished continue checks");
+                    //ApplicationPrint(OutputTypes.Debug, "ready, finished continue checks");
 
                     Dispatcher.Invoke(() =>
                     {
@@ -1840,16 +1884,16 @@ namespace Celestia_IDE
                         {
                             case "INFO":
                                 ui.ContentBlock.Text = data;
-                                //ApplicationPrint(1, data);
+                                //ApplicationPrint(OutputTypes.Debug, data);
                                 break;
                             case "PRINT":
-                                ApplicationPrint(6, "[ROBLOX " + pid.ToString() + "] " + data);
+                                ApplicationPrint(OutputTypes.Default, "[ROBLOX " + pid.ToString() + "] " + data);
                                 break;
                             case "WARN":
-                                ApplicationPrint(3, "[ROBLOX " + pid.ToString() + "] " + data);
+                                ApplicationPrint(OutputTypes.Warning, "[ROBLOX " + pid.ToString() + "] " + data);
                                 break;
                             case "ERROR":
-                                ApplicationPrint(2, "[ROBLOX " + pid.ToString() + "] " + data);
+                                ApplicationPrint(OutputTypes.Error, "[ROBLOX " + pid.ToString() + "] " + data);
                                 break;
                             case "MSGBOX":
                                 var split = msg.Split(new[] { ';' }, 3);
@@ -1860,7 +1904,7 @@ namespace Celestia_IDE
                 }
                 catch { }
             }
-            //ApplicationPrint(1, "port closed " + port.ToString());
+            //ApplicationPrint(OutputTypes.Debug, "port closed " + port.ToString());
 
             try { PortToProcess.Remove(port); } catch { }
         }
@@ -1870,13 +1914,13 @@ namespace Celestia_IDE
         /// Creates a new Instance Control/Execute Selector for that Process in the instance manager.
         /// </summary>
         /// <param name="process"></param>
-        public async void newProcess(Process process)
+        public async void NewProcess(Process process)
         {
             await Task.Run(async delegate
             {
                 Dispatcher.Invoke(delegate
                 {
-                    ApplicationPrint(6, $"Injecting into Process {process.Id}");
+                    ApplicationPrint(OutputTypes.Default, $"Injecting into Process {process.Id}");
                 });
                 try
                 {
@@ -1887,7 +1931,7 @@ namespace Celestia_IDE
 
                     Dispatcher.Invoke(delegate
                     {
-                        ApplicationPrint(2, $"failed into Process {process.Id}: {ex.Message}\n{ex.StackTrace}");
+                        ApplicationPrint(OutputTypes.Error, $"failed into Process {process.Id}: {ex.Message}\n{ex.StackTrace}");
                     });
                 }
 
@@ -1906,7 +1950,7 @@ namespace Celestia_IDE
             {
                 foreach (Process boblox in Process.GetProcessesByName("RobloxPlayerBeta"))
                 {
-                    newProcess(boblox);
+                    NewProcess(boblox);
                 }
                 try
                 {
@@ -1919,16 +1963,16 @@ namespace Celestia_IDE
                     {
                         Dispatcher.Invoke(delegate
                         {
-                            //ApplicationPrint(1, "new app");
+                            //ApplicationPrint(OutputTypes.Debug, "new app");
                             string name = e.NewEvent.Properties["ProcessName"]?.Value?.ToString();
                             int pid = Convert.ToInt32(e.NewEvent.Properties["ProcessID"].Value);
-                            //ApplicationPrint(1, name);
+                            //ApplicationPrint(OutputTypes.Debug, name);
                             if (name == "RobloxPlayerBeta.exe")
                             {
-                                //ApplicationPrint(1, "passed check");
-                                newProcess(Process.GetProcessById(pid));
-                                //ApplicationPrint(1, pid.ToString());
-                                //ApplicationPrint(1, Process.GetProcessById(pid).ToString());
+                                //ApplicationPrint(OutputTypes.Debug, "passed check");
+                                NewProcess(Process.GetProcessById(pid));
+                                //ApplicationPrint(OutputTypes.Debug, pid.ToString());
+                                //ApplicationPrint(OutputTypes.Debug, Process.GetProcessById(pid).ToString());
                             }
                             if (name == "RobloxCrashHandler.exe")
                             {
@@ -1956,7 +2000,7 @@ namespace Celestia_IDE
         {
             if (!File.Exists(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Nebula Trinity Engine\InstallPath.data") + @"\AutoExec\runtimes.txt"))
             {
-                ApplicationPrint(2, "deleted runtimes");
+                ApplicationPrint(OutputTypes.Error, "deleted runtimes");
                 return;
             }
 
@@ -1996,7 +2040,7 @@ namespace Celestia_IDE
             }
             catch (Exception ex)
             {
-                ApplicationPrint(2, "Error: " + ex.Message);
+                ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
                 await Prompt("Error Executing File Contents", "Nebula Trinity Engine");
             }
         }
@@ -2007,7 +2051,7 @@ namespace Celestia_IDE
         /// </summary>
         /// <returns>If all files are correct</returns>
         [Obsolete ("Currently broken and doesnt work")]
-        private bool checkruntimefile()
+        private bool CheckRuntimeFile()
         {
             if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\AutoExec\runtimes.txt"))
             {
@@ -2064,19 +2108,6 @@ namespace Celestia_IDE
         {
             InitRPC();
             enablerpc();
-            Settings.OnUpdate += str =>
-            {
-                if (str == "RPCEnabled_Setting")
-                {
-                    if (Settings.DiscordRPCEnabled)
-                    {
-                        enablerpc();
-                    } else
-                    {
-                        shutdownrpc();
-                    }
-                }
-            };
         }
 
         /// <summary>
@@ -2179,14 +2210,17 @@ namespace Celestia_IDE
         /// </summary>
         public void shutdownrpc()
         {
-            if (client.IsInitialized)
-            {
+            try { 
                 TerminateConnection();
-            }
+            } catch { }
         }
         #endregion
 
         #region Settings
+
+        Key _previousKey;
+        bool _keyCaptured;
+
         /// <summary>
         /// Sets Initial/Default Settings Values And Creates The Settings Objects
         /// </summary>
@@ -2202,7 +2236,7 @@ namespace Celestia_IDE
             Settings.UsingTrayIcon = false;
             Settings.Opacity = 1;
             Settings.InterfaceScale = 100/100;
-            Settings.InterfaceLanguage = 0;
+            Settings.InterfaceLanguage = InterfaceLanguages.English;
             Settings.DiscordRPCEnabled = true;
             Settings.StartOnStartup = false;
 
@@ -2218,6 +2252,7 @@ namespace Celestia_IDE
                 { "AccentColorTwo", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
             };
             Settings.BackgroundPhotoPath = null;
+            Settings.EditorTheme = "Celestia";
 
             Settings.FpsUnlock = true;
             Settings.ReplicateFirst = false;
@@ -2228,9 +2263,10 @@ namespace Celestia_IDE
             Settings.RunAutoExecute = true;
 
             Settings.Minimap = true;
-            Settings.FormatOnSave = true;
+            Settings.FormatOnSave = false;
             Settings.SaveWorkspaceTabs = true;
             Settings.Ligatures = true;
+            Settings.AutoComplete = true;
             Settings.Intellisense = true;
             Settings.AntiSkid = false;
             Settings.FontSize = 14;
@@ -2266,12 +2302,51 @@ namespace Celestia_IDE
             SettingsToggle TrayIconToggle = new SettingsToggle();
             settings.Pages_Interface.Children.Add(TrayIconToggle);
             TrayIconToggle.TitleBlock.Text = "Tray Icon Mode";
-            TrayIconToggle.ContentBlock.Text = "Keeps Celestia Running In The Background On Window Close.\nUNIMPLEMENTED.";
+            TrayIconToggle.ContentBlock.Text = "Keeps Celestia Running In The Background On Window Close.\nApp is active.";
             TrayIconToggle.isSelectedCheckbox.IsChecked = false;
             TrayIconToggle.isSelectedCheckbox.Checked += (_, _) =>
                 Settings.UsingTrayIcon = true;
             TrayIconToggle.isSelectedCheckbox.Unchecked += (_, _) =>
                 Settings.UsingTrayIcon = false;
+            trayicon.LeftClick += async delegate
+            {
+                try
+                {
+                    await Dispatcher.Yield();
+                    trayicon.Menu.IsOpen = true;
+                }
+                catch { }
+            };
+            var showitem = new MenuItem()
+            {
+                Header = "Show",
+                Height = 18,
+                FontSize = 12,
+            };
+            showitem.Click += delegate
+            {
+                IsCurrentlyTrayed = false;
+                ObjectShift(MainBackgroundBorder, TimeSpan.FromMilliseconds(300), new Thickness(15)).Begin();
+                Fade(this, TimeSpan.FromMilliseconds(300), Settings.Opacity).Begin();
+                Show();
+                InvalidateVisual();
+                Activate();
+            };
+            trayicon.Menu.Items.Add(showitem);
+            var exititem = new MenuItem()
+            {
+                Header = "Exit",
+                Height = 18,
+                FontSize = 12,
+            };
+            exititem.Click += delegate
+            {
+                IsCurrentlyTrayed = true;
+                trayicon.Menu.IsOpen = false;
+                Close();
+            };
+            trayicon.Menu.Items.Add(exititem);
+            trayicon.Menu.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#1b1a1e");
 
             SettingsSlider OpacitySlider = new SettingsSlider();
             settings.Pages_Interface.Children.Add(OpacitySlider);
@@ -2282,6 +2357,264 @@ namespace Celestia_IDE
                 OpacitySlider.ValueBlock.Text = Settings.Opacity.ToString() + " Opacity";
             };
             OpacitySlider.MainSlider.Value = Settings.Opacity * 10;
+
+            SettingsDropdown InterfaceLanguageDropdown = new SettingsDropdown();
+            settings.Pages_Interface.Children.Add(InterfaceLanguageDropdown);
+
+            SettingsButton OpenFolderButton = new SettingsButton();
+            OpenFolderButton.InteractionButton.Click += delegate
+            {
+                Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            };
+            settings.Pages_Interface.Children.Add(OpenFolderButton);
+
+            SettingsToggle StartOnStartupToggle = new SettingsToggle();
+            settings.Pages_Interface.Children.Add(StartOnStartupToggle);
+            StartOnStartupToggle.TitleBlock.Text = "Start On Startup";
+            StartOnStartupToggle.ContentBlock.Text = "Starts Celestia IDE on startup.\nBased on the InstallPath.data";
+            StartOnStartupToggle.isSelectedCheckbox.IsChecked = false;
+            StartOnStartupToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.StartOnStartup = true;
+            StartOnStartupToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.StartOnStartup = false;
+
+            SettingsToggle DiscordRPCToggle = new SettingsToggle();
+            settings.Pages_Interface.Children.Add(DiscordRPCToggle);
+            DiscordRPCToggle.TitleBlock.Text = "Discord RPC";
+            DiscordRPCToggle.ContentBlock.Text = "Discord Rich Presence For Nebula Client.\nIncludes Opened Workspace and Editing File.";
+            DiscordRPCToggle.isSelectedCheckbox.IsChecked = true;
+            DiscordRPCToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.DiscordRPCEnabled = true;
+            DiscordRPCToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.DiscordRPCEnabled = false;
+
+            SettingsKeybind Keybinds_SidebarToggle = new SettingsKeybind();
+            settings.Pages_Keybinds.Children.Add(Keybinds_SidebarToggle);
+            Keybinds_SidebarToggle.TitleBlock.Text = "Sidebar Toggle";
+            Keybinds_SidebarToggle.ContentBlock.Text = "Control Modifier paired with bind.\nto hide the Sidebar";
+            Keybinds_SidebarToggle.input.Text = "B";
+            Keybinds_SidebarToggle.input.GotKeyboardFocus += delegate
+            {
+                _previousKey = Settings.KeyBinds["SideBarToggle"];
+                _keyCaptured = false;
+
+                Keybinds_SidebarToggle.input.Text = "";
+            };
+            Keybinds_SidebarToggle.input.KeyDown += (o, e) =>
+            {
+                e.Handled = true;
+
+                Key pressedKey = e.Key == Key.System ? e.SystemKey : e.Key;
+
+                Settings.KeyBinds["SideBarToggle"] = pressedKey;
+
+                Keybinds_SidebarToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(pressedKey.ToString().ToLower());
+
+                _keyCaptured = true;
+
+                Keyboard.ClearFocus();
+            };
+            Keybinds_SidebarToggle.LostKeyboardFocus += delegate
+            {
+                if (!_keyCaptured)
+                {
+                    Keybinds_SidebarToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_previousKey.ToString().ToLower()); 
+                }
+            };
+            SettingsKeybind Keybinds_PanelToggle = new SettingsKeybind();
+            settings.Pages_Keybinds.Children.Add(Keybinds_PanelToggle);
+            Keybinds_PanelToggle.TitleBlock.Text = "Panel Toggle";
+            Keybinds_PanelToggle.ContentBlock.Text = "Control Modifier paired with bind.\nto hide the Panel";
+            Keybinds_PanelToggle.input.Text = "J";
+            Keybinds_PanelToggle.input.GotKeyboardFocus += delegate
+            {
+                _previousKey = Settings.KeyBinds["PanelToggle"];
+                _keyCaptured = false;
+
+                Keybinds_PanelToggle.input.Text = "";
+            };
+            Keybinds_PanelToggle.input.KeyDown += (o, e) =>
+            {
+                e.Handled = true;
+
+                Key pressedKey = e.Key == Key.System ? e.SystemKey : e.Key;
+
+                Settings.KeyBinds["PanelToggle"] = pressedKey;
+
+                Keybinds_PanelToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(pressedKey.ToString().ToLower());
+
+                _keyCaptured = true;
+
+                Keyboard.ClearFocus();
+            };
+            Keybinds_PanelToggle.LostKeyboardFocus += delegate
+            {
+                if (!_keyCaptured)
+                {
+                    Keybinds_PanelToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_previousKey.ToString().ToLower());
+                }
+            };
+
+            SettingsToggle MinimapToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(MinimapToggle);
+            MinimapToggle.TitleBlock.Text = "Editor Minimap";
+            MinimapToggle.ContentBlock.Text = "Enables or disables the Minimap of\nMonaco for the code preview.";
+            MinimapToggle.isSelectedCheckbox.IsChecked = true;
+            MinimapToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.Minimap = true;
+            MinimapToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.Minimap = false;
+
+            SettingsToggle SaveFormatToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(SaveFormatToggle);
+            SaveFormatToggle.TitleBlock.Text = "Format On Save";
+            SaveFormatToggle.ContentBlock.Text = "Automatically formats the editor's contents before\nit is saved to a file's contents.";
+            SaveFormatToggle.isSelectedCheckbox.IsChecked = false;
+            SaveFormatToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.FormatOnSave = true;
+            SaveFormatToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.FormatOnSave = false;
+
+            SettingsToggle SaveTabsToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(SaveTabsToggle);
+            SaveTabsToggle.TitleBlock.Text = "Save Tabs";
+            SaveTabsToggle.ContentBlock.Text = "Saves your currently open tabs on Window Close to be\nloaded and used next Celestia session.";
+            SaveTabsToggle.isSelectedCheckbox.IsChecked = true;
+            SaveTabsToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.SaveWorkspaceTabs = true;
+            SaveTabsToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.SaveWorkspaceTabs = false;
+
+            SettingsTextbox DefaultHeaderInput = new SettingsTextbox();
+            settings.Pages_Editor.Children.Add(DefaultHeaderInput);
+            DefaultHeaderInput.TitleBlock.Text = "Default Tab Header";
+            DefaultHeaderInput.input.KeyDown += (object sender, KeyEventArgs e) =>
+            {
+                if (e.Key == Key.Return)
+                {
+                    Settings.TextFileHeader = !string.IsNullOrEmpty(DefaultHeaderInput.input.Text) ? DefaultHeaderInput.input.Text : "Untitled Text File";
+                    Keyboard.ClearFocus();
+                }
+            };
+
+            SettingsToggle LigaturesToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(LigaturesToggle);
+            LigaturesToggle.TitleBlock.Text = "Font Ligatures";
+            LigaturesToggle.ContentBlock.Text = "Enables or disables Ligatures (Combined Characters) in the code\neditor, assuming the font supports it.";
+            LigaturesToggle.isSelectedCheckbox.IsChecked = true;
+            LigaturesToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.Ligatures = true;
+            LigaturesToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.Ligatures = false;
+
+            SettingsSlider FontSizeSlider = new SettingsSlider();
+            settings.Pages_Editor.Children.Add(FontSizeSlider);
+            FontSizeSlider.TitleBlock.Text = "Font Size";
+            FontSizeSlider.ContentBlock.Text = "Customise how big/small the text in the monaco\ncode editor is.";
+            FontSizeSlider.MainSlider.Minimum = 12;
+            FontSizeSlider.MainSlider.Maximum = 28;
+            FontSizeSlider.MainSlider.ValueChanged += (_, x) =>
+            {
+                Settings.FontSize = x.NewValue;
+                FontSizeSlider.ValueBlock.Text = Settings.FontSize.ToString() + "px";
+            };
+            FontSizeSlider.MainSlider.Value = Settings.FontSize;
+
+            SettingsToggle AutoCompleteToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(AutoCompleteToggle);
+            AutoCompleteToggle.TitleBlock.Text = "Auto Complete";
+            AutoCompleteToggle.ContentBlock.Text = "Enables or disables Auto Complete Suggestions in\nthe code editor.";
+            AutoCompleteToggle.isSelectedCheckbox.IsChecked = true;
+            AutoCompleteToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.AutoComplete = true;
+            AutoCompleteToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.AutoComplete = false;
+
+            SettingsToggle IntellisenseToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(IntellisenseToggle);
+            IntellisenseToggle.TitleBlock.Text = "Intellisense";
+            IntellisenseToggle.ContentBlock.Text = "Enables or disables Intellisense, the dynamic errors\nand linting in the codeeditor.";
+            IntellisenseToggle.isSelectedCheckbox.IsChecked = true;
+            IntellisenseToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.Intellisense = true;
+            IntellisenseToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.Intellisense = false;
+
+            SettingsToggle AntiSkidToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(AntiSkidToggle);
+            AntiSkidToggle.TitleBlock.Text = "Anti Skid";
+            AntiSkidToggle.ContentBlock.Text = "Blurs the editor when the mouse is not over it to prevent\nskids from copy-and-pasting your code.";
+            AntiSkidToggle.isSelectedCheckbox.IsChecked = false;
+            AntiSkidToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.AntiSkid = true;
+            AntiSkidToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.AntiSkid = false;
+
+            SettingsToggle AutoFormatToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(AutoFormatToggle);
+            AutoFormatToggle.TitleBlock.Text = "Auto Format";
+            AutoFormatToggle.ContentBlock.Text = "Automatically formats the editor's contents as you\nare coding within it.";
+            AutoFormatToggle.isSelectedCheckbox.IsChecked = true;
+            AutoFormatToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.AutoFormat = true;
+            AutoFormatToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.AutoFormat = false;
+
+            SettingsDropdown EditorThemeDropdown = new SettingsDropdown();
+            settings.Pages_Appearance.Children.Add(EditorThemeDropdown);
+            EditorThemeDropdown.TitleBlock.Text = "Editor Theme";
+            EditorThemeDropdown.ContentBlock.Text = "Syntax Highlighting and Color Palette for the code editor.\nBroken - if you can fix, please send a pull request on Github.";
+            EditorThemeDropdown.MainDropdown.Items.Clear();
+            EditorThemeDropdown.MainDropdown.Items.Add("Celestia");
+            EditorThemeDropdown.MainDropdown.Items.Add("LInjector");
+            EditorThemeDropdown.MainDropdown.Items.Add("Moonlight Nebula");
+            EditorThemeDropdown.MainDropdown.Items.Add("Luna");
+            EditorThemeDropdown.MainDropdown.Items.Add("Sentinel");
+            EditorThemeDropdown.MainDropdown.Items.Add("Hollywood Classic");
+            EditorThemeDropdown.MainDropdown.Items.Add("Legacy");
+            EditorThemeDropdown.MainDropdown.Items.Add("luauXSHD");
+            EditorThemeDropdown.MainDropdown.Items.Add("Github");
+            EditorThemeDropdown.MainDropdown.SelectionChanged += delegate
+            {
+                Settings.EditorTheme = ((string)EditorThemeDropdown.MainDropdown.SelectedItem).Replace(" ", "-");
+            };
+            EditorThemeDropdown.MainDropdown.SelectedItem = Settings.EditorTheme.Replace("-", " ");
+
+            SettingsButton OpenBackgroundButton = new SettingsButton();
+            settings.Pages_Appearance.Children.Add(OpenBackgroundButton);
+            OpenBackgroundButton.TitleBlock.Text = "Select Background Photo";
+            OpenBackgroundButton.ContentBlock.Text = "Select a Bitmap Image to render and display as\nthe Background Image for Celestia.";
+            OpenBackgroundButton.InteractionButton.Content = "Browse";
+            OpenBackgroundButton.InteractionButton.Click += async delegate
+            {
+                try
+                {
+                    var openFileDialog = new System.Windows.Forms.OpenFileDialog
+                    {
+                        Title = "Nebula Client - Celestia IDE | File Manager - Set As Background",
+                        Filter = "Bitmap Image Files (*.png;*.jpg;*.jpeg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif;",
+                        Multiselect = false,
+                        RestoreDirectory = true,
+                    };
+                    if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        Settings.BackgroundPhotoPath = openFileDialog.FileName;
+                    //ApplicationPrint(OutputTypes.Debug, openFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
+                    await Prompt("Error Setting Background Path to File", "File Manager");
+                }
+            };
+            SettingsButton ClearBackgroundButton = new SettingsButton();
+            settings.Pages_Appearance.Children.Add(ClearBackgroundButton);
+            ClearBackgroundButton.TitleBlock.Text = "Clear Background Photo";
+            ClearBackgroundButton.ContentBlock.Text = "Resets the Background Image for Celestia back\nto blank (Flat/Solid Color).";
+            ClearBackgroundButton.InteractionButton.Content = "Clear";
+            ClearBackgroundButton.InteractionButton.Click += delegate
+            {
+                Settings.BackgroundPhotoPath = "";
+            };
 
             #endregion
         }
@@ -2306,10 +2639,142 @@ namespace Celestia_IDE
                         );
                         break;
                     case "UsingTrayIcon_Setting":
-                        
+                        switch (Settings.UsingTrayIcon)
+                        {
+                            case true:
+                                trayicon.Register();
+                                break;
+                            case false:
+                                trayicon.Unregister();
+                                break;
+                        }
                         break;
                     case "Opacity_Setting":
                         Opacity = Settings.Opacity;
+                        break;
+                    case "StartOnStartup_Setting":
+                        if (Settings.StartOnStartup)
+                            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+                                key.SetValue("CELESTIA_IDE", $"\"{Assembly.GetExecutingAssembly().Location}\"");
+                        else
+                            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+                                key.DeleteValue("CELESTIA_IDE", false);
+                        break;
+                    case "RPCEnabled_Setting":
+                        if (Settings.DiscordRPCEnabled)
+                            enablerpc();
+                        else
+                            shutdownrpc();
+                        break;
+
+                    case "Minimap_Setting":
+                        if (Settings.Minimap)
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).enable_minimap();
+                                }
+                                catch { }
+                        else
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).disable_minimap();
+                                }
+                                catch { }
+                        break;
+                    case "FontSize_Setting":
+                        foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                            try
+                            {
+                                ((monaco_api)tab.Content).FontSize(Settings.FontSize);
+                            }
+                            catch { }
+                        break;
+                    case "Ligatures_Setting":
+                        if (Settings.Ligatures)
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).SwitchLig(true);
+                                }
+                                catch { }
+                        else
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).SwitchLig(false) ;
+                                }
+                                catch { }
+                        break;
+                    case "AutoComplete_Setting":
+                        if (Settings.AutoComplete)
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).enable_autocomplete();
+                                }
+                                catch { }
+                        else
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).disable_autocomplete();
+                                }
+                                catch { }
+                        break;
+                    case "Intellisense_Setting":
+                        if (Settings.Intellisense)
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).enable_intellisense();
+                                }
+                                catch { }
+                        else
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).disable_intellisense();
+                                }
+                                catch { }
+                        break;
+                    case "AntiSkid_Setting":
+                        if (Settings.AntiSkid)
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).Blur(10);
+                                }
+                                catch { }
+                        else
+                            foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                                try
+                                {
+                                    ((monaco_api)tab.Content).Blur(0);
+                                }
+                                catch { }
+                        break;
+                    case "AutoFormat_Setting":
+                        foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                            try
+                            {
+                                ((monaco_api)tab.Content).SwitchAutoIndent(Settings.AutoFormat);
+                            }
+                            catch { }
+                        break;
+
+                    case "EditorTheme_Setting":
+                        foreach (TabItem tab in TabSystemz.maintabs.Items.Cast<Visual>().ToList())
+                            try
+                            {
+                                ((monaco_api)tab.Content).SetTheme(Settings.EditorTheme.Trim());
+                                ((monaco_api)tab.Content).refresh();
+                            }
+                            catch { }
+                        break;
+                    case "BackgroundPhotoPath_Setting":
+                        if (Settings.BackgroundPhotoPath == "") ;
                         break;
                 }
             };
