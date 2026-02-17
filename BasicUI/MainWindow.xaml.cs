@@ -108,5 +108,17 @@ namespace BasicUI
                 process.Kill();
             }
         }
+
+        private async void FluentWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            await System.Windows.Threading.Dispatcher.Yield();
+            if (!e.Handled) return;
+
+            if (!richTextBox1.IsKeyboardFocusWithin)
+            {
+                FocusManager.SetFocusedElement(this, null);
+                Keyboard.ClearFocus();
+            }
+        }
     }
 }

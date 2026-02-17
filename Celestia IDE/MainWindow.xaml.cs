@@ -1849,7 +1849,7 @@ namespace Celestia_IDE
         /// <param name="port"></param>
         async void StartInstanceServer(int port)
         {
-            //ApplicationPrint(OutputTypes.Debug, "instance server started" + port.ToString());
+            ApplicationPrint(OutputTypes.Debug, "instance server started" + port.ToString());
             HttpListener listener = new();
             listener.Prefixes.Add($"http://localhost:{port}/");
             listener.Start();

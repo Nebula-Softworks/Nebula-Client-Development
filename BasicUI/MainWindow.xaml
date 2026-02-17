@@ -13,6 +13,7 @@
                  ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
                  ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                  ExtendsContentIntoTitleBar="True"
+                 MouseDown="FluentWindow_PreviewMouseDown"
                  WindowBackdropType="Mica"
                  WindowCornerPreference="Default"
                  WindowStartupLocation="CenterScreen"
@@ -30,6 +31,11 @@
 
         <RichTextBox x:Name="richTextBox1"
                      Margin="6 45 6 46">
+            <RichTextBox.Resources>
+                <Style TargetType="Paragraph">
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+            </RichTextBox.Resources>
         </RichTextBox>
 
         <ui:Button Width="100"
