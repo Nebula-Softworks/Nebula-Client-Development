@@ -1560,6 +1560,21 @@ namespace Celestia_IDE
         /// </summary>
         public async void InitializeEngine()
         {
+            using (FileSystemWatcher watcher = new FileSystemWatcher(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Nebula Trinity Engine\InstallPath.data")))
+            {
+                watcher.NotifyFilter = NotifyFilters.DirectoryName;
+                watcher.Filter = "*";
+                watcher.EnableRaisingEvents = true;
+                watcher.Created += (_, e) =>
+                {
+                    if (!Directory.Exists(e.FullPath) && e.Name == "Scripts") return;
+                    try
+                    {
+                        Directory.Delete(e.FullPath, true);
+                    }
+                    catch { }
+                };
+            }
             try
             {
                 if (Process.GetProcessesByName("Nebula Trinity Engine").Any())
@@ -2616,6 +2631,94 @@ namespace Celestia_IDE
                 Settings.BackgroundPhotoPath = "";
             };
 
+            SettingsToggle FPSUnlockToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(FPSUnlockToggle);
+            FPSUnlockToggle.TitleBlock.Text = "FPS Unlocker";
+            FPSUnlockToggle.ContentBlock.Text = "Removes the FPS Cap for Injected Roblox Instances.\nWill also prevent scripts from setting the FPS Cap.";
+            FPSUnlockToggle.isSelectedCheckbox.IsChecked = true;
+            FPSUnlockToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.FpsUnlock = true;
+            FPSUnlockToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.FpsUnlock = false;
+
+            SettingsToggle ReplicatedFirstToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(ReplicatedFirstToggle);
+            ReplicatedFirstToggle.TitleBlock.Text = "Pre-ReplicateFirst";
+            ReplicatedFirstToggle.ContentBlock.Text = "Allows Execution of Scripts and Will Attempt to Run Them Before ReplicatedFirst\nis loaded. Will break some scripts. UNIMPLEMENTED.";
+            ReplicatedFirstToggle.isSelectedCheckbox.IsChecked = false;
+            ReplicatedFirstToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.ReplicateFirst = true;
+            ReplicatedFirstToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.ReplicateFirst = false;
+
+            SettingsToggle RamLimitToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(RamLimitToggle);
+            RamLimitToggle.TitleBlock.Text = "Use Memory Limits";
+            RamLimitToggle.ContentBlock.Text = "Determines whether Memory Limits will be applied.\nOnly affects new windows. Existing Affected ones wil not be disabled.";
+            RamLimitToggle.isSelectedCheckbox.IsChecked = false;
+            RamLimitToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.UseRamLimit = true;
+            RamLimitToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.UseRamLimit = false;
+
+            SettingsTextboxSuffix RamLimitInput = new SettingsTextboxSuffix();
+            settings.Pages_Engine.Children.Add(RamLimitInput);
+            RamLimitInput.input.KeyDown += (object sender, KeyEventArgs e) =>
+            {
+                if (e.Key == Key.Return)
+                {
+                    Settings.RamLimit = !string.IsNullOrEmpty(RamLimitInput.input.Text) ? ulong.Parse(RamLimitInput.input.Text) * 1024 * 1024 : 8192UL * 1024 * 1024;
+                    Keyboard.ClearFocus();
+                }
+            };
+            RamLimitInput.PreviewTextInput += (_, e) =>
+            {
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
+            };
+
+            SettingsToggle CpuLimitToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(CpuLimitToggle);
+            CpuLimitToggle.TitleBlock.Text = "Use Processor Limits";
+            CpuLimitToggle.ContentBlock.Text = "Determines whether Processor Limits will be applied. Only affects new windows.\nExisting Affected ones wil not be disabled. UNIMPLEMENTED";
+            CpuLimitToggle.isSelectedCheckbox.IsChecked = false;
+            CpuLimitToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.UseCpuLimit = true;
+            CpuLimitToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.UseCpuLimit = false;
+
+            SettingsSlider CpuLimitSlider = new SettingsSlider();
+            settings.Pages_Engine.Children.Add(CpuLimitSlider);
+            CpuLimitSlider.TitleBlock.Text = "Processor Limits";
+            CpuLimitSlider.ContentBlock.Text = "Set a limit to how much of your Processor (in percentage)\nis a single Roblox Process allowed to use. UNIMPLEMENTED";
+            CpuLimitSlider.MainSlider.Minimum = 1;
+            CpuLimitSlider.MainSlider.Maximum = 100;
+            CpuLimitSlider.MainSlider.ValueChanged += (_, x) =>
+            {
+                Settings.CpuLimit = x.NewValue;
+                CpuLimitSlider.ValueBlock.Text = Settings.CpuLimit.ToString() + "%";
+            };
+            CpuLimitSlider.MainSlider.Value = Settings.CpuLimit;
+
+            SettingsToggle AutoExecuteToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(AutoExecuteToggle);
+            AutoExecuteToggle.TitleBlock.Text = "Run AutoExec Scripts";
+            AutoExecuteToggle.ContentBlock.Text = "This Feature is always on. Place .txt and .lua files Inside the\nAutoExec Folder and they will automatically run on Inject.";
+            AutoExecuteToggle.isSelectedCheckbox.IsChecked = false;
+            AutoExecuteToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.RunAutoExecute = true;
+            AutoExecuteToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.RunAutoExecute = false;
+
+            SettingsButton OpenEngineButton = new SettingsButton();
+            settings.Pages_Engine.Children.Add(OpenEngineButton);
+            OpenEngineButton.TitleBlock.Text = "Open Engine Folder";
+            OpenEngineButton.ContentBlock.Text = "Opens the directory of the Nebula Trinity Engine in a new explorer window.\nIncludes AutoExec, Workspace folders, etc.";
+            OpenEngineButton.InteractionButton.Click += delegate
+            {
+                Process.Start(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Nebula Trinity Engine\InstallPath.data"));
+            };
+
             #endregion
         }
 
@@ -2775,6 +2878,29 @@ namespace Celestia_IDE
                         break;
                     case "BackgroundPhotoPath_Setting":
                         if (Settings.BackgroundPhotoPath == "") ;
+                        break;
+
+                    case "FpsUnlock_Setting":
+                        if (Settings.FpsUnlock)
+                        {
+                            try
+                            {
+                                ExecuteScript("if not getgenv().oldfpsset then setfpscap(0) else getgenv().oldfpsset(0) end");
+                            } catch { }
+                            File.WriteAllText(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Nebula Trinity Engine\InstallPath.data") +@"\AutoExec\FpsUnlocker.txt", "getgenv().oldfpsset = setfpscap; setfpscap(0); getgenv().setfpscap = function() end;");
+                        }
+                        else
+                        {
+                            try
+                            {
+                                ExecuteScript("if not getgenv().oldfpsset then setfpscap(60) else getgenv().oldfpsset(60) end");
+                                ExecuteScript("if getgenv().oldfpsset then getgenv().setfpscap = getgenv().oldfpsset end");
+                            }
+                            catch { }
+                                File.WriteAllText(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Nebula Trinity Engine\InstallPath.data") + @"\AutoExec\FpsUnlocker.txt", "");
+                            }
+                        break;
+                    case "ReplicateFirst_Setting":
                         break;
                 }
             };

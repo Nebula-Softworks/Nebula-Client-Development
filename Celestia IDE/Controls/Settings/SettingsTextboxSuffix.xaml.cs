@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Wpf.Ui.Appearance;
 
 namespace Celestia_IDE.Controls.Settings
 {
     /// <summary>
-    /// Interaction logic for SettingsButton.xaml
+    /// Interaction logic for SettingsTextboxSuffix.xaml
     /// </summary>
-    public partial class SettingsButton : UserControl
+    public partial class SettingsTextboxSuffix : UserControl
     {
-        public SettingsButton()
+        public SettingsTextboxSuffix()
         {
             InitializeComponent();
         }

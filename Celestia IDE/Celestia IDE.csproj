@@ -279,6 +279,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Settings\SettingsTextboxSuffix.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Settings\SettingsToggle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -356,6 +360,9 @@
     </Compile>
     <Compile Include="Controls\Settings\SettingsTextbox.xaml.cs">
       <DependentUpon>SettingsTextbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\SettingsTextboxSuffix.xaml.cs">
+      <DependentUpon>SettingsTextboxSuffix.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Settings\SettingsToggle.xaml.cs">
       <DependentUpon>SettingsToggle.xaml</DependentUpon>

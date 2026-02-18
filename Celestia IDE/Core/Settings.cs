@@ -285,7 +285,7 @@ namespace Celestia_IDE.Core
             set
             {
                 _useRamLimit = value;
-                OnUpdate?.Invoke("UseCpuLimit_Setting");
+                OnUpdate?.Invoke("UseRamLimit_Setting");
             }
         }
         public static ulong RamLimit

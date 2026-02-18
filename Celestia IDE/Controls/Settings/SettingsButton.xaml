@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Celestia_IDE.Controls.Settings"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:wpfui="http://schemas.lepo.co/wpfui/2022/xaml"
              Margin="2 1 1 6"
              VerticalAlignment="Top"
              d:DesignWidth="542"
@@ -49,28 +49,22 @@
                         Margin="6 6 16 6"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
-                <StackPanel.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <wpfui:ThemesDictionary Theme="Dark" />
-                            <wpfui:ControlsDictionary />
-                        </ResourceDictionary.MergedDictionaries>
-                    </ResourceDictionary>
-                </StackPanel.Resources>
-                <wpfui:Button x:Name="InteractionButton"
-                              Height="30"
-                              MinWidth="70"
-                              Padding="6 2"
-                              VerticalContentAlignment="Center"
-                              Background="#1b1a1e"
-                              BorderBrush="#cf322e36"
-                              BorderThickness="1"
-                              Content="Open"
-                              CornerRadius="4"
-                              Cursor="Hand"
-                              FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
-                              FontSize="12"
-                              Foreground="#d5d3d7" />
+                <Button x:Name="InteractionButton"
+                        Height="30"
+                        Padding="12 2"
+                        VerticalContentAlignment="Center"
+                        materialDesign:ButtonAssist.CornerRadius="4"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                        materialDesign:ShadowAssist.ShadowEdges="None"
+                        Background="#1b1a1e"
+                        BorderBrush="#cf322e36"
+                        BorderThickness="1"
+                        Content="Open"
+                        Cursor="Hand"
+                        FontFamily="/Celestia IDE;component/Assets/Fonts/#Poppins"
+                        FontSize="11"
+                        FontWeight="Regular"
+                        Foreground="#d5d3d7" />
             </StackPanel>
 
         </Grid>

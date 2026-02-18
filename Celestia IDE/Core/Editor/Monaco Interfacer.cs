@@ -79,6 +79,7 @@ namespace Celestia_IDE.Core.Editor
             if (!Settings.Intellisense) disable_intellisense();
 
             FontSize(Settings.FontSize);
+            SetTheme(Settings.EditorTheme);
 
             if (Settings.AntiSkid)
                 Blur(10);
