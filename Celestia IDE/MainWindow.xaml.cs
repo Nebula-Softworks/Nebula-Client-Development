@@ -720,7 +720,6 @@ namespace Celestia_IDE
 
                     File.Delete(NebulaClientPath + @"\cache\window.celestia");
                 }
-
                 if (IsWindows10())
                 {
                     windowstate(0, WindowState == WindowState.Maximized);
@@ -790,7 +789,7 @@ namespace Celestia_IDE
                 try
                 {
                     listener.Abort();
-                }
+                } catch {}
                 finally
                 {
                     Close();
@@ -2236,491 +2235,6 @@ namespace Celestia_IDE
         Key _previousKey;
         bool _keyCaptured;
 
-        /// <summary>
-        /// Sets Initial/Default Settings Values And Creates The Settings Objects
-        /// </summary>
-        public void CreateSettingsObjects()
-        {
-            // create the controls, set initial values, set callbacks to change the Settings.cs values
-
-            #region Setting Intitial Values
-
-            BindSettingsToUpdate();
-            Settings.TopMost = true;
-            Settings.IsOBSHidden = false;
-            Settings.UsingTrayIcon = false;
-            Settings.Opacity = 1;
-            Settings.InterfaceScale = 100/100;
-            Settings.InterfaceLanguage = InterfaceLanguages.English;
-            Settings.DiscordRPCEnabled = true;
-            Settings.StartOnStartup = false;
-
-            Settings.ColorChoices = new Dictionary<string, Color>()
-            {
-                { "Background", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
-                { "Panels", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
-                { "Borders", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
-                { "InactiveText", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
-                { "DarkText", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
-                { "ForeText", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
-                { "AccentColorOne", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
-                { "AccentColorTwo", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
-            };
-            Settings.BackgroundPhotoPath = null;
-            Settings.EditorTheme = "Celestia";
-
-            Settings.FpsUnlock = true;
-            Settings.ReplicateFirst = false;
-            Settings.UseCpuLimit = false;
-            Settings.CpuLimit = 40;
-            Settings.UseRamLimit = false;
-            Settings.RamLimit = 8192UL * 1024 * 1024;
-            Settings.RunAutoExecute = true;
-
-            Settings.Minimap = true;
-            Settings.FormatOnSave = false;
-            Settings.SaveWorkspaceTabs = true;
-            Settings.Ligatures = true;
-            Settings.AutoComplete = true;
-            Settings.Intellisense = true;
-            Settings.AntiSkid = false;
-            Settings.FontSize = 14;
-            Settings.TextFileHeader = "New Untitled File";
-            Settings.AutoFormat = true;
-            Settings.InlayHints = true;
-
-            #endregion
-
-            #region Creating Objects
-            // Start On Startup and colors and replciate first and cpu limit not done and code default language since only luau atm, ram limits require restarting the process, silently dont implement disable save tabs and font, account js put coming soon
-
-            SettingsToggle TopMostToggle = new SettingsToggle();
-            settings.Pages_Interface.Children.Add(TopMostToggle);
-            TopMostToggle.TitleBlock.Text = "Topmost";
-            TopMostToggle.ContentBlock.Text = "Place Celestia Above All Other Windows Open.\nUseful for constant debugging.";
-            TopMostToggle.isSelectedCheckbox.IsChecked = true;
-            TopMostToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.TopMost = true;
-            TopMostToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.TopMost = false;
-
-            SettingsToggle IsOBSHiddenToggle = new SettingsToggle();
-            settings.Pages_Interface.Children.Add(IsOBSHiddenToggle);
-            IsOBSHiddenToggle.TitleBlock.Text = "Hide From Capture";
-            IsOBSHiddenToggle.ContentBlock.Text = "Hides the Celestia Window from Screen Recording/Capturing Software\nLike OBS. Neat way to look legit.";
-            IsOBSHiddenToggle.isSelectedCheckbox.IsChecked = false;
-            IsOBSHiddenToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.IsOBSHidden = true;
-            IsOBSHiddenToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.IsOBSHidden = false;
-
-            SettingsToggle TrayIconToggle = new SettingsToggle();
-            settings.Pages_Interface.Children.Add(TrayIconToggle);
-            TrayIconToggle.TitleBlock.Text = "Tray Icon Mode";
-            TrayIconToggle.ContentBlock.Text = "Keeps Celestia Running In The Background On Window Close.\nApp is active.";
-            TrayIconToggle.isSelectedCheckbox.IsChecked = false;
-            TrayIconToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.UsingTrayIcon = true;
-            TrayIconToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.UsingTrayIcon = false;
-            trayicon.LeftClick += async delegate
-            {
-                try
-                {
-                    await Dispatcher.Yield();
-                    trayicon.Menu.IsOpen = true;
-                }
-                catch { }
-            };
-            var showitem = new MenuItem()
-            {
-                Header = "Show",
-                Height = 18,
-                FontSize = 12,
-            };
-            showitem.Click += delegate
-            {
-                IsCurrentlyTrayed = false;
-                ObjectShift(MainBackgroundBorder, TimeSpan.FromMilliseconds(300), new Thickness(15)).Begin();
-                Fade(this, TimeSpan.FromMilliseconds(300), Settings.Opacity).Begin();
-                Show();
-                InvalidateVisual();
-                Activate();
-            };
-            trayicon.Menu.Items.Add(showitem);
-            var exititem = new MenuItem()
-            {
-                Header = "Exit",
-                Height = 18,
-                FontSize = 12,
-            };
-            exititem.Click += delegate
-            {
-                IsCurrentlyTrayed = true;
-                trayicon.Menu.IsOpen = false;
-                Close();
-            };
-            trayicon.Menu.Items.Add(exititem);
-            trayicon.Menu.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#1b1a1e");
-
-            SettingsSlider OpacitySlider = new SettingsSlider();
-            settings.Pages_Interface.Children.Add(OpacitySlider);
-            OpacitySlider.MainSlider.Minimum = 1;
-            OpacitySlider.MainSlider.ValueChanged += (_, x) =>
-            {
-                Settings.Opacity = x.NewValue / 10;
-                OpacitySlider.ValueBlock.Text = Settings.Opacity.ToString() + " Opacity";
-            };
-            OpacitySlider.MainSlider.Value = Settings.Opacity * 10;
-
-            SettingsDropdown InterfaceLanguageDropdown = new SettingsDropdown();
-            settings.Pages_Interface.Children.Add(InterfaceLanguageDropdown);
-
-            SettingsButton OpenFolderButton = new SettingsButton();
-            OpenFolderButton.InteractionButton.Click += delegate
-            {
-                Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            };
-            settings.Pages_Interface.Children.Add(OpenFolderButton);
-
-            SettingsToggle StartOnStartupToggle = new SettingsToggle();
-            settings.Pages_Interface.Children.Add(StartOnStartupToggle);
-            StartOnStartupToggle.TitleBlock.Text = "Start On Startup";
-            StartOnStartupToggle.ContentBlock.Text = "Starts Celestia IDE on startup.\nBased on the InstallPath.data";
-            StartOnStartupToggle.isSelectedCheckbox.IsChecked = false;
-            StartOnStartupToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.StartOnStartup = true;
-            StartOnStartupToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.StartOnStartup = false;
-
-            SettingsToggle DiscordRPCToggle = new SettingsToggle();
-            settings.Pages_Interface.Children.Add(DiscordRPCToggle);
-            DiscordRPCToggle.TitleBlock.Text = "Discord RPC";
-            DiscordRPCToggle.ContentBlock.Text = "Discord Rich Presence For Nebula Client.\nIncludes Opened Workspace and Editing File.";
-            DiscordRPCToggle.isSelectedCheckbox.IsChecked = true;
-            DiscordRPCToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.DiscordRPCEnabled = true;
-            DiscordRPCToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.DiscordRPCEnabled = false;
-
-            SettingsKeybind Keybinds_SidebarToggle = new SettingsKeybind();
-            settings.Pages_Keybinds.Children.Add(Keybinds_SidebarToggle);
-            Keybinds_SidebarToggle.TitleBlock.Text = "Sidebar Toggle";
-            Keybinds_SidebarToggle.ContentBlock.Text = "Control Modifier paired with bind.\nto hide the Sidebar";
-            Keybinds_SidebarToggle.input.Text = "B";
-            Keybinds_SidebarToggle.input.GotKeyboardFocus += delegate
-            {
-                _previousKey = Settings.KeyBinds["SideBarToggle"];
-                _keyCaptured = false;
-
-                Keybinds_SidebarToggle.input.Text = "";
-            };
-            Keybinds_SidebarToggle.input.KeyDown += (o, e) =>
-            {
-                e.Handled = true;
-
-                Key pressedKey = e.Key == Key.System ? e.SystemKey : e.Key;
-
-                Settings.KeyBinds["SideBarToggle"] = pressedKey;
-
-                Keybinds_SidebarToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(pressedKey.ToString().ToLower());
-
-                _keyCaptured = true;
-
-                Keyboard.ClearFocus();
-            };
-            Keybinds_SidebarToggle.LostKeyboardFocus += delegate
-            {
-                if (!_keyCaptured)
-                {
-                    Keybinds_SidebarToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_previousKey.ToString().ToLower()); 
-                }
-            };
-            SettingsKeybind Keybinds_PanelToggle = new SettingsKeybind();
-            settings.Pages_Keybinds.Children.Add(Keybinds_PanelToggle);
-            Keybinds_PanelToggle.TitleBlock.Text = "Panel Toggle";
-            Keybinds_PanelToggle.ContentBlock.Text = "Control Modifier paired with bind.\nto hide the Panel";
-            Keybinds_PanelToggle.input.Text = "J";
-            Keybinds_PanelToggle.input.GotKeyboardFocus += delegate
-            {
-                _previousKey = Settings.KeyBinds["PanelToggle"];
-                _keyCaptured = false;
-
-                Keybinds_PanelToggle.input.Text = "";
-            };
-            Keybinds_PanelToggle.input.KeyDown += (o, e) =>
-            {
-                e.Handled = true;
-
-                Key pressedKey = e.Key == Key.System ? e.SystemKey : e.Key;
-
-                Settings.KeyBinds["PanelToggle"] = pressedKey;
-
-                Keybinds_PanelToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(pressedKey.ToString().ToLower());
-
-                _keyCaptured = true;
-
-                Keyboard.ClearFocus();
-            };
-            Keybinds_PanelToggle.LostKeyboardFocus += delegate
-            {
-                if (!_keyCaptured)
-                {
-                    Keybinds_PanelToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_previousKey.ToString().ToLower());
-                }
-            };
-
-            SettingsToggle MinimapToggle = new SettingsToggle();
-            settings.Pages_Editor.Children.Add(MinimapToggle);
-            MinimapToggle.TitleBlock.Text = "Editor Minimap";
-            MinimapToggle.ContentBlock.Text = "Enables or disables the Minimap of\nMonaco for the code preview.";
-            MinimapToggle.isSelectedCheckbox.IsChecked = true;
-            MinimapToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.Minimap = true;
-            MinimapToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.Minimap = false;
-
-            SettingsToggle SaveFormatToggle = new SettingsToggle();
-            settings.Pages_Editor.Children.Add(SaveFormatToggle);
-            SaveFormatToggle.TitleBlock.Text = "Format On Save";
-            SaveFormatToggle.ContentBlock.Text = "Automatically formats the editor's contents before\nit is saved to a file's contents.";
-            SaveFormatToggle.isSelectedCheckbox.IsChecked = false;
-            SaveFormatToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.FormatOnSave = true;
-            SaveFormatToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.FormatOnSave = false;
-
-            SettingsToggle SaveTabsToggle = new SettingsToggle();
-            settings.Pages_Editor.Children.Add(SaveTabsToggle);
-            SaveTabsToggle.TitleBlock.Text = "Save Tabs";
-            SaveTabsToggle.ContentBlock.Text = "Saves your currently open tabs on Window Close to be\nloaded and used next Celestia session.";
-            SaveTabsToggle.isSelectedCheckbox.IsChecked = true;
-            SaveTabsToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.SaveWorkspaceTabs = true;
-            SaveTabsToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.SaveWorkspaceTabs = false;
-
-            SettingsTextbox DefaultHeaderInput = new SettingsTextbox();
-            settings.Pages_Editor.Children.Add(DefaultHeaderInput);
-            DefaultHeaderInput.TitleBlock.Text = "Default Tab Header";
-            DefaultHeaderInput.input.KeyDown += (object sender, KeyEventArgs e) =>
-            {
-                if (e.Key == Key.Return)
-                {
-                    Settings.TextFileHeader = !string.IsNullOrEmpty(DefaultHeaderInput.input.Text) ? DefaultHeaderInput.input.Text : "Untitled Text File";
-                    Keyboard.ClearFocus();
-                }
-            };
-
-            SettingsToggle LigaturesToggle = new SettingsToggle();
-            settings.Pages_Editor.Children.Add(LigaturesToggle);
-            LigaturesToggle.TitleBlock.Text = "Font Ligatures";
-            LigaturesToggle.ContentBlock.Text = "Enables or disables Ligatures (Combined Characters) in the code\neditor, assuming the font supports it.";
-            LigaturesToggle.isSelectedCheckbox.IsChecked = true;
-            LigaturesToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.Ligatures = true;
-            LigaturesToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.Ligatures = false;
-
-            SettingsSlider FontSizeSlider = new SettingsSlider();
-            settings.Pages_Editor.Children.Add(FontSizeSlider);
-            FontSizeSlider.TitleBlock.Text = "Font Size";
-            FontSizeSlider.ContentBlock.Text = "Customise how big/small the text in the monaco\ncode editor is.";
-            FontSizeSlider.MainSlider.Minimum = 12;
-            FontSizeSlider.MainSlider.Maximum = 28;
-            FontSizeSlider.MainSlider.ValueChanged += (_, x) =>
-            {
-                Settings.FontSize = x.NewValue;
-                FontSizeSlider.ValueBlock.Text = Settings.FontSize.ToString() + "px";
-            };
-            FontSizeSlider.MainSlider.Value = Settings.FontSize;
-
-            SettingsToggle AutoCompleteToggle = new SettingsToggle();
-            settings.Pages_Editor.Children.Add(AutoCompleteToggle);
-            AutoCompleteToggle.TitleBlock.Text = "Auto Complete";
-            AutoCompleteToggle.ContentBlock.Text = "Enables or disables Auto Complete Suggestions in\nthe code editor.";
-            AutoCompleteToggle.isSelectedCheckbox.IsChecked = true;
-            AutoCompleteToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.AutoComplete = true;
-            AutoCompleteToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.AutoComplete = false;
-
-            SettingsToggle IntellisenseToggle = new SettingsToggle();
-            settings.Pages_Editor.Children.Add(IntellisenseToggle);
-            IntellisenseToggle.TitleBlock.Text = "Intellisense";
-            IntellisenseToggle.ContentBlock.Text = "Enables or disables Intellisense, the dynamic errors\nand linting in the codeeditor.";
-            IntellisenseToggle.isSelectedCheckbox.IsChecked = true;
-            IntellisenseToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.Intellisense = true;
-            IntellisenseToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.Intellisense = false;
-
-            SettingsToggle AntiSkidToggle = new SettingsToggle();
-            settings.Pages_Editor.Children.Add(AntiSkidToggle);
-            AntiSkidToggle.TitleBlock.Text = "Anti Skid";
-            AntiSkidToggle.ContentBlock.Text = "Blurs the editor when the mouse is not over it to prevent\nskids from copy-and-pasting your code.";
-            AntiSkidToggle.isSelectedCheckbox.IsChecked = false;
-            AntiSkidToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.AntiSkid = true;
-            AntiSkidToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.AntiSkid = false;
-
-            SettingsToggle AutoFormatToggle = new SettingsToggle();
-            settings.Pages_Editor.Children.Add(AutoFormatToggle);
-            AutoFormatToggle.TitleBlock.Text = "Auto Format";
-            AutoFormatToggle.ContentBlock.Text = "Automatically formats the editor's contents as you\nare coding within it.";
-            AutoFormatToggle.isSelectedCheckbox.IsChecked = true;
-            AutoFormatToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.AutoFormat = true;
-            AutoFormatToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.AutoFormat = false;
-
-            SettingsDropdown EditorThemeDropdown = new SettingsDropdown();
-            settings.Pages_Appearance.Children.Add(EditorThemeDropdown);
-            EditorThemeDropdown.TitleBlock.Text = "Editor Theme";
-            EditorThemeDropdown.ContentBlock.Text = "Syntax Highlighting and Color Palette for the code editor.\nBroken - if you can fix, please send a pull request on Github.";
-            EditorThemeDropdown.MainDropdown.Items.Clear();
-            EditorThemeDropdown.MainDropdown.Items.Add("Celestia");
-            EditorThemeDropdown.MainDropdown.Items.Add("LInjector");
-            EditorThemeDropdown.MainDropdown.Items.Add("Moonlight Nebula");
-            EditorThemeDropdown.MainDropdown.Items.Add("Luna");
-            EditorThemeDropdown.MainDropdown.Items.Add("Sentinel");
-            EditorThemeDropdown.MainDropdown.Items.Add("Hollywood Classic");
-            EditorThemeDropdown.MainDropdown.Items.Add("Legacy");
-            EditorThemeDropdown.MainDropdown.Items.Add("luauXSHD");
-            EditorThemeDropdown.MainDropdown.Items.Add("Github");
-            EditorThemeDropdown.MainDropdown.SelectionChanged += delegate
-            {
-                Settings.EditorTheme = ((string)EditorThemeDropdown.MainDropdown.SelectedItem).Replace(" ", "-");
-            };
-            EditorThemeDropdown.MainDropdown.SelectedItem = Settings.EditorTheme.Replace("-", " ");
-
-            SettingsButton OpenBackgroundButton = new SettingsButton();
-            settings.Pages_Appearance.Children.Add(OpenBackgroundButton);
-            OpenBackgroundButton.TitleBlock.Text = "Select Background Photo";
-            OpenBackgroundButton.ContentBlock.Text = "Select a Bitmap Image to render and display as\nthe Background Image for Celestia.";
-            OpenBackgroundButton.InteractionButton.Content = "Browse";
-            OpenBackgroundButton.InteractionButton.Click += async delegate
-            {
-                try
-                {
-                    var openFileDialog = new System.Windows.Forms.OpenFileDialog
-                    {
-                        Title = "Nebula Client - Celestia IDE | File Manager - Set As Background",
-                        Filter = "Bitmap Image Files (*.png;*.jpg;*.jpeg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif;",
-                        Multiselect = false,
-                        RestoreDirectory = true,
-                    };
-                    if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                        Settings.BackgroundPhotoPath = openFileDialog.FileName;
-                    //ApplicationPrint(OutputTypes.Debug, openFileDialog.FileName);
-                }
-                catch (Exception ex)
-                {
-                    ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
-                    await Prompt("Error Setting Background Path to File", "File Manager");
-                }
-            };
-            SettingsButton ClearBackgroundButton = new SettingsButton();
-            settings.Pages_Appearance.Children.Add(ClearBackgroundButton);
-            ClearBackgroundButton.TitleBlock.Text = "Clear Background Photo";
-            ClearBackgroundButton.ContentBlock.Text = "Resets the Background Image for Celestia back\nto blank (Flat/Solid Color).";
-            ClearBackgroundButton.InteractionButton.Content = "Clear";
-            ClearBackgroundButton.InteractionButton.Click += delegate
-            {
-                Settings.BackgroundPhotoPath = "";
-            };
-
-            SettingsToggle FPSUnlockToggle = new SettingsToggle();
-            settings.Pages_Engine.Children.Add(FPSUnlockToggle);
-            FPSUnlockToggle.TitleBlock.Text = "FPS Unlocker";
-            FPSUnlockToggle.ContentBlock.Text = "Removes the FPS Cap for Injected Roblox Instances.\nWill also prevent scripts from setting the FPS Cap.";
-            FPSUnlockToggle.isSelectedCheckbox.IsChecked = true;
-            FPSUnlockToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.FpsUnlock = true;
-            FPSUnlockToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.FpsUnlock = false;
-
-            SettingsToggle ReplicatedFirstToggle = new SettingsToggle();
-            settings.Pages_Engine.Children.Add(ReplicatedFirstToggle);
-            ReplicatedFirstToggle.TitleBlock.Text = "Pre-ReplicateFirst";
-            ReplicatedFirstToggle.ContentBlock.Text = "Allows Execution of Scripts and Will Attempt to Run Them Before ReplicatedFirst\nis loaded. Will break some scripts. UNIMPLEMENTED.";
-            ReplicatedFirstToggle.isSelectedCheckbox.IsChecked = false;
-            ReplicatedFirstToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.ReplicateFirst = true;
-            ReplicatedFirstToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.ReplicateFirst = false;
-
-            SettingsToggle RamLimitToggle = new SettingsToggle();
-            settings.Pages_Engine.Children.Add(RamLimitToggle);
-            RamLimitToggle.TitleBlock.Text = "Use Memory Limits";
-            RamLimitToggle.ContentBlock.Text = "Determines whether Memory Limits will be applied.\nOnly affects new windows. Existing Affected ones wil not be disabled.";
-            RamLimitToggle.isSelectedCheckbox.IsChecked = false;
-            RamLimitToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.UseRamLimit = true;
-            RamLimitToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.UseRamLimit = false;
-
-            SettingsTextboxSuffix RamLimitInput = new SettingsTextboxSuffix();
-            settings.Pages_Engine.Children.Add(RamLimitInput);
-            RamLimitInput.input.KeyDown += (object sender, KeyEventArgs e) =>
-            {
-                if (e.Key == Key.Return)
-                {
-                    Settings.RamLimit = !string.IsNullOrEmpty(RamLimitInput.input.Text) ? ulong.Parse(RamLimitInput.input.Text) * 1024 * 1024 : 8192UL * 1024 * 1024;
-                    Keyboard.ClearFocus();
-                }
-            };
-            RamLimitInput.PreviewTextInput += (_, e) =>
-            {
-                Regex regex = new Regex("[^0-9]+");
-                e.Handled = regex.IsMatch(e.Text);
-            };
-
-            SettingsToggle CpuLimitToggle = new SettingsToggle();
-            settings.Pages_Engine.Children.Add(CpuLimitToggle);
-            CpuLimitToggle.TitleBlock.Text = "Use Processor Limits";
-            CpuLimitToggle.ContentBlock.Text = "Determines whether Processor Limits will be applied. Only affects new windows.\nExisting Affected ones wil not be disabled. UNIMPLEMENTED";
-            CpuLimitToggle.isSelectedCheckbox.IsChecked = false;
-            CpuLimitToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.UseCpuLimit = true;
-            CpuLimitToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.UseCpuLimit = false;
-
-            SettingsSlider CpuLimitSlider = new SettingsSlider();
-            settings.Pages_Engine.Children.Add(CpuLimitSlider);
-            CpuLimitSlider.TitleBlock.Text = "Processor Limits";
-            CpuLimitSlider.ContentBlock.Text = "Set a limit to how much of your Processor (in percentage)\nis a single Roblox Process allowed to use. UNIMPLEMENTED";
-            CpuLimitSlider.MainSlider.Minimum = 1;
-            CpuLimitSlider.MainSlider.Maximum = 100;
-            CpuLimitSlider.MainSlider.ValueChanged += (_, x) =>
-            {
-                Settings.CpuLimit = x.NewValue;
-                CpuLimitSlider.ValueBlock.Text = Settings.CpuLimit.ToString() + "%";
-            };
-            CpuLimitSlider.MainSlider.Value = Settings.CpuLimit;
-
-            SettingsToggle AutoExecuteToggle = new SettingsToggle();
-            settings.Pages_Engine.Children.Add(AutoExecuteToggle);
-            AutoExecuteToggle.TitleBlock.Text = "Run AutoExec Scripts";
-            AutoExecuteToggle.ContentBlock.Text = "This Feature is always on. Place .txt and .lua files Inside the\nAutoExec Folder and they will automatically run on Inject.";
-            AutoExecuteToggle.isSelectedCheckbox.IsChecked = false;
-            AutoExecuteToggle.isSelectedCheckbox.Checked += (_, _) =>
-                Settings.RunAutoExecute = true;
-            AutoExecuteToggle.isSelectedCheckbox.Unchecked += (_, _) =>
-                Settings.RunAutoExecute = false;
-
-            SettingsButton OpenEngineButton = new SettingsButton();
-            settings.Pages_Engine.Children.Add(OpenEngineButton);
-            OpenEngineButton.TitleBlock.Text = "Open Engine Folder";
-            OpenEngineButton.ContentBlock.Text = "Opens the directory of the Nebula Trinity Engine in a new explorer window.\nIncludes AutoExec, Workspace folders, etc.";
-            OpenEngineButton.InteractionButton.Click += delegate
-            {
-                Process.Start(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Nebula Trinity Engine\InstallPath.data"));
-            };
-
-            #endregion
-        }
 
         /// <summary>
         /// Binds Functionality to PropertyChanged of the settings
@@ -2730,6 +2244,7 @@ namespace Celestia_IDE
             Settings.OnUpdate += async (name) =>
             {
                 await Dispatcher.Yield(DispatcherPriority.Background);
+                if (!IsSettingsInitializedLoaded) return;
                 switch (name)
                 {
                     case "TopMost_Setting":
@@ -2903,17 +2418,655 @@ namespace Celestia_IDE
                     case "ReplicateFirst_Setting":
                         break;
                 }
+
+                try
+                {
+                    var props = typeof(Settings)
+                        .GetProperties(BindingFlags.Public | BindingFlags.Static)
+                        .Where(p =>
+                            p.CanRead &&
+                            p.CanWrite &&
+                            !typeof(Delegate).IsAssignableFrom(p.PropertyType) &&
+                            !typeof(DependencyObject).IsAssignableFrom(p.PropertyType) &&
+                            !typeof(IDictionary).IsAssignableFrom(p.PropertyType)
+                        );
+
+                    var container = new Dictionary<string, object?>();
+
+                    foreach (var prop in props)
+                    {
+                        var value = prop.GetValue(null);
+                        if (value != null) // skip nulls
+                            container[prop.Name] = value;
+                    }
+
+                    var json = JsonConvert.SerializeObject(container, new JsonSerializerSettings
+                    {
+                        Formatting = Newtonsoft.Json.Formatting.Indented,
+                        TypeNameHandling = TypeNameHandling.Auto
+                    });
+
+                    File.WriteAllText(NebulaClientPath + @"\settings.celestia", json);
+                } 
+                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             };
         }
+
+
+        bool IsSettingsInitializedLoaded = false;
 
         /// <summary>
         /// Loads settings from a saved configuration
         /// </summary>
-        /// <param name="settings">Configuration to load from</param>
-        public void LoadSettings(dynamic settings)
+        public void LoadSettings()
         {
+            if (!File.Exists(NebulaClientPath + @"\settings.celestia"))
+                return;
 
+            try
+            {
+                var json = File.ReadAllText(NebulaClientPath + @"\settings.celestia");
+
+                var settings = JsonConvert.DeserializeObject<Dictionary<string, object>>(
+                    json,
+                    new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.Auto
+                    });
+
+                if (settings == null)
+                    return;
+
+                var props = typeof(Settings)
+                    .GetProperties(BindingFlags.Public | BindingFlags.Static)
+                    .Where(p =>
+                        p.CanWrite &&
+                        !typeof(Delegate).IsAssignableFrom(p.PropertyType) &&
+                        !typeof(DependencyObject).IsAssignableFrom(p.PropertyType) &&
+                        !typeof(IDictionary).IsAssignableFrom(p.PropertyType)
+                    );
+
+                foreach (var prop in props)
+                {
+                    if (!settings.TryGetValue(prop.Name, out var value))
+                        continue;
+
+                    try
+                    {
+                        prop.SetValue(null, ConvertValue(value, prop.PropertyType));
+                    }
+                    catch
+                    {
+                        // skip invalid conversions, keeps old/default value
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            IsSettingsInitializedLoaded = true;
         }
+
+        /// <summary>
+        /// Converts JSON-loaded value into the target property type
+        /// </summary>
+        private static object? ConvertValue(object? value, Type targetType)
+        {
+            if (value == null)
+                return null;
+
+            if (value is JToken token)
+            {
+                // handle enums
+                if (targetType.IsEnum)
+                    return Enum.Parse(targetType, token.ToString()!);
+
+                return token.ToObject(targetType);
+            }
+
+            try
+            {
+                // handle numeric conversions robustly
+                if (targetType.IsEnum)
+                    return Enum.Parse(targetType, value.ToString()!);
+
+                if (targetType == typeof(bool))
+                    return Convert.ToBoolean(value);
+                if (targetType == typeof(int))
+                    return Convert.ToInt32(value);
+                if (targetType == typeof(long))
+                    return Convert.ToInt64(value);
+                if (targetType == typeof(double))
+                    return Convert.ToDouble(value);
+                if (targetType == typeof(float))
+                    return Convert.ToSingle(value);
+                if (targetType == typeof(ulong))
+                    return Convert.ToUInt64(value);
+
+                return Convert.ChangeType(value, targetType);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Creates the settings objects and loads values
+        /// </summary>
+        public async void CreateSettingsObjects()
+        {
+            BindSettingsToUpdate();
+
+            if (!File.Exists(NebulaClientPath + @"\settings.celestia"))
+            {
+                // set defaults
+                Settings.TopMost = true;
+                Settings.IsOBSHidden = false;
+                Settings.UsingTrayIcon = false;
+                Settings.Opacity = 1;
+                Settings.InterfaceScale = 1.0;
+                Settings.InterfaceLanguage = InterfaceLanguages.English;
+                Settings.DiscordRPCEnabled = true;
+                Settings.StartOnStartup = false;
+                Settings.BackgroundPhotoPath = null;
+                Settings.EditorTheme = "Celestia";
+
+                Settings.FpsUnlock = true;
+                Settings.ReplicateFirst = false;
+                Settings.UseCpuLimit = false;
+                Settings.CpuLimit = 40;
+                Settings.UseRamLimit = false;
+                Settings.RamLimit = 8192UL * 1024 * 1024;
+                Settings.RunAutoExecute = true;
+
+                Settings.Minimap = true;
+                Settings.FormatOnSave = true;
+                Settings.SaveWorkspaceTabs = true;
+                Settings.Ligatures = true;
+                Settings.AutoComplete = true;
+                Settings.Intellisense = true;
+                Settings.AntiSkid = false;
+                Settings.FontSize = 14;
+                Settings.TextFileHeader = "New Untitled File";
+                Settings.AutoFormat = true;
+                Settings.InlayHints = true;
+
+                Settings.ColorChoices = new Dictionary<string, Color>()
+        {
+            { "Background", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
+            { "Panels", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
+            { "Borders", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
+            { "InactiveText", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
+            { "DarkText", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
+            { "ForeText", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
+            { "AccentColorOne", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
+            { "AccentColorTwo", (Color)new ColorConverter().ConvertFrom("#CF9FFF")},
+        };
+
+                IsSettingsInitializedLoaded = true;
+            }
+            else
+            {
+                LoadSettings();
+            }
+
+            // wait until everything is loaded
+            while (!IsSettingsInitializedLoaded) await Task.Delay(50);
+
+
+            #region Creating Objects
+            // Start On Startup and colors and replciate first and cpu limit not done and code default language since only luau atm, ram limits require restarting the process, silently dont implement disable save tabs and font, account js put coming soon
+
+            SettingsToggle TopMostToggle = new SettingsToggle();
+            settings.Pages_Interface.Children.Add(TopMostToggle);
+            TopMostToggle.TitleBlock.Text = "Topmost";
+            TopMostToggle.ContentBlock.Text = "Place Celestia Above All Other Windows Open.\nUseful for constant debugging.";
+            TopMostToggle.isSelectedCheckbox.IsChecked = Settings.TopMost;
+            TopMostToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.TopMost = true;
+            TopMostToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.TopMost = false;
+            TopMostToggle.isSelectedCheckbox.IsChecked = Settings.TopMost;
+
+            SettingsToggle IsOBSHiddenToggle = new SettingsToggle();
+            settings.Pages_Interface.Children.Add(IsOBSHiddenToggle);
+            IsOBSHiddenToggle.TitleBlock.Text = "Hide From Capture";
+            IsOBSHiddenToggle.ContentBlock.Text = "Hides the Celestia Window from Screen Recording/Capturing Software\nLike OBS. Neat way to look legit.";
+            IsOBSHiddenToggle.isSelectedCheckbox.IsChecked = Settings.IsOBSHidden;
+            IsOBSHiddenToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.IsOBSHidden = true;
+            IsOBSHiddenToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.IsOBSHidden = false;
+            IsOBSHiddenToggle.isSelectedCheckbox.IsChecked = Settings.IsOBSHidden;
+
+            SettingsToggle TrayIconToggle = new SettingsToggle();
+            settings.Pages_Interface.Children.Add(TrayIconToggle);
+            TrayIconToggle.TitleBlock.Text = "Tray Icon Mode";
+            TrayIconToggle.ContentBlock.Text = "Keeps Celestia Running In The Background On Window Close.\nApp is active.";
+            TrayIconToggle.isSelectedCheckbox.IsChecked = Settings.UsingTrayIcon;
+            TrayIconToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.UsingTrayIcon = true;
+            TrayIconToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.UsingTrayIcon = false;
+            TrayIconToggle.isSelectedCheckbox.IsChecked = Settings.UsingTrayIcon;
+            trayicon.LeftClick += async delegate
+            {
+                try
+                {
+                    await Dispatcher.Yield();
+                    trayicon.Menu.IsOpen = true;
+                }
+                catch { }
+            };
+            var showitem = new MenuItem()
+            {
+                Header = "Show",
+                Height = 18,
+                FontSize = 12,
+            };
+            showitem.Click += delegate
+            {
+                IsCurrentlyTrayed = false;
+                ObjectShift(MainBackgroundBorder, TimeSpan.FromMilliseconds(300), new Thickness(15)).Begin();
+                Fade(this, TimeSpan.FromMilliseconds(300), Settings.Opacity).Begin();
+                Show();
+                InvalidateVisual();
+                Activate();
+            };
+            trayicon.Menu.Items.Add(showitem);
+            var exititem = new MenuItem()
+            {
+                Header = "Exit",
+                Height = 18,
+                FontSize = 12,
+            };
+            exititem.Click += delegate
+            {
+                IsCurrentlyTrayed = true;
+                trayicon.Menu.IsOpen = false;
+                Close();
+            };
+            trayicon.Menu.Items.Add(exititem);
+            trayicon.Menu.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#1b1a1e");
+
+            SettingsSlider OpacitySlider = new SettingsSlider();
+            settings.Pages_Interface.Children.Add(OpacitySlider);
+            OpacitySlider.MainSlider.Minimum = 1;
+            OpacitySlider.MainSlider.ValueChanged += (_, x) =>
+            {
+                Settings.Opacity = x.NewValue / 10;
+                OpacitySlider.ValueBlock.Text = Settings.Opacity.ToString() + " Opacity";
+            };
+            OpacitySlider.MainSlider.Value = Settings.Opacity * 10;
+            OpacitySlider.ValueBlock.Text = Settings.Opacity.ToString() + " Opacity";
+
+            SettingsDropdown InterfaceLanguageDropdown = new SettingsDropdown();
+            settings.Pages_Interface.Children.Add(InterfaceLanguageDropdown);
+
+            SettingsButton OpenFolderButton = new SettingsButton();
+            OpenFolderButton.InteractionButton.Click += delegate
+            {
+                Process.Start(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            };
+            settings.Pages_Interface.Children.Add(OpenFolderButton);
+
+            SettingsToggle StartOnStartupToggle = new SettingsToggle();
+            settings.Pages_Interface.Children.Add(StartOnStartupToggle);
+            StartOnStartupToggle.TitleBlock.Text = "Start On Startup";
+            StartOnStartupToggle.ContentBlock.Text = "Starts Celestia IDE on startup.\nBased on the InstallPath.data";
+            StartOnStartupToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.StartOnStartup = true;
+            StartOnStartupToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.StartOnStartup = false;
+            StartOnStartupToggle.isSelectedCheckbox.IsChecked = Settings.StartOnStartup;
+
+            SettingsToggle DiscordRPCToggle = new SettingsToggle();
+            settings.Pages_Interface.Children.Add(DiscordRPCToggle);
+            DiscordRPCToggle.TitleBlock.Text = "Discord RPC";
+            DiscordRPCToggle.ContentBlock.Text = "Discord Rich Presence For Nebula Client.\nIncludes Opened Workspace and Editing File.";
+            DiscordRPCToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.DiscordRPCEnabled = true;
+            DiscordRPCToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.DiscordRPCEnabled = false;
+            DiscordRPCToggle.isSelectedCheckbox.IsChecked = Settings.DiscordRPCEnabled;
+
+            SettingsKeybind Keybinds_SidebarToggle = new SettingsKeybind();
+            settings.Pages_Keybinds.Children.Add(Keybinds_SidebarToggle);
+            Keybinds_SidebarToggle.TitleBlock.Text = "Sidebar Toggle";
+            Keybinds_SidebarToggle.ContentBlock.Text = "Control Modifier paired with bind.\nto hide the Sidebar";
+            Keybinds_SidebarToggle.input.Text = Settings.KeyBinds["SideBarToggle"].ToString();
+            Keybinds_SidebarToggle.input.GotKeyboardFocus += delegate
+            {
+                _previousKey = Settings.KeyBinds["SideBarToggle"];
+                _keyCaptured = false;
+
+                Keybinds_SidebarToggle.input.Text = "";
+            };
+            Keybinds_SidebarToggle.input.KeyDown += (o, e) =>
+            {
+                e.Handled = true;
+
+                Key pressedKey = e.Key == Key.System ? e.SystemKey : e.Key;
+
+                Settings.KeyBinds["SideBarToggle"] = pressedKey;
+
+                Keybinds_SidebarToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(pressedKey.ToString().ToLower());
+
+                _keyCaptured = true;
+
+                Keyboard.ClearFocus();
+            };
+            Keybinds_SidebarToggle.LostKeyboardFocus += delegate
+            {
+                if (!_keyCaptured)
+                {
+                    Keybinds_SidebarToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_previousKey.ToString().ToLower());
+                }
+            };
+            SettingsKeybind Keybinds_PanelToggle = new SettingsKeybind();
+            settings.Pages_Keybinds.Children.Add(Keybinds_PanelToggle);
+            Keybinds_PanelToggle.TitleBlock.Text = "Panel Toggle";
+            Keybinds_PanelToggle.ContentBlock.Text = "Control Modifier paired with bind.\nto hide the Panel";
+            Keybinds_PanelToggle.input.Text = Settings.KeyBinds["PanelToggle"].ToString();
+            Keybinds_PanelToggle.input.GotKeyboardFocus += delegate
+            {
+                _previousKey = Settings.KeyBinds["PanelToggle"];
+                _keyCaptured = false;
+
+                Keybinds_PanelToggle.input.Text = "";
+            };
+            Keybinds_PanelToggle.input.KeyDown += (o, e) =>
+            {
+                e.Handled = true;
+
+                Key pressedKey = e.Key == Key.System ? e.SystemKey : e.Key;
+
+                Settings.KeyBinds["PanelToggle"] = pressedKey;
+
+                Keybinds_PanelToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(pressedKey.ToString().ToLower());
+
+                _keyCaptured = true;
+
+                Keyboard.ClearFocus();
+            };
+            Keybinds_PanelToggle.LostKeyboardFocus += delegate
+            {
+                if (!_keyCaptured)
+                {
+                    Keybinds_PanelToggle.input.Text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_previousKey.ToString().ToLower());
+                }
+            };
+
+            SettingsToggle MinimapToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(MinimapToggle);
+            MinimapToggle.TitleBlock.Text = "Editor Minimap";
+            MinimapToggle.ContentBlock.Text = "Enables or disables the Minimap of\nMonaco for the code preview.";
+            MinimapToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.Minimap = true;
+            MinimapToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.Minimap = false;
+            MinimapToggle.isSelectedCheckbox.IsChecked = Settings.Minimap;
+
+            SettingsToggle SaveFormatToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(SaveFormatToggle);
+            SaveFormatToggle.TitleBlock.Text = "Format On Save";
+            SaveFormatToggle.ContentBlock.Text = "Automatically formats the editor's contents before\nit is saved to a file's contents.";
+            SaveFormatToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.FormatOnSave = true;
+            SaveFormatToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.FormatOnSave = false;
+            SaveFormatToggle.isSelectedCheckbox.IsChecked = Settings.FormatOnSave;
+
+            SettingsToggle SaveTabsToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(SaveTabsToggle);
+            SaveTabsToggle.TitleBlock.Text = "Save Tabs";
+            SaveTabsToggle.ContentBlock.Text = "Saves your currently open tabs on Window Close to be\nloaded and used next Celestia session.";
+            SaveTabsToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.SaveWorkspaceTabs = true;
+            SaveTabsToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.SaveWorkspaceTabs = false;
+            SaveTabsToggle.isSelectedCheckbox.IsChecked = Settings.SaveWorkspaceTabs;
+
+            SettingsTextbox DefaultHeaderInput = new SettingsTextbox();
+            settings.Pages_Editor.Children.Add(DefaultHeaderInput);
+            DefaultHeaderInput.TitleBlock.Text = "Default Tab Header";
+            DefaultHeaderInput.input.KeyDown += (object sender, KeyEventArgs e) =>
+            {
+                if (e.Key == Key.Return)
+                {
+                    Settings.TextFileHeader = !string.IsNullOrEmpty(DefaultHeaderInput.input.Text) ? DefaultHeaderInput.input.Text : "Untitled Text File";
+                    Keyboard.ClearFocus();
+                }
+            };
+            DefaultHeaderInput.input.Text = Settings.TextFileHeader == "Untitled Text File" ? string.Empty : Settings.TextFileHeader;
+
+            SettingsToggle LigaturesToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(LigaturesToggle);
+            LigaturesToggle.TitleBlock.Text = "Font Ligatures";
+            LigaturesToggle.ContentBlock.Text = "Enables or disables Ligatures (Combined Characters) in the code\neditor, assuming the font supports it.";
+            LigaturesToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.Ligatures = true;
+            LigaturesToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.Ligatures = false;
+            LigaturesToggle.isSelectedCheckbox.IsChecked = Settings.Ligatures;
+
+            SettingsSlider FontSizeSlider = new SettingsSlider();
+            settings.Pages_Editor.Children.Add(FontSizeSlider);
+            FontSizeSlider.TitleBlock.Text = "Font Size";
+            FontSizeSlider.ContentBlock.Text = "Customise how big/small the text in the monaco\ncode editor is.";
+            FontSizeSlider.MainSlider.Minimum = 12;
+            FontSizeSlider.MainSlider.Maximum = 28;
+            FontSizeSlider.MainSlider.Value = Settings.FontSize;
+            FontSizeSlider.MainSlider.ValueChanged += (_, x) =>
+            {
+                Settings.FontSize = x.NewValue;
+                FontSizeSlider.ValueBlock.Text = Settings.FontSize.ToString() + "px";
+            };
+            FontSizeSlider.MainSlider.Value = Settings.FontSize;
+            FontSizeSlider.ValueBlock.Text = Settings.FontSize.ToString() + "px";
+
+            SettingsToggle AutoCompleteToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(AutoCompleteToggle);
+            AutoCompleteToggle.TitleBlock.Text = "Auto Complete";
+            AutoCompleteToggle.ContentBlock.Text = "Enables or disables Auto Complete Suggestions in\nthe code editor.";
+            AutoCompleteToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.AutoComplete = true;
+            AutoCompleteToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.AutoComplete = false;
+            AutoCompleteToggle.isSelectedCheckbox.IsChecked = Settings.AutoComplete;
+
+            SettingsToggle IntellisenseToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(IntellisenseToggle);
+            IntellisenseToggle.TitleBlock.Text = "Intellisense";
+            IntellisenseToggle.ContentBlock.Text = "Enables or disables Intellisense, the dynamic errors\nand linting in the codeeditor.";
+            IntellisenseToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.Intellisense = true;
+            IntellisenseToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.Intellisense = false;
+            IntellisenseToggle.isSelectedCheckbox.IsChecked = Settings.Intellisense;
+
+            SettingsToggle AntiSkidToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(AntiSkidToggle);
+            AntiSkidToggle.TitleBlock.Text = "Anti Skid";
+            AntiSkidToggle.ContentBlock.Text = "Blurs the editor when the mouse is not over it to prevent\nskids from copy-and-pasting your code.";
+            AntiSkidToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.AntiSkid = true;
+            AntiSkidToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.AntiSkid = false;
+            AntiSkidToggle.isSelectedCheckbox.IsChecked = Settings.AntiSkid;
+
+            SettingsToggle AutoFormatToggle = new SettingsToggle();
+            settings.Pages_Editor.Children.Add(AutoFormatToggle);
+            AutoFormatToggle.TitleBlock.Text = "Auto Format";
+            AutoFormatToggle.ContentBlock.Text = "Automatically formats the editor's contents as you\nare coding within it.";
+            AutoFormatToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.AutoFormat = true;
+            AutoFormatToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.AutoFormat = false;
+            AutoFormatToggle.isSelectedCheckbox.IsChecked = Settings.AutoFormat;
+
+            SettingsDropdown EditorThemeDropdown = new SettingsDropdown();
+            settings.Pages_Appearance.Children.Add(EditorThemeDropdown);
+            EditorThemeDropdown.TitleBlock.Text = "Editor Theme";
+            EditorThemeDropdown.ContentBlock.Text = "Syntax Highlighting and Color Palette for the code editor.\nBroken - if you can fix, please send a pull request on Github.";
+            EditorThemeDropdown.MainDropdown.Items.Clear();
+            EditorThemeDropdown.MainDropdown.Items.Add("Celestia");
+            EditorThemeDropdown.MainDropdown.Items.Add("LInjector");
+            EditorThemeDropdown.MainDropdown.Items.Add("Moonlight Nebula");
+            EditorThemeDropdown.MainDropdown.Items.Add("Luna");
+            EditorThemeDropdown.MainDropdown.Items.Add("Sentinel");
+            EditorThemeDropdown.MainDropdown.Items.Add("Hollywood Classic");
+            EditorThemeDropdown.MainDropdown.Items.Add("Legacy");
+            EditorThemeDropdown.MainDropdown.Items.Add("luauXSHD");
+            EditorThemeDropdown.MainDropdown.Items.Add("Github");
+            EditorThemeDropdown.MainDropdown.SelectionChanged += delegate
+            {
+                Settings.EditorTheme = ((string)EditorThemeDropdown.MainDropdown.SelectedItem).Replace(" ", "-");
+            };
+            EditorThemeDropdown.MainDropdown.SelectedItem = "Celestia";
+            try
+            {
+                EditorThemeDropdown.MainDropdown.SelectedItem = Settings.EditorTheme.Replace("-", " ");
+            }
+            catch { }
+
+            SettingsButton OpenBackgroundButton = new SettingsButton();
+            settings.Pages_Appearance.Children.Add(OpenBackgroundButton);
+            OpenBackgroundButton.TitleBlock.Text = "Select Background Photo";
+            OpenBackgroundButton.ContentBlock.Text = "Select a Bitmap Image to render and display as\nthe Background Image for Celestia.";
+            OpenBackgroundButton.InteractionButton.Content = "Browse";
+            OpenBackgroundButton.InteractionButton.Click += async delegate
+            {
+                try
+                {
+                    var openFileDialog = new System.Windows.Forms.OpenFileDialog
+                    {
+                        Title = "Nebula Client - Celestia IDE | File Manager - Set As Background",
+                        Filter = "Bitmap Image Files (*.png;*.jpg;*.jpeg;*.gif;)|*.png;*.jpg;*.jpeg;*.gif;",
+                        Multiselect = false,
+                        RestoreDirectory = true,
+                    };
+                    if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        Settings.BackgroundPhotoPath = openFileDialog.FileName;
+                    //ApplicationPrint(OutputTypes.Debug, openFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    ApplicationPrint(OutputTypes.Error, "Error: " + ex.Message);
+                    await Prompt("Error Setting Background Path to File", "File Manager");
+                }
+            };
+            SettingsButton ClearBackgroundButton = new SettingsButton();
+            settings.Pages_Appearance.Children.Add(ClearBackgroundButton);
+            ClearBackgroundButton.TitleBlock.Text = "Clear Background Photo";
+            ClearBackgroundButton.ContentBlock.Text = "Resets the Background Image for Celestia back\nto blank (Flat/Solid Color).";
+            ClearBackgroundButton.InteractionButton.Content = "Clear";
+            ClearBackgroundButton.InteractionButton.Click += delegate
+            {
+                Settings.BackgroundPhotoPath = "";
+            };
+
+            SettingsToggle FPSUnlockToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(FPSUnlockToggle);
+            FPSUnlockToggle.TitleBlock.Text = "FPS Unlocker";
+            FPSUnlockToggle.ContentBlock.Text = "Removes the FPS Cap for Injected Roblox Instances.\nWill also prevent scripts from setting the FPS Cap.";
+            FPSUnlockToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.FpsUnlock = true;
+            FPSUnlockToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.FpsUnlock = false;
+            FPSUnlockToggle.isSelectedCheckbox.IsChecked = Settings.FpsUnlock;
+
+            SettingsToggle ReplicatedFirstToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(ReplicatedFirstToggle);
+            ReplicatedFirstToggle.TitleBlock.Text = "Pre-ReplicateFirst";
+            ReplicatedFirstToggle.ContentBlock.Text = "Allows Execution of Scripts and Will Attempt to Run Them Before ReplicatedFirst\nis loaded. Will break some scripts. UNIMPLEMENTED.";
+            ReplicatedFirstToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.ReplicateFirst = true;
+            ReplicatedFirstToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.ReplicateFirst = false;
+            ReplicatedFirstToggle.isSelectedCheckbox.IsChecked = Settings.ReplicateFirst;
+
+            SettingsToggle RamLimitToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(RamLimitToggle);
+            RamLimitToggle.TitleBlock.Text = "Use Memory Limits";
+            RamLimitToggle.ContentBlock.Text = "Determines whether Memory Limits will be applied.\nOnly affects new windows. Existing Affected ones wil not be disabled.";
+            RamLimitToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.UseRamLimit = true;
+            RamLimitToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.UseRamLimit = false;
+            RamLimitToggle.isSelectedCheckbox.IsChecked = Settings.UseRamLimit;
+
+            SettingsTextboxSuffix RamLimitInput = new SettingsTextboxSuffix();
+            settings.Pages_Engine.Children.Add(RamLimitInput);
+            RamLimitInput.input.KeyDown += (object sender, KeyEventArgs e) =>
+            {
+                if (e.Key == Key.Return)
+                {
+                    Settings.RamLimit = !string.IsNullOrEmpty(RamLimitInput.input.Text) ? ulong.Parse(RamLimitInput.input.Text) * 1024 * 1024 : 8192UL * 1024 * 1024;
+                    Keyboard.ClearFocus();
+                }
+            };
+            RamLimitInput.PreviewTextInput += (_, e) =>
+            {
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
+            };
+            RamLimitInput.input.Text = Settings.RamLimit == 8192UL * 1024 * 1024 ? "" : (Settings.RamLimit / 1024 / 1024).ToString();
+
+            SettingsToggle CpuLimitToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(CpuLimitToggle);
+            CpuLimitToggle.TitleBlock.Text = "Use Processor Limits";
+            CpuLimitToggle.ContentBlock.Text = "Determines whether Processor Limits will be applied. Only affects new windows.\nExisting Affected ones wil not be disabled. UNIMPLEMENTED";
+            CpuLimitToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.UseCpuLimit = true;
+            CpuLimitToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.UseCpuLimit = false;
+            CpuLimitToggle.isSelectedCheckbox.IsChecked = Settings.UseCpuLimit;
+
+            SettingsSlider CpuLimitSlider = new SettingsSlider();
+            settings.Pages_Engine.Children.Add(CpuLimitSlider);
+            CpuLimitSlider.TitleBlock.Text = "Processor Limits";
+            CpuLimitSlider.ContentBlock.Text = "Set a limit to how much of your Processor (in percentage)\nis a single Roblox Process allowed to use. UNIMPLEMENTED";
+            CpuLimitSlider.MainSlider.Minimum = 1;
+            CpuLimitSlider.MainSlider.Maximum = 100;
+            CpuLimitSlider.MainSlider.Value = Settings.CpuLimit;
+            CpuLimitSlider.MainSlider.ValueChanged += (_, x) =>
+            {
+                Settings.CpuLimit = x.NewValue;
+                CpuLimitSlider.ValueBlock.Text = Settings.CpuLimit.ToString() + "%";
+            };
+            CpuLimitSlider.MainSlider.Value = Settings.CpuLimit;
+            CpuLimitSlider.ValueBlock.Text = Settings.CpuLimit.ToString() + "%";
+
+            SettingsToggle AutoExecuteToggle = new SettingsToggle();
+            settings.Pages_Engine.Children.Add(AutoExecuteToggle);
+            AutoExecuteToggle.TitleBlock.Text = "Run AutoExec Scripts";
+            AutoExecuteToggle.ContentBlock.Text = "This Feature is always on. Place .txt and .lua files Inside the\nAutoExec Folder and they will automatically run on Inject.";
+            AutoExecuteToggle.isSelectedCheckbox.IsChecked = true;
+            AutoExecuteToggle.isSelectedCheckbox.Checked += (_, _) =>
+                Settings.RunAutoExecute = true;
+            AutoExecuteToggle.isSelectedCheckbox.Unchecked += (_, _) =>
+                Settings.RunAutoExecute = false;
+            AutoExecuteToggle.isSelectedCheckbox.IsHitTestVisible = false;
+            AutoExecuteToggle.isSelectedCheckbox.Opacity = 0.35;
+            AutoExecuteToggle.isSelectedCheckbox.IsChecked = true;
+
+            SettingsButton OpenEngineButton = new SettingsButton();
+            settings.Pages_Engine.Children.Add(OpenEngineButton);
+            OpenEngineButton.TitleBlock.Text = "Open Engine Folder";
+            OpenEngineButton.ContentBlock.Text = "Opens the directory of the Nebula Trinity Engine in a new explorer window.\nIncludes AutoExec, Workspace folders, etc.";
+            OpenEngineButton.InteractionButton.Click += delegate
+            {
+                Process.Start(File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Nebula Softworks\Nebula Client\Data\Nebula Trinity Engine\InstallPath.data"));
+            };
+
+            #endregion
+        }
+
+
         #endregion
 
         #region Extension Cloud
